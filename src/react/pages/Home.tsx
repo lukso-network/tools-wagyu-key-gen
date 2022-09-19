@@ -131,12 +131,12 @@ const Home: FC<HomeProps> = (props): ReactElement => {
 
       <LandingHeader variant="h1">Welcome!</LandingHeader>
       <KeyIcon />
-      <SubHeader>Your key generator for staking on Ethereum</SubHeader>
+      <SubHeader>Your key generator for staking on Ethereum & LUKSO</SubHeader>
 
       <Links>
-        <InfoLabel>Github:</InfoLabel> https://github.com/stake-house/wagyu-key-gen
+        <InfoLabel>Github:</InfoLabel> https://github.com/lukso-network/tools-wagyu-key-gen
         <br />
-        <InfoLabel>Support:</InfoLabel> https://discord.io/ethstaker
+        <InfoLabel>Support:</InfoLabel> https://discord.io/lukso
       </Links>
 
       <OptionsGrid container spacing={2} direction="column">

@@ -69,7 +69,7 @@ def generate_keys(args):
             - count: number of signing keys you want to generate
             - folder: folder path for the resulting keystore(s) and deposit(s) files
             - network: network setting for the signing domain, possible values are 'mainnet',
-                       'prater', 'kintsugi' or 'kiln'
+                       'prater', 'kintsugi', 'kiln', 'lukso' or 'l16'
             - password: password that will protect the resulting keystore(s)
             - eth1_withdrawal_address: (Optional) eth1 address that will be used to create the
                                        withdrawal credentials

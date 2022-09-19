@@ -12,3 +12,5 @@ dist/
 build/
 src/scripts/__pycache__/
 eth2deposit_proxy.spec
+
+.idea
