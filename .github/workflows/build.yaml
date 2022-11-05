@@ -46,8 +46,9 @@ jobs:
           node-version: 16
       - name: Install building requirements on ${{ matrix.os }}
         run: |
-          pip3 install -r ./build_configs/${{ matrix.os }}/requirements.txt;
-          pip3 install pyinstaller
+          pip install --upgrade pip
+          pip install -r ./requirements.txt;
+          pip install pyinstaller
           yarn install
           yarn install
           yarn build
