@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*"
+
+jobs:
+  build-docker:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+  build-native:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            runner: ubuntu-latest
+          - os: macos
+            runner: macos-10.15
+          - os: windows
+            runner: windows-latest
+    env:
+      PYTHONHASHSEED: 42
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+          architecture: x64
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install building requirements on ${{ matrix.os }}
+        run: |
+          pip3 install -r ./build_configs/${{ matrix.os }}/requirements.txt;
+          pip3 install pyinstaller
+          yarn install
+          yarn install
+          yarn build
+          yarn buildcli
+          yarn dist
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.os }}
+          path: /tdist/Wagyu Key Gen*

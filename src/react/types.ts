@@ -3,19 +3,21 @@ export enum StepKey {
   MnemonicGeneration,
   KeyConfiguration,
   KeyGeneration,
-  Finish
+  Finish,
 }
 
 export enum StepSequenceKey {
   MnemonicGeneration = "mnemonicgeneration",
-  MnemonicImport = "mnemonicimport"
+  MnemonicImport = "mnemonicimport",
 }
 
 export enum Network {
   MAINNET = "Mainnet",
+  LUKSO = "Lukso",
+  LUKSO_L16 = "Lukso L16",
   GOERLI = "Goerli",
   PRATER = "Prater",
   KINTSUGI = "Kintsugi",
   ROPSTEN = "Ropsten",
-  KILN = "Kiln"
+  KILN = "Kiln",
 }
