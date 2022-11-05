@@ -47,7 +47,7 @@ jobs:
       - name: Install building requirements on ${{ matrix.os }}
         run: |
           pip install --upgrade pip
-          pip install -r ./requirements.txt;
+          pip install -r src/vendors/tools-staking-deposit-cli/requirements.txt
           pip install pyinstaller
           yarn install
           yarn install
