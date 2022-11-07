@@ -22,6 +22,7 @@ jobs:
             runner: windows-latest
     env:
       PYTHONHASHSEED: 42
+      GH_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
