@@ -37,9 +37,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Set variables
+      - name: Set version (linux/mac)
+        if: ${{ matrix.os != 'windows' }}
         run: |
           node extract_version.js >> $GITHUB_ENV
+      - name: Set version (linux/mac)
+        if: ${{ matrix.os == 'windows' }}
+        run: |
+          node extract_version.js >> $env:GITHUB_ENV
       - name: Install building requirements on ${{ matrix.os }}
         run: |
           corepack enable
