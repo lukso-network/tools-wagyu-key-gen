@@ -39,10 +39,7 @@ jobs:
           node-version: 16
       - name: Install building requirements on ${{ matrix.os }}
         run: |
-          if which corepack
-          then
-            corepack enable
-          fi
+          corepack enable
           pip3 install --upgrade pip
           pip3 install -r src/vendors/tools-staking-deposit-cli/requirements.txt
           pip3 install pyinstaller
@@ -55,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.os }}
-          path: /tdist/Wagyu Key Gen*
+          path: dist/Wagyu Key Gen*
