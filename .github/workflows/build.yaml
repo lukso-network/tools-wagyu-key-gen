@@ -8,17 +8,6 @@ on:
       - "*"
 
 jobs:
-  checkout:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          submodules: recursive
-          token: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
   build-native:
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -36,6 +25,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          token: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
