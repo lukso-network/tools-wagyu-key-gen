@@ -38,7 +38,10 @@ jobs:
           node-version: 16
       - name: Install building requirements on ${{ matrix.os }}
         run: |
-          sudo corepack enable
+          if which corepack
+          then
+            corepack enable
+          fi
           pip3 install --upgrade pip
           pip3 install -r src/vendors/tools-staking-deposit-cli/requirements.txt
           pip3 install pyinstaller
