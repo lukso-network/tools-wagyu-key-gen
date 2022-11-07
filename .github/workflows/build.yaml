@@ -37,6 +37,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Set variables
+        run: |
+          echo "VERSION=$(node -e 'console.log(require("./package.json").version)')" >> $GITHUB_ENV
       - name: Install building requirements on ${{ matrix.os }}
         run: |
           corepack enable
@@ -48,8 +51,21 @@ jobs:
           yarn build
           yarn buildcli
           yarn dist
-      - name: Upload binary
+      - name: Upload binary (appimage)
         uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == "windows" }}
         with:
-          name: ${{ matrix.os }}
-          path: dist/Wagyu Key Gen*
+          name: ${{ matrix.os }}-${{ env.VERSION }}
+          path: dist/Wagyu Key Gen*.AppImage
+      - name: Upload binary (dmg)
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == "macos" }}
+        with:
+          name: ${{ matrix.os }}-${{ env.VERSION }}
+          path: dist/Wagyu Key Gen*.dmg
+      - name: Upload binary (exe)
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == "windows" }}
+        with:
+          name: ${{ matrix.os }}-${{ env.VERSION }}
+          path: dist/Wagyu Key Gen*.exe
