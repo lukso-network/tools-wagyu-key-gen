@@ -12,9 +12,9 @@ export enum StepSequenceKey {
 }
 
 export enum Network {
-  MAINNET = "Mainnet",
-  LUKSO = "Lukso",
-  LUKSO_L16 = "Lukso L16",
+  MAINNET = "Ethereum Mainnet",
+  LUKSO = "LUKSO",
+  LUKSO_L16 = "LUKSO L16",
   GOERLI = "Goerli",
   PRATER = "Prater",
   KINTSUGI = "Kintsugi",
