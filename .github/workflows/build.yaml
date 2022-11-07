@@ -49,7 +49,7 @@ jobs:
           yarn buildcli
           yarn dist
       - name: Upload binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os }}
           path: dist/Wagyu Key Gen*
