@@ -1,1 +1,1 @@
-console.log(`VERSION="${require("./package.json").version}"`);
+console.log(`VERSION=${require("./package.json").version}`);
