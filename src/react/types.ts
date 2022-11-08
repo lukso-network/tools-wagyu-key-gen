@@ -11,6 +11,7 @@ export enum StepSequenceKey {
   MnemonicImport = "mnemonicimport",
 }
 
+// Networks will be lowercased and passed in as parameters to the deposit-cli
 export enum Network {
   MAINNET = "Ethereum Mainnet",
   LUKSO = "LUKSO",
