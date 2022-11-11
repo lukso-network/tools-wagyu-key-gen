@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 declare var VERSION: string;
 declare var COMMITHASH: string;
+declare var CLIVERSION: string;
+declare var CLICOMMITHASH: string;
 
 const SoftText = styled(Typography)`
   color: gray;
@@ -27,7 +29,7 @@ const VersionFooter = () => {
     <Container>
       <Grid container direction="column">
         <Grid item xs={12}>
-          <SoftText>Version: {VERSION} - Commit Hash: {COMMITHASH}</SoftText>
+          <SoftText>Version: {VERSION}#{COMMITHASH} CLI: {CLIVERSION}${CLICOMMITHASH}</SoftText>
         </Grid>
       </Grid>
     </Container>

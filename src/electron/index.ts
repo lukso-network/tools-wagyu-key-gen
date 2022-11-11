@@ -3,7 +3,14 @@
  * This typescript file contains the Electron app which renders the React app.
  */
 
-import { BrowserWindow, app, globalShortcut, ipcMain, dialog, clipboard } from "electron";
+import {
+  BrowserWindow,
+  app,
+  globalShortcut,
+  ipcMain,
+  dialog,
+  clipboard,
+} from "electron";
 import path from "path";
 
 import { accessSync, constants } from "fs";
@@ -14,6 +21,8 @@ import { OpenDialogOptions } from "electron/common";
  */
 declare var VERSION: string;
 declare var COMMITHASH: string;
+declare var CLIVERSION: string;
+declare var CLICOMMITHASH: string;
 
 const doesFileExist = (filename: string): boolean => {
   try {
@@ -26,13 +35,18 @@ const doesFileExist = (filename: string): boolean => {
 
 app.on("ready", () => {
   var iconPath = path.join("static", "icon.png");
-  const bundledIconPath = path.join(process.resourcesPath, "..", "static", "icon.png");
-  
+  const bundledIconPath = path.join(
+    process.resourcesPath,
+    "..",
+    "static",
+    "icon.png"
+  );
+
   if (doesFileExist(bundledIconPath)) {
     iconPath = bundledIconPath;
   }
 
-  const title = `${app.getName()} ${VERSION}-${COMMITHASH}`;
+  const title = `${app.getName()} ${VERSION}#${COMMITHASH} CLI@${CLIVERSION}#${CLICOMMITHASH}`;
 
   /**
    * Create the window in which to render the React app
@@ -46,8 +60,8 @@ app.on("ready", () => {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
-    }
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
 
   /**
@@ -58,32 +72,36 @@ app.on("ready", () => {
   /**
    * Set the Permission Request Handler to deny all permissions requests
    */
-  window.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
-    return callback(false);
-  });
+  window.webContents.session.setPermissionRequestHandler(
+    (webContents, permission, callback) => {
+      return callback(false);
+    }
+  );
 
   /**
    * Allow for refreshing of the React app within Electron without reopening.
    * This feature is used for development and will be disabled before production deployment.
    */
-	globalShortcut.register('CommandOrControl+R', function() {
-		console.log('CommandOrControl+R was pressed, refreshing the React app within Electron.')
-		window.reload()
-	})
+  globalShortcut.register("CommandOrControl+R", function () {
+    console.log(
+      "CommandOrControl+R was pressed, refreshing the React app within Electron."
+    );
+    window.reload();
+  });
 
   /**
    * This logic closes the application when the window is closed, explicitly.
    * On MacOS this is not a default feature.
    */
-  ipcMain.on('close', (evt, arg) => {
+  ipcMain.on("close", (evt, arg) => {
     app.quit();
-  })
+  });
 
   /**
    * Provides the renderer a way to call the dialog.showOpenDialog function using IPC.
    */
-  ipcMain.handle('showOpenDialog', async (event, options) => {
-    return await dialog.showOpenDialog(<OpenDialogOptions> options);
+  ipcMain.handle("showOpenDialog", async (event, options) => {
+    return await dialog.showOpenDialog(<OpenDialogOptions>options);
   });
 
   /**
@@ -92,10 +110,10 @@ app.on("ready", () => {
   window.loadURL(`file://${__dirname}/../react/index.html`);
 });
 
-app.on('will-quit', () => {
+app.on("will-quit", () => {
   /**
    * Clear clipboard on quit to avoid access to any mnemonic or password that was copied during
    * application use.
    */
   clipboard.clear();
-})
+});
