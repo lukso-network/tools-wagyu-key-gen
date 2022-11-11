@@ -1,0 +1,129 @@
+name: Branch builds
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
+    env:
+      GH_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Prepare release
+        id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run release
+      - name: Upload binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: RELEASE_NOTES
+          path: /tmp/RELEASE_NOTES.md
+  build-native:
+    runs-on: ${{ matrix.runner }}
+    needs: setup
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            runner: ubuntu-latest
+          - os: macos
+            runner: macos-11
+          - os: windows
+            runner: windows-latest
+    env:
+      PYTHONHASHSEED: 42
+      GH_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install building requirements on ${{ matrix.os }}
+        run: |
+          corepack enable
+          pip3 install --upgrade pip
+          pip3 install -r src/vendors/tools-staking-deposit-cli/requirements.txt
+          pip3 install pyinstaller
+          yarn install
+          yarn build
+          yarn buildcli
+          yarn dist
+      - name: Upload binary (appimage)
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == 'linux' }}
+        with:
+          name: ${{ matrix.os }}-v${{ needs.setup.outputs.version }}.zip
+          path: dist/Wagyu Key Gen*.AppImage
+      - name: Upload binary (dmg)
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == 'macos' }}
+        with:
+          name: ${{ matrix.os }}-v${{ needs.setup.outputs.version }}.zip
+          path: dist/Wagyu Key Gen*.dmg
+      - name: Upload binary (exe)
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == 'windows' }}
+        with:
+          name: ${{ matrix.os }}-v${{ needs.setup.outputs.version }}.zip
+          path: dist/Wagyu Key Gen*.exe
+  release:
+    needs:
+      - build-native
+      - setup
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - name: Process Release Notes
+        run: |
+          mv artifacts/RELEASE_NOTES/RELEASE_NOTES.md RELEASE_NOTES.md
+          rmdir artifacts/RELEASE_NOTES
+          cat RELEASE_NOTES.md
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+        with:
+          draft: true
+          body_path: RELEASE_NOTES.md
+          tag_name: v${{ needs.setup.outputs.version }}
+          files: |
+            artifacts/**/*
