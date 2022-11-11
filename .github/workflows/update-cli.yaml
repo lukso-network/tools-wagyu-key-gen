@@ -22,7 +22,7 @@ jobs:
           VERSION="version=$(cd src/vendors/tools-staking-deposit-cli && git describe --tags) commit=$(cd src/vendors/tools-staking-deposit-cli && git log -1 --format=%h)"
           git config --global user.name ${{ secrets.SUBMODULE_UPDATER_USER_NAME }}
           git config --global user.email ${{ secrets.SUBMODULE_UPDATER_USER_EMAIL }}
-          if git commit -am "Update cli to ${VERSION}"
+          if git commit -am "fix: Update cli to ${VERSION}"
           then
             git push
           fi
