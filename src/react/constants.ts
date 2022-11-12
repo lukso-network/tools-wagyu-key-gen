@@ -27,7 +27,7 @@ export const tooltips = {
   STARTING_INDEX:
     "Each key is created sequentially, so we need to know how many you've created with this Secret Recovery Phrase in the past in order to create some new ones for you.",
   ETH1_WITHDRAW_ADDRESS:
-    "A LUKSO address is a ETH1 public key on the LUKSO blockchain, make sure that you control the private key, otherwise you will not be able to use the funds withdrawn to this address!",
+    "An optional LUKSO address for the withdrawal credentials.",
 };
 
 export const stepLabels = {
