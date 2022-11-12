@@ -126,7 +126,7 @@ const KeyInputs = (props: GenerateKeysProps) => {
       <Grid item>
         <FormControlLabel
           control={<Switch checked={props.showAdvanced} onChange={handleToggleShowAdvanced} color="default" size="small" />}
-          label="Use Advanced Inputs"
+          label="Use a single LUKSO address as withdraw destination for all generated validator keys."
         />
       </Grid>
       <Grid item>
