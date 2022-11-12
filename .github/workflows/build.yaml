@@ -63,6 +63,7 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+          ref: v${{ needs.setup.outputs.version }}
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -73,7 +74,6 @@ jobs:
           node-version: 16
       - name: Install building requirements on ${{ matrix.os }}
         run: |
-          node ./setup_version.js "${{ needs.setup.outputs.version }}"
           corepack enable
           pip3 install --upgrade pip
           pip3 install -r src/vendors/tools-staking-deposit-cli/requirements.txt
@@ -110,6 +110,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: v${{ needs.setup.outputs.version }}
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
