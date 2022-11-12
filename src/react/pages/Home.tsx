@@ -8,7 +8,7 @@ import { NetworkPicker } from "../components/NetworkPicker";
 import { tooltips } from "../constants";
 import { Network, StepSequenceKey } from '../types'
 import VersionFooter from "../components/VersionFooter";
-
+import logo from "../../../static/largeIcon.png";
 
 const StyledMuiContainer = styled(Container)`
   display: flex;
@@ -134,7 +134,7 @@ const Home: FC<HomeProps> = (props): ReactElement => {
       </Modal>
 
       <LandingHeader variant="h1">Wagyu Keygen</LandingHeader>
-      <img src="../../static/largeIcon.png" height="200px" />
+      <img src={logo} height="200px" />
       {/* <KeyIcon /> */}
       <SubHeader>Your key generator for staking on LUKSO</SubHeader>
 

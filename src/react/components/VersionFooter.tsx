@@ -29,7 +29,7 @@ const VersionFooter = () => {
     <Container>
       <Grid container direction="column">
         <Grid item xs={12}>
-          <SoftText>Version: {VERSION}#{COMMITHASH} CLI: {CLIVERSION}${CLICOMMITHASH}</SoftText>
+          <SoftText>Version: {VERSION}#{COMMITHASH} CLI: {CLIVERSION}#{CLICOMMITHASH}</SoftText>
         </Grid>
       </Grid>
     </Container>

@@ -18,6 +18,7 @@
     "semantic-release": "^19.0.5",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.5",
+    "url-loader": "^4.1.1",
     "webpack": "^5.64.3",
     "webpack-cli": "^4.9.1"
   },
@@ -63,8 +64,7 @@
     "extraFiles": [
       "build/bin/*",
       "build/word_lists/*",
-      "static/icon.png",
-      "static/largeIcon.png"
+      "static/icon.png"
     ],
     "mac": {
       "category": "public.app-category.utilities"
