@@ -63,7 +63,8 @@
     "extraFiles": [
       "build/bin/*",
       "build/word_lists/*",
-      "static/icon.png"
+      "static/icon.png",
+      "static/largeIcon.png"
     ],
     "mac": {
       "category": "public.app-category.utilities"

@@ -13,9 +13,9 @@ export enum StepSequenceKey {
 
 // Networks will be lowercased and passed in as parameters to the deposit-cli
 export enum Network {
-  MAINNET = "Ethereum Mainnet",
+  MAINNET = "Ethereum",
   LUKSO = "LUKSO",
-  LUKSO_L16 = "LUKSO L16",
+  LUKSO_L16 = "LUKSO-L16",
   GOERLI = "Goerli",
   PRATER = "Prater",
   KINTSUGI = "Kintsugi",
