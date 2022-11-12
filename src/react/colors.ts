@@ -14,7 +14,7 @@ export const DarkBlue = "#0f4c75";
 export const MediumBlue = "#3282b8";
 export const LightBlue = "#bbe1fa";
 export const White = "#FFFFFF";
-export const Red = "#fa1e0e";
+export const Red = "#c51c2b";
 
 export const LightGreen = "#52b788";
 
