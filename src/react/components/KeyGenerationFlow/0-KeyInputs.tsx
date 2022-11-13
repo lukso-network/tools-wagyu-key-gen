@@ -34,6 +34,10 @@ const AddressTextField = styled(TextField)`
   width: 440px;
 `
 
+const Eth1WithdrawGrid = styled(Grid)`
+  margin-top: -30px;
+`
+
 /**
  * This page gathers data about the keys to generate for the user
  * 
@@ -41,14 +45,6 @@ const AddressTextField = styled(TextField)`
  * @returns 
  */
 const KeyInputs = (props: GenerateKeysProps) => {
-  
-  const handleToggleShowAdvanced = () => {
-    props.setShowAdvanced(!props.showAdvanced);
-    if (!props.showAdvanced) {
-      props.setWithdrawalAddress("");
-      props.setWithdrawalAddressFormatError(false);
-    }
-  }
 
   const updateNumberOfKeys = (e: React.ChangeEvent<HTMLInputElement>) => {
     const num = parseInt(e.target.value);
@@ -123,20 +119,24 @@ const KeyInputs = (props: GenerateKeysProps) => {
           </Tooltip>
         </Grid>
       </Grid>
-      <Grid item>
-        <FormControlLabel
+      <Eth1WithdrawGrid item>
+        <Typography variant="body1">
+        You can use a single LUKSO address as withdraw destination for all generated validator keys.
+        <br/>
+        If left empty, it will generate a seperate BLS withdraw credential for each validator key.
+        </Typography>
+        {/* <FormControlLabel
           control={<Switch checked={props.showAdvanced} onChange={handleToggleShowAdvanced} color="default" size="small" />}
-          label="Use Advanced Inputs"
-        />
-      </Grid>
+          label="Use a single LUKSO address as withdraw destination for all generated validator keys. If Turned off, it will generate a seperate BLS withdraw credential for each validator key."
+        /> */}
+      </Eth1WithdrawGrid>
       <Grid item>
-          <Fade in={props.showAdvanced} >
             <Grid container item direction="row" justifyContent="center" alignItems="center" spacing={2} xs={12}>
               <Grid item>
                 <Tooltip title={tooltips.ETH1_WITHDRAW_ADDRESS}>
                   <AddressTextField
                     id="eth1-withdraw-address"
-                    label="Ethereum Withdrawal Address (Optional)"
+                    label="LUKSO Withdrawal Address (Optional)"
                     variant="outlined"
                     value={props.withdrawalAddress}
                     onChange={updateEth1WithdrawAddress}
@@ -145,11 +145,11 @@ const KeyInputs = (props: GenerateKeysProps) => {
                   />
                 </Tooltip>
                 <Typography variant="body1">
-                  Please ensure that you have control over this address.
+                  A LUKSO address is a ETH1 public key on the LUKSO blockchain (Can be generated with any tool like MetaMask), <b>make sure that you control
+                  the private key, otherwise you will not be able to use the funds withdrawn to this address!</b>
                 </Typography>
               </Grid>
             </Grid>
-          </Fade>
         </Grid>
     </Grid>
   );

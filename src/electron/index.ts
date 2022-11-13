@@ -15,6 +15,7 @@ import path from "path";
 
 import { accessSync, constants } from "fs";
 import { OpenDialogOptions } from "electron/common";
+import { shell } from "electron";
 
 /**
  * VERSION and COMMITHASH are set by the git-revision-webpack-plugin module.
@@ -53,7 +54,7 @@ app.on("ready", () => {
    */
   const window = new BrowserWindow({
     width: 950,
-    height: 750,
+    height: 850,
     icon: iconPath,
     title: title,
 
@@ -77,6 +78,14 @@ app.on("ready", () => {
       return callback(false);
     }
   );
+
+   /**
+   * Make all links open in external browser
+   */
+    window.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    shell.openExternal(url);
+  });
 
   /**
    * Allow for refreshing of the React app within Electron without reopening.

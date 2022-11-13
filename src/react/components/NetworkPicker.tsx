@@ -60,8 +60,6 @@ export const NetworkPicker = (props: NetworkPickerProps) => {
     props.setNetwork(selected.target.value as Network);
   }
 
-  const goerliLabel = `${Network.GOERLI}/${Network.PRATER}`;
-
   return (
     <Container>
       <Header>Network</Header>
@@ -73,8 +71,6 @@ export const NetworkPicker = (props: NetworkPickerProps) => {
               <Divider />
               <SubHeader>Testnets</SubHeader>
               <FormControlLabel value={Network.LUKSO_L16} control={<Radio />} label={Network.LUKSO_L16} />
-              <FormControlLabel value={Network.GOERLI} control={<Radio />} label={goerliLabel} />
-              <FormControlLabel value={Network.ROPSTEN} control={<Radio />} label={Network.ROPSTEN} />
             </RadioGroup>
           </FormControl>
         </div>
