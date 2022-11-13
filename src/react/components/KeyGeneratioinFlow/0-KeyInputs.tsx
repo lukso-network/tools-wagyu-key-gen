@@ -126,7 +126,7 @@ const KeyInputs = (props: GenerateKeysProps) => {
       <Grid item>
         <FormControlLabel
           control={<Switch checked={props.showAdvanced} onChange={handleToggleShowAdvanced} color="default" size="small" />}
-          label="Use Advanced Inputs"
+          label="Use a single LUKSO address as withdraw destination for all generated validator keys."
         />
       </Grid>
       <Grid item>
@@ -136,7 +136,7 @@ const KeyInputs = (props: GenerateKeysProps) => {
                 <Tooltip title={tooltips.ETH1_WITHDRAW_ADDRESS}>
                   <AddressTextField
                     id="eth1-withdraw-address"
-                    label="Ethereum Withdrawal Address (Optional)"
+                    label="LUKSO Withdrawal Address (Optional)"
                     variant="outlined"
                     value={props.withdrawalAddress}
                     onChange={updateEth1WithdrawAddress}
@@ -145,7 +145,8 @@ const KeyInputs = (props: GenerateKeysProps) => {
                   />
                 </Tooltip>
                 <Typography variant="body1">
-                  Please ensure that you have control over this address.
+                  A LUKSO address is a ETH1 public key on the LUKSO blockchain, make sure that you control
+                  the private key, otherwise you will not be able to use the funds withdrawn to this address!
                 </Typography>
               </Grid>
             </Grid>

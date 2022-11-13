@@ -20,6 +20,7 @@ const old = process.cwd();
 process.chdir("./src/vendors/tools-staking-deposit-cli");
 const cliGitRevisionPlugin = new GitRevisionPlugin({
   commithashCommand: "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
+  versionCommand: "describe --tags",
 });
 data = {
   ...data,
@@ -60,6 +61,10 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf|svg)$/,
         loader: "file-loader",
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        loader: "url-loader",
       },
     ],
   },

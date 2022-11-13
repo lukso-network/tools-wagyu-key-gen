@@ -49,7 +49,7 @@ const GenerateMnemonic: FC<GenerateMnemonicProps> = (props): ReactElement => {
         </Box>
         <Box sx={{ m: 2 }}>
           <Typography variant="body1" align="left" gutterBottom>
-            We recommend running Wagyu Key Gen from an offline machine. One way to do this is to move the application to a USB stick, plug it in to an offline machine, and run it from there.
+            We recommend running Wagyu KeyGen from an offline machine. One way to do this is to move the application to a USB stick, plug it in to an offline machine, and run it from there.
           </Typography>
         </Box>
         { props.generateError &&

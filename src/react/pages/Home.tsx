@@ -8,6 +8,7 @@ import { NetworkPicker } from "../components/NetworkPicker";
 import { tooltips } from "../constants";
 import { Network, StepSequenceKey } from '../types'
 import VersionFooter from "../components/VersionFooter";
+import logo from "../../../static/largeIcon.png";
 
 
 const StyledMuiContainer = styled(Container)`
@@ -32,6 +33,15 @@ const LandingHeader = styled(Typography)`
 
 const SubHeader = styled(Typography)`
   margin-top: 20px;
+`;
+
+const BackgroundImage = styled.img`
+  z-index: -1;
+  position: absolute;
+  width: 740px;
+  top: -370px;
+  left: -280px;
+  opacity: 0.2;
 `;
 
 const Links = styled.div`
@@ -120,6 +130,7 @@ const Home: FC<HomeProps> = (props): ReactElement => {
 
   return (
     <StyledMuiContainer>
+      <BackgroundImage src={logo} />
       <NetworkDiv>
         Select Network: &nbsp; <Button variant="contained" color="primary" onClick={handleOpenNetworkModal} tabIndex={tabIndex(1)}>{props.network}</Button>
       </NetworkDiv>
@@ -133,8 +144,8 @@ const Home: FC<HomeProps> = (props): ReactElement => {
         </div>
       </Modal>
 
-      <LandingHeader variant="h1">Wagyu Keygen</LandingHeader>
-      <img src="../../static/largeIcon.png" height="200px" />
+      <LandingHeader variant="h1">Wagyu KeyGen</LandingHeader>
+      <img src={logo} height="200px" />
       {/* <KeyIcon /> */}
       <SubHeader>Your key generator for staking on LUKSO</SubHeader>
 
