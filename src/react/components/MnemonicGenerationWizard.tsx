@@ -97,13 +97,13 @@ const MnemonicGenerationWizard: FC<Props> = (props): ReactElement => {
   }
 
   const verifyMnemonic = () => {
-    // if (props.mnemonic.localeCompare(props.mnemonicToVerify) == 0) {
+    if (props.mnemonic.localeCompare(props.mnemonicToVerify) == 0) {
       setMnemonicValidationError(false);
       props.onStepForward();
-    // } else {
-    //   setMnemonicValidationError(true);
-    //   setStep(step-1); // back to 3
-    // }
+    } else {
+      setMnemonicValidationError(true);
+      setStep(step-1); // back to 3
+    }
   }
 
   const uiCreateMnemonic = () => {

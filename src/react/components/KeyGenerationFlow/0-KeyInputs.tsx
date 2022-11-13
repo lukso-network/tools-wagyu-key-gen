@@ -45,14 +45,6 @@ const Eth1WithdrawGrid = styled(Grid)`
  * @returns 
  */
 const KeyInputs = (props: GenerateKeysProps) => {
-  
-  const handleToggleShowAdvanced = () => {
-    props.setShowAdvanced(!props.showAdvanced);
-    if (!props.showAdvanced) {
-      props.setWithdrawalAddress("");
-      props.setWithdrawalAddressFormatError(false);
-    }
-  }
 
   const updateNumberOfKeys = (e: React.ChangeEvent<HTMLInputElement>) => {
     const num = parseInt(e.target.value);
@@ -139,7 +131,6 @@ const KeyInputs = (props: GenerateKeysProps) => {
         /> */}
       </Eth1WithdrawGrid>
       <Grid item>
-          <Fade in={props.showAdvanced} >
             <Grid container item direction="row" justifyContent="center" alignItems="center" spacing={2} xs={12}>
               <Grid item>
                 <Tooltip title={tooltips.ETH1_WITHDRAW_ADDRESS}>
@@ -159,7 +150,6 @@ const KeyInputs = (props: GenerateKeysProps) => {
                 </Typography>
               </Grid>
             </Grid>
-          </Fade>
         </Grid>
     </Grid>
   );

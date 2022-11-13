@@ -3,7 +3,7 @@ import Alert from '@material-ui/lab/Alert';
 import { FileCopy } from '@material-ui/icons';
 import React, { FC, ReactElement, Fragment, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Primary, Red } from '../../colors'
+import { Primary, Warning } from '../../colors'
 import { Network } from '../../types';
 
 const spin = keyframes`
@@ -21,7 +21,7 @@ const Loader = styled.div`
 `;
 
 const LoudText = styled(Typography)`
-  color: ${Red};
+  color: ${Warning};
   text-align: left;
   display: inline;
 `;

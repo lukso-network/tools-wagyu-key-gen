@@ -9,6 +9,16 @@ const ContentGrid = styled(Grid)`
   margin-top: 16px;
 `;
 
+const QuietText = styled(Typography)`
+  color: gray;
+  text-align: center;
+`;
+
+const BottomGrid = styled(Grid)`
+  margin-top: -20px;
+`;
+
+
 type Props = {
   onStepBack: () => void,
   onStepForward: () => void,
@@ -40,6 +50,11 @@ const Finish: FC<Props> = (props): ReactElement => {
       </ContentGrid>
       {props.children}
       <Grid item container justifyContent="space-between">
+        <BottomGrid item xs={12}>
+          <QuietText>
+            Note: Your clipboard will be cleared upon closing this application.
+          </QuietText>
+        </BottomGrid>
         <Grid item xs={5} />
         <Grid item xs={2}>
           <Button variant="contained" color="primary" onClick={props.onStepForward} tabIndex={2}>Close</Button>

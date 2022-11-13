@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, Dispatch, SetStateAction } from 'react';
 import { Box, Grid, Link, Typography } from '@material-ui/core';
-import { Red } from '../../colors'
+import { Warning } from '../../colors';
 import styled from 'styled-components';
 
 type GenerateMnemonicProps = {
@@ -11,7 +11,7 @@ type GenerateMnemonicProps = {
 }
 
 const LoudText = styled.span`
-  color: ${Red};
+  color: ${Warning};
 `;
 
 const LinksTag = styled.a`
