@@ -2,7 +2,7 @@ import { Button, Grid, Typography } from '@material-ui/core';
 import React, { FC, ReactElement, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { Network } from '../types';
-import KeysCreated from './KeyGeneratioinFlow/4-KeysCreated';
+import KeysCreated from './KeyGenerationFlow/4-KeysCreated';
 
 const ContentGrid = styled(Grid)`
   height: 320px;
