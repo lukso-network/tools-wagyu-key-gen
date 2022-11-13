@@ -33,6 +33,7 @@ const LandingHeader = styled(Typography)`
 
 const SubHeader = styled(Typography)`
   margin-top: 20px;
+  text-align: center;
 `;
 
 const BackgroundImage = styled.img`
@@ -147,7 +148,9 @@ const Home: FC<HomeProps> = (props): ReactElement => {
       <LandingHeader variant="h1">Wagyu KeyGen</LandingHeader>
       <img src={logo} height="200px" />
       {/* <KeyIcon /> */}
-      <SubHeader>Your key generator for staking on LUKSO</SubHeader>
+      <SubHeader>
+        Your key generator for staking on LUKSO
+      </SubHeader>
 
       <Links>
         

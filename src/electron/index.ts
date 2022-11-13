@@ -54,7 +54,7 @@ app.on("ready", () => {
    */
   const window = new BrowserWindow({
     width: 950,
-    height: 750,
+    height: 850,
     icon: iconPath,
     title: title,
 
