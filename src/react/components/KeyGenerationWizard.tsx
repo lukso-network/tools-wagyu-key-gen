@@ -140,7 +140,6 @@ const KeyGenerationWizard: FC<Props> = (props): ReactElement => {
     if (withdrawalAddress != "" && !withdrawalAddress.toLowerCase().startsWith("0x")) {
       withdrawalAddress = "0x" + withdrawalAddress;
     }
-    props.onStepForward();
 
     // Generate the keys
     window.eth2Deposit.generateKeys(
