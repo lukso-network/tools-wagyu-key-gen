@@ -87,19 +87,19 @@ jobs:
         if: ${{ matrix.os == 'linux' }}
         with:
           name: ${{ matrix.os }}-v${{ needs.setup.outputs.version }}.zip
-          path: dist/Wagyu Key Gen*.AppImage
+          path: dist/LUKSO Wagyu Key Gen*.AppImage
       - name: Upload binary (dmg)
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'macos' }}
         with:
           name: ${{ matrix.os }}-v${{ needs.setup.outputs.version }}.zip
-          path: dist/Wagyu Key Gen*.dmg
+          path: dist/LUKSO Wagyu Key Gen*.dmg
       - name: Upload binary (exe)
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'windows' }}
         with:
           name: ${{ matrix.os }}-v${{ needs.setup.outputs.version }}.zip
-          path: dist/Wagyu Key Gen*.exe
+          path: dist/LUKSO Wagyu Key Gen*.exe
   release:
     needs:
       - build-native

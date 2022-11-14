@@ -56,7 +56,7 @@
   },
   "build": {
     "appId": "gg.wagyu.keygen",
-    "productName": "Wagyu Key Gen",
+    "productName": "LUKSO Wagyu Key Gen",
     "files": [
       "build/**/*",
       "package.json"
