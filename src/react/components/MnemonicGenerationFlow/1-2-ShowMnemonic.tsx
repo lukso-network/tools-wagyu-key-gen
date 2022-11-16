@@ -78,7 +78,7 @@ const ShowMnemonic: FC<ShowMnemonicProps> = (props): ReactElement => {
                   id={"mnemonic-textfield-id-" + i}
                   key={"mnemonic-textfield-key-" + i}
                   label={"Word " + (i+1)}
-                  variant="outlined"
+                  variant="filled"
                   value={word} />
               </Grid>
             );

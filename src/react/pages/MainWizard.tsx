@@ -41,9 +41,9 @@ const StyledStepper = styled(Stepper)`
 const BackgroundImage = styled.img`
   z-index: -1;
   position: absolute;
-  width: 740px;
-  top: -370px;
-  left: -280px;
+  width: 640px;
+  top: -220px;
+  left: -300px;
   opacity: 0.2;
 `;
 
