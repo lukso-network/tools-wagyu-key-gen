@@ -27,8 +27,9 @@ const NetworkDiv = styled.div`
 
 const LandingHeader = styled(Typography)`
   font-size: 36px;
-  margin-top: 15px;
+  margin-top: -20px;
   margin-bottom: 20px;
+  text-align: center;
 `;
 
 const SubHeader = styled(Typography)`
@@ -145,7 +146,7 @@ const Home: FC<HomeProps> = (props): ReactElement => {
         </div>
       </Modal>
 
-      <LandingHeader variant="h1">Wagyu KeyGen</LandingHeader>
+      <LandingHeader variant="h1">LUKSO<br/>Wagyu KeyGen</LandingHeader>
       <img src={logo} height="200px" />
       {/* <KeyIcon /> */}
       <SubHeader>
