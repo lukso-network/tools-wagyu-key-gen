@@ -8,7 +8,7 @@ import { NetworkPicker } from "../components/NetworkPicker";
 import { tooltips } from "../constants";
 import { Network, StepSequenceKey } from '../types'
 import VersionFooter from "../components/VersionFooter";
-import logo from "../../../static/largeIcon.png";
+import logo from "../../../static/keyVisual.png";
 
 
 const StyledMuiContainer = styled(Container)`

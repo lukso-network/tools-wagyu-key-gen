@@ -1,6 +1,6 @@
 {
-  "name": "wagyukeygen",
-  "productName": "Wagyu Key Gen",
+  "name": "lukso-wagyukeygen",
+  "productName": "LUKSO Wagyu KeyGen",
   "version": "1.5.2-develop.10",
   "description": "GUI key generation tool wrapping the deposit cli.",
   "main": "./build/electron/index.js",
@@ -55,8 +55,8 @@
     "web3-utils": "^1.7.0"
   },
   "build": {
-    "appId": "gg.wagyu.keygen",
-    "productName": "LUKSO Wagyu Key Gen",
+    "appId": "network.lukso.wagyukeygen",
+    "productName": "LUKSO Wagyu KeyGen",
     "files": [
       "build/**/*",
       "package.json"
@@ -65,7 +65,8 @@
       "build/bin/*",
       "build/word_lists/*",
       "static/icon.png",
-      "static/largeIcon.png"
+      "static/icon.ico",
+      "static/keyVisual.png"
     ],
     "mac": {
       "category": "public.app-category.utilities"

@@ -1,7 +1,7 @@
 import { Ref, SVGAttributes, forwardRef } from 'react';
 
 import React from 'react';
-import logo from "../../../../static/largeIcon.png";
+import logo from "../../../../static/keyVisual.png";
 
 export const KeyIcon = forwardRef(
   (props: SVGAttributes<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (

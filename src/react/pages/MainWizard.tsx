@@ -11,7 +11,7 @@ import Finish from '../components/Finish';
 import { stepLabels } from '../constants';
 import { Network, StepSequenceKey } from '../types';
 import VersionFooter from '../components/VersionFooter';
-import logo from "../../../static/largeIcon.png";
+import logo from "../../../static/keyVisual.png";
 
 const stepSequenceMap: Record<string, StepKey[]> = {
   mnemonicimport: [
