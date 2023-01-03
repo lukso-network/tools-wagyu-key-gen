@@ -70,7 +70,12 @@ jobs:
           yarn buildcliwin
       - name: Build PR Distribution
         if: ${{ inputs.release_created == 'false' }}
-        run: yarn dist
+        env:
+          CSC_LINK: ""
+          CSC_KEY_PASSWORD: ""
+          APPLE_APP_SPECIFIC_PASSWORD: ""
+          APPLE_ID: ""
+        run: DISABLE_SIGNING=true yarn dist
       - name: Build Release Distribution (with signature)
         if: ${{ inputs.release_created == 'true' }}
         env:
