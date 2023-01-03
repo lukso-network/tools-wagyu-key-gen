@@ -34,7 +34,7 @@
     "start": "electron ./build/electron/index.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "dist-nosign": "cross-env DISABLE_SIGNING=true WIN_CSC_LINK= WIN_CSC_KEY_PASSWORD= CSC_LINK= CSC_KEY_PASSWORD= APPLE_APP_SPECIFIC_PASSWORD= APPLE_ID= CSC_IDENTITY_AUTO_DISCOVERY=false yarn dist"
+    "dist-nosign": "cross-env DISABLE_SIGNING=true yarn dist"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.4",
