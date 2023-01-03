@@ -75,7 +75,7 @@ jobs:
           CSC_KEY_PASSWORD: ""
           APPLE_APP_SPECIFIC_PASSWORD: ""
           APPLE_ID: ""
-        run: DISABLE_SIGNING=true yarn dist
+        run: yarn dist-nosign
       - name: Build Release Distribution (with signature)
         if: ${{ inputs.release_created == 'true' }}
         env:
