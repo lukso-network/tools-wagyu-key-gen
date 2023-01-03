@@ -69,10 +69,10 @@ jobs:
           yarn build
           yarn buildcliwin
       - name: Build PR Distribution
-        if: ${{ ! inputs.release_created }}
+        if: ${{ inputs.release_created == 'false' }}
         run: yarn dist
       - name: Build Release Distribution (with signature)
-        if: ${{ inputs.release_created }}
+        if: ${{ inputs.release_created == 'true' }}
         env:
           CSC_LINK: "${{ secrets.CSC_LINK }}"
           CSC_KEY_PASSWORD: "${{ secrets.CSC_KEY_PASSWORD }}"
