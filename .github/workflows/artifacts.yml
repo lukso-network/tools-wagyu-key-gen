@@ -71,6 +71,8 @@ jobs:
       - name: Build PR Distribution
         if: ${{ inputs.release_created == 'false' }}
         env:
+          WIN_CSC_LINK: ""
+          WIN_CSC_KEY_PASSWORD: ""
           CSC_LINK: ""
           CSC_KEY_PASSWORD: ""
           APPLE_APP_SPECIFIC_PASSWORD: ""
