@@ -31,6 +31,7 @@
     "build:watch": "webpack --config webpack.react.config.js --config webpack.electron.config.js --watch",
     "buildcli": "src/scripts/bundle_proxy_linux.sh",
     "buildcliwin": "src/scripts/bundle_proxy_win.bat",
+    "buildclimac": "src/scripts/bundle_proxy_mac.sh",
     "start": "electron ./build/electron/index.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
@@ -62,6 +63,7 @@
       "package.json"
     ],
     "afterSign": "./src/scripts/notarize.js",
+    "beforePack": "./src/scripts/build-bin.js",
     "extraFiles": [
       "build/bin/*",
       "build/word_lists/*",
@@ -73,6 +75,9 @@
       "category": "public.app-category.utilities",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
+      "binaries": [
+        "build/bin/eth2deposit_proxy"
+      ],
       "target": {
         "target": "default",
         "arch": "universal"

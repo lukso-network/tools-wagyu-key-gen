@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: 16
       - name: Install building requirements on ${{ matrix.os }} (not windows)
-        if: ${{ matrix.os != 'windows' }}
+        if: ${{ matrix.os == 'linux' }}
         run: |
           corepack enable
           pip3 install --upgrade pip
@@ -59,6 +59,16 @@ jobs:
           yarn install
           yarn build
           yarn buildcli
+      - name: Install building requirements on ${{ matrix.os }} (not windows)
+        if: ${{ matrix.os == 'macos' }}
+        run: |
+          corepack enable
+          pip3 install --upgrade pip
+          pip3 install -r src/vendors/tools-staking-deposit-cli/requirements.txt
+          pip3 install pyinstaller
+          yarn install
+          yarn build
+          yarn buildclimac
       - name: Install building requirements on ${{ matrix.os }} (only windows)
         if: ${{ matrix.os == 'windows' }}
         run: |
