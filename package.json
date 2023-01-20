@@ -74,15 +74,10 @@
       "category": "public.app-category.utilities",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
-      "binaries": [
-        "build/bin/eth2deposit_proxy"
-      ],
       "target": {
         "target": "default",
         "arch": "universal"
-      },
-      "singleArchFiles": "build/bin/*",
-      "mergeASARs": true
+      }
     },
     "dmg": {
       "sign": false
