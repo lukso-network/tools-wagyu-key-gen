@@ -15,4 +15,5 @@ export enum StepSequenceKey {
 export enum Network {
   LUKSO = "LUKSO",
   LUKSO_L16 = "L16",
+  LUKSO_2022 = "L2022",
 }
