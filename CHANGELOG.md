@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.7.0](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.6.4...v1.7.0) (2023-01-20)
+
+
+### Features
+
+* Added LUKSO 2022 testnet ([adf4af7](https://github.com/lukso-network/tools-wagyu-key-gen/commit/adf4af77c494cb6f585223ac76d0b52489c6c7e2))
+
+
+### Bug Fixes
+
+* Reformat version text on UI ([#12](https://github.com/lukso-network/tools-wagyu-key-gen/issues/12)) ([81476a7](https://github.com/lukso-network/tools-wagyu-key-gen/commit/81476a79485e4ab0ccb777977e5ee74b40083449))
+* Switch to latest for unbuntu and mac so this always builds going forward. ([#14](https://github.com/lukso-network/tools-wagyu-key-gen/issues/14)) ([03068f4](https://github.com/lukso-network/tools-wagyu-key-gen/commit/03068f4dda3da2b22795a631985625a7ec583ecc))
+* Update cli to version=v2.4.4 commit=6bd7c96 ([d5daaa4](https://github.com/lukso-network/tools-wagyu-key-gen/commit/d5daaa48264d5327e2c35f63664cc5e6bc10680f))
+* Version 2.4.4 of CLI ([00663cf](https://github.com/lukso-network/tools-wagyu-key-gen/commit/00663cff6766b10373719e716570d775b472d326))
+
 ## [1.6.4](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.6.3...v1.6.4) (2022-12-15)
 
 

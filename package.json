@@ -1,7 +1,7 @@
 {
   "name": "lukso-wagyukeygen",
   "productName": "LUKSO Wagyu KeyGen",
-  "version": "1.6.4",
+  "version": "1.7.0",
   "description": "GUI key generation tool wrapping the deposit cli.",
   "main": "./build/electron/index.js",
   "author": "Colfax Selby <colfax.selby@gmail.com>",
@@ -14,6 +14,7 @@
     "@types/styled-components": "^5.1.26",
     "@types/tmp": "^0.2.3",
     "buffer-browserify": "^0.2.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "electron": "^22.0.0",
     "electron-builder": "^23.6.0",
@@ -32,7 +33,8 @@
     "buildcliwin": "src/scripts/bundle_proxy_win.bat",
     "start": "electron ./build/electron/index.js",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "dist-nosign": "cross-env DISABLE_SIGNING=true yarn dist"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.4",
