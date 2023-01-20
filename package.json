@@ -73,7 +73,10 @@
       "category": "public.app-category.utilities",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
-      "target": "universal",
+      "target": {
+        "target": "default",
+        "arch": "universal"
+      },
       "singleArchFiles": "build/bin/*",
       "mergeASARs": true
     },
