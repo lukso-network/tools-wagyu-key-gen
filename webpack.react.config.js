@@ -11,7 +11,7 @@ const gitRevisionPlugin = new GitRevisionPlugin({
   commithashCommand: "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
 });
 let data = {
-  VERSION: JSON.stringify(gitRevisionPlugin.version()),
+  VERSION: JSON.stringify(process.env.RELEASE || gitRevisionPlugin.version()),
   COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
   BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
   LASTCOMMITDATETIME: JSON.stringify(gitRevisionPlugin.lastcommitdatetime()),
