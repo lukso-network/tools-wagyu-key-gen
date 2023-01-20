@@ -63,7 +63,6 @@
       "package.json"
     ],
     "afterSign": "./src/scripts/notarize.js",
-    "beforePack": "./src/scripts/build-bin.js",
     "extraFiles": [
       "build/bin/*",
       "build/word_lists/*",
