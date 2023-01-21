@@ -65,7 +65,7 @@
     "afterSign": "./src/scripts/notarize.js",
     "extraFiles": [
       {
-        "from": "build/bin/${arch}/*",
+        "from": "build/bin-${arch}/*",
         "to": "build/bin"
       },
       "build/bin/*",
