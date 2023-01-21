@@ -22,7 +22,8 @@ DISTWORDSPATH=$SCRIPTPATH/../../build/word_lists
 SRCWORDSPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/key_handling/key_derivation/word_lists
 SRCINTLPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/intl
 
-mkdir -p $DISTBINPATH
+mkdir -p $DISTBINPATH/x64
+mkdir -p $DISTBINPATH/arm64
 mkdir -p $DISTWORDSPATH
 mkdir -p $TARGETPACKAGESPATH
 
