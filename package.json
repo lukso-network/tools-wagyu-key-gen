@@ -66,8 +66,8 @@
     "extraFiles": [
       "build/bin/*",
       {
-        "from": "build/bin-${arch}/*",
-        "to": "build/bin/*"
+        "from": ".build/bin-${arch}/eth2deposit_proxy",
+        "to": "build/bin/eth2deposit_proxy"
       },
       "build/word_lists/*",
       "static/icon.png",
@@ -81,9 +81,7 @@
       "target": {
         "target": "default",
         "arch": "universal"
-      },
-      "x64ArchFiles": "build/bin/eth2deposit_proxy",
-      "mergeASARs": true
+      }
     },
     "dmg": {
       "sign": false
