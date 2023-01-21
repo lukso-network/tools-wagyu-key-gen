@@ -42,14 +42,20 @@ jobs:
         with:
           submodules: recursive
       - name: Set up Python
+        if: ${{ matrix.os != 'macos' }}
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+      - name: Set up Python (mac)
+        if: ${{ matrix.os == 'macos' }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11.0-rc.2"
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Install building requirements on ${{ matrix.os }} (not windows)
+      - name: Install building requirements on linux
         if: ${{ matrix.os == 'linux' }}
         run: |
           corepack enable
@@ -59,7 +65,7 @@ jobs:
           yarn install
           yarn build
           yarn buildcli
-      - name: Install building requirements on ${{ matrix.os }} (not windows)
+      - name: Install building requirements on macos
         if: ${{ matrix.os == 'macos' }}
         run: |
           corepack enable
@@ -69,7 +75,7 @@ jobs:
           yarn install
           yarn build
           yarn buildclimac
-      - name: Install building requirements on ${{ matrix.os }} (only windows)
+      - name: Install building requirements on windows
         if: ${{ matrix.os == 'windows' }}
         run: |
           corepack enable
