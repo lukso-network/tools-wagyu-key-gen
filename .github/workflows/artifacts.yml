@@ -69,9 +69,17 @@ jobs:
         if: ${{ matrix.os == 'macos' }}
         run: |
           corepack enable
+          echo "Upgrade pip"
           pip3 install --upgrade pip
-          pip3 install -r src/vendors/tools-staking-deposit-cli/requirements.txt
-          pip3 install pyinstaller
+          # Getting all the requirements
+          echo "Check python archs"
+          lipo -archs $(which python3)
+          echo "Install cython"
+          python3 -m pip install Cython
+          echo "Install requirements"
+          python3 -m pip install -r -r src/vendors/tools-staking-deposit-cli/requirements.txt --target $TARGETPACKAGESPATH
+          echo "Install pyinstaller"
+          python3 -m pip pyinstaller
           yarn install
           yarn build
           yarn buildclimac
