@@ -22,6 +22,8 @@ DISTWORDSPATH=$SCRIPTPATH/../../build/word_lists
 SRCWORDSPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/key_handling/key_derivation/word_lists
 SRCINTLPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/intl
 
+mkdir -p $DISTBINPATH-x64
+mkdir -p $DISTBINPATH-arm64
 mkdir -p $DISTBINPATH
 mkdir -p $DISTWORDSPATH
 mkdir -p $TARGETPACKAGESPATH
@@ -38,6 +40,9 @@ PYTHONPATH=$PYTHONPATH pyinstaller \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
     -p $PYTHONPATH \
     $SCRIPTPATH/eth2deposit_proxy.py
+lipo -extract arm64 $DISTBINPATH/eth2deposit_proxy -output $DISTBINPATH-arm64/eth2deposit_proxy
+lipo -extract x86_64 $DISTBINPATH/eth2deposit_proxy -output $DISTBINPATH-x64/eth2deposit_proxy
+rm $DISTBINPATH/eth2deposit_proxy
 
 # Adding word list
 cp $SRCWORDSPATH/* $DISTWORDSPATH
