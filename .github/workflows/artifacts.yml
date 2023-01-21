@@ -77,7 +77,7 @@ jobs:
           echo "Install cython"
           python3 -m pip install Cython
           echo "Install requirements"
-          python3 -m pip install -r -r src/vendors/tools-staking-deposit-cli/requirements.txt --target $TARGETPACKAGESPATH
+          python3 -m pip install -r src/vendors/tools-staking-deposit-cli/requirements.txt
           echo "Install pyinstaller"
           python3 -m pip pyinstaller
           yarn install
