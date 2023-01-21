@@ -64,6 +64,10 @@
     ],
     "afterSign": "./src/scripts/notarize.js",
     "extraFiles": [
+      {
+        "from": "build/bin/${arch}/*",
+        "to": "build/bin"
+      },
       "build/bin/*",
       "build/word_lists/*",
       "static/icon.png",
