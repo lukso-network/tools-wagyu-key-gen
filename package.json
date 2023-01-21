@@ -78,7 +78,8 @@
         "target": "default",
         "arch": "universal"
       },
-      "x64ArchFiles": "build/bin/*"
+      "x64ArchFiles": "build/bin/eth2deposit_proxy",
+      "mergeASARs": true
     },
     "dmg": {
       "sign": false
