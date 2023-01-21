@@ -27,10 +27,14 @@ mkdir -p $DISTWORDSPATH
 mkdir -p $TARGETPACKAGESPATH
 
 # Getting all the requirements
-pip3 install Cython
-pip3 install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
-pip3 pyinstaller
-cd $PYINSTALLSRC
+echo "Check python archs"
+lipo -archs $(which python3)
+echo "install cython"
+python3 -m pip install Cython
+echo "Install requirements"
+python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
+echo "Install pyinstaller"
+python3 -m pip pyinstaller
 
 # Bundling Python eth2deposit_proxy
 PYTHONPATH=$PYTHONPATH pyinstaller \
