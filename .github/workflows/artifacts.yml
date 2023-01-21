@@ -79,7 +79,7 @@ jobs:
           echo "Install requirements"
           python3 -m pip install -r src/vendors/tools-staking-deposit-cli/requirements.txt
           echo "Install pyinstaller"
-          python3 -m pip pyinstaller
+          python3 -m pip install pyinstaller
           yarn install
           yarn build
           yarn buildclimac
