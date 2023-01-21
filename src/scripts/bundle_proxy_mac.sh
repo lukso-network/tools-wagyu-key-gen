@@ -27,7 +27,8 @@ mkdir -p $DISTWORDSPATH
 mkdir -p $TARGETPACKAGESPATH
 
 # Getting all the requirements
-python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
+pip3 install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
+pip3 pyinstaller
 cd $PYINSTALLSRC
 
 # Bundling Python eth2deposit_proxy
