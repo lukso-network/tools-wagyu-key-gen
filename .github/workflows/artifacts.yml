@@ -42,15 +42,21 @@ jobs:
         with:
           submodules: recursive
       - name: Set up Python
+        if: ${{ matrix.os != 'macos' }}
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+      - name: Set up Python (mac)
+        if: ${{ matrix.os == 'macos' }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Install building requirements on ${{ matrix.os }} (not windows)
-        if: ${{ matrix.os != 'windows' }}
+      - name: Install building requirements on linux
+        if: ${{ matrix.os == 'linux' }}
         run: |
           corepack enable
           pip3 install --upgrade pip
@@ -59,7 +65,25 @@ jobs:
           yarn install
           yarn build
           yarn buildcli
-      - name: Install building requirements on ${{ matrix.os }} (only windows)
+      - name: Install building requirements on macos
+        if: ${{ matrix.os == 'macos' }}
+        run: |
+          corepack enable
+          echo "Upgrade pip"
+          pip3 install --upgrade pip
+          # Getting all the requirements
+          echo "Check python archs"
+          lipo -archs $(which python3)
+          echo "Install cython"
+          python3 -m pip install Cython
+          echo "Install requirements"
+          python3 -m pip install -r src/vendors/tools-staking-deposit-cli/requirements.txt
+          echo "Install pyinstaller"
+          python3 -m pip install pyinstaller
+          yarn install
+          yarn build
+          yarn buildclimac
+      - name: Install building requirements on windows
         if: ${{ matrix.os == 'windows' }}
         run: |
           corepack enable
