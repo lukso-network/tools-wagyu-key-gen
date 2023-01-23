@@ -110,17 +110,17 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'linux' }}
         with:
-          name: ${{ matrix.os }}-${{ inputs.tag_name }}.zip
+          name: ${{ matrix.os }}-${{ inputs.tag_name }}
           path: dist/*.AppImage
       - name: Upload binary (dmg)
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'macos' }}
         with:
-          name: ${{ matrix.os }}-${{ inputs.tag_name }}.zip
+          name: ${{ matrix.os }}-${{ inputs.tag_name }}
           path: dist/*.dmg
       - name: Upload binary (exe)
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'windows' }}
         with:
-          name: ${{ matrix.os }}-${{ inputs.tag_name }}.zip
+          name: ${{ matrix.os }}-${{ inputs.tag_name }}
           path: dist/*.exe
