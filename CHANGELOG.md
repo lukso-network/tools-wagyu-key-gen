@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.1](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.0...v1.7.1) (2023-01-23)
+
+
+### Bug Fixes
+
+* Add actual tag into menu since tag is not always available ([#16](https://github.com/lukso-network/tools-wagyu-key-gen/issues/16)) ([0778fcb](https://github.com/lukso-network/tools-wagyu-key-gen/commit/0778fcb731c4fdadf784ca6e1c00447ef99bdec8))
+* Create universal build for mac ([#15](https://github.com/lukso-network/tools-wagyu-key-gen/issues/15)) ([083c866](https://github.com/lukso-network/tools-wagyu-key-gen/commit/083c86666191b21a7561d3c4934923b86878a9e6))
+* Repair weird -.zip.zip extension ([fbfe422](https://github.com/lukso-network/tools-wagyu-key-gen/commit/fbfe422816382ebc09505228912ed3f9a71fc2af))
+* Update cli to version=v2.4.5 commit=7a7a5c1 ([0c7abe1](https://github.com/lukso-network/tools-wagyu-key-gen/commit/0c7abe17ad3343c6f5f028f4a028f512e9ccc5c4))
+
 ## [1.7.0](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.6.4...v1.7.0) (2023-01-20)
 
 

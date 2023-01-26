@@ -1,7 +1,7 @@
 {
   "name": "lukso-wagyukeygen",
   "productName": "LUKSO Wagyu KeyGen",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "GUI key generation tool wrapping the deposit cli.",
   "main": "./build/electron/index.js",
   "author": "Colfax Selby <colfax.selby@gmail.com>",
@@ -31,6 +31,7 @@
     "build:watch": "webpack --config webpack.react.config.js --config webpack.electron.config.js --watch",
     "buildcli": "src/scripts/bundle_proxy_linux.sh",
     "buildcliwin": "src/scripts/bundle_proxy_win.bat",
+    "buildclimac": "src/scripts/bundle_proxy_mac.sh",
     "start": "electron ./build/electron/index.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
@@ -64,6 +65,10 @@
     "afterSign": "./src/scripts/notarize.js",
     "extraFiles": [
       "build/bin/*",
+      {
+        "from": ".build/bin-${arch}/eth2deposit_proxy",
+        "to": "build/bin/eth2deposit_proxy"
+      },
       "build/word_lists/*",
       "static/icon.png",
       "static/icon.ico",
@@ -75,10 +80,7 @@
       "gatekeeperAssess": false,
       "target": {
         "target": "default",
-        "arch": [
-          "x64",
-          "arm64"
-        ]
+        "arch": "universal"
       }
     },
     "dmg": {

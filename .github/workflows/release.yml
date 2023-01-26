@@ -38,7 +38,21 @@ jobs:
           then
             SHA="${{ github.sha }}"
             RELEASE_CREATED="false"
-            TAG_NAME="v$(node -pe 'require("./.release-please-manifest.json")["."]')-${{ github.event.number }}"
+            # For the extension we cannot use - but must use . for the PR number.
+            DESCRIBE=$(git describe --tags --always)
+            echo "describe: $DESCRIBE"
+            OFFSET=$(echo $DESCRIBE | sed -n 's#.*-\([0-9]*\)-.*#\1#p')
+            if [ -n "$OFFSET" ]
+            then
+              OFFSET=".${OFFSET}"
+            fi
+            if [ -z "${{ github.event.number }}" ]
+            then
+              TAG_NAME="v$(node -pe 'require("./.release-please-manifest.json")["."]')${OFFSET}"
+            else
+              TAG_NAME="v$(node -pe 'require("./.release-please-manifest.json")["."]').10000.${{ github.event.number }}"
+            fi
+            echo "PR: ${{ github.event.number }}"
           else
             SHA="${{ steps.release.outputs.sha }}"
             RELEASE_CREATED="true"
