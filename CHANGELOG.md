@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.2](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.1...v1.7.2) (2023-01-27)
+
+
+### Bug Fixes
+
+* Change layering in GUI UI to allow buttons to always be clickable ([#18](https://github.com/lukso-network/tools-wagyu-key-gen/issues/18)) ([2589f2b](https://github.com/lukso-network/tools-wagyu-key-gen/commit/2589f2b54854310296eaead4c91a5737038f750b))
+* Update cli to version=v2.4.6 commit=febbe2f ([2443e8a](https://github.com/lukso-network/tools-wagyu-key-gen/commit/2443e8a142583bcf441cc5aea483507ea428141a))
+
 ## [1.7.1](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.0...v1.7.1) (2023-01-23)
 
 
