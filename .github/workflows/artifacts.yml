@@ -25,7 +25,7 @@ jobs:
       matrix:
         include:
           - os: linux
-            runner: ubuntu-latest
+            runner: ubuntu-20
           - os: macos
             runner: macos-latest
           - os: windows
