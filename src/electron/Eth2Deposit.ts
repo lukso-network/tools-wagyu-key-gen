@@ -33,7 +33,7 @@ import { doesFileExist } from "./BashUtils";
  */
 const execFileProm = promisify(execFile);
 
-const ETH2_DEPOSIT_DIR_NAME = "tools-staking-deposit-cli";
+const ETH2_DEPOSIT_DIR_NAME = "tools-key-gen-cli";
 
 /**
  * Paths needed to call the eth2deposit_proxy application using the Python 3 version installed on

@@ -46,7 +46,7 @@ const VersionFooter = () => {
             Deposit-CLI: {CLIVERSION}{" "}
             <LinksTag
               target="_blank"
-              href={`https://github.com/lukso-network/tools-staking-deposit-cli/tree/${CLICOMMITHASH}`}
+              href={`https://github.com/lukso-network/tools-key-gen-cli/tree/${CLICOMMITHASH}`}
             >
               #{CLICOMMITHASH}
             </LinksTag>
