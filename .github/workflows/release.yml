@@ -93,7 +93,7 @@ jobs:
           path: artifacts
       - name: List
         run: |
-          find artifacts --print
+          find artifacts -print
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
