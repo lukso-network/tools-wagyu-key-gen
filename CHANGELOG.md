@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.3](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.2...v1.7.3) (2023-02-27)
+
+
+### Bug Fixes
+
+* Change cli repo name ([#20](https://github.com/lukso-network/tools-wagyu-key-gen/issues/20)) ([65fd560](https://github.com/lukso-network/tools-wagyu-key-gen/commit/65fd560f11606cb333fe3d2343ac932993ff9dae))
+* Update cli to version=v2.4.7 commit=13b3c47 ([4563b77](https://github.com/lukso-network/tools-wagyu-key-gen/commit/4563b77cee86f1108ac16029f42869bf2ab7ed85))
+
 ## [1.7.2](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.1...v1.7.2) (2023-01-27)
 
 
