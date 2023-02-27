@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.4](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.3...v1.7.4) (2023-02-27)
+
+
+### Bug Fixes
+
+* Reattempt release, because there is now a 404 during the assets upload ([#22](https://github.com/lukso-network/tools-wagyu-key-gen/issues/22)) ([c047995](https://github.com/lukso-network/tools-wagyu-key-gen/commit/c047995e0091cea0158e667eb3b0794508015da8))
+
 ## [1.7.3](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.2...v1.7.3) (2023-02-27)
 
 
