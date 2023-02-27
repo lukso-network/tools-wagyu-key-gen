@@ -14,9 +14,8 @@ const SoftText = styled(Typography)`
 `;
 
 const Container = styled.div`
-  position: fixed;
-  bottom: 35;
-  z-index: -1;
+  margin-bottom: 10px;
+  margin-top: 10px;
   width: 100%;
 `;
 
@@ -47,7 +46,7 @@ const VersionFooter = () => {
             Deposit-CLI: {CLIVERSION}{" "}
             <LinksTag
               target="_blank"
-              href={`https://github.com/lukso-network/tools-staking-deposit-cli/tree/${CLICOMMITHASH}`}
+              href={`https://github.com/lukso-network/tools-key-gen-cli/tree/${CLICOMMITHASH}`}
             >
               #{CLICOMMITHASH}
             </LinksTag>

@@ -15,7 +15,7 @@ let data = {
   LASTCOMMITDATETIME: JSON.stringify(gitRevisionPlugin.lastcommitdatetime()),
 };
 const old = process.cwd();
-process.chdir("./src/vendors/tools-staking-deposit-cli");
+process.chdir("./src/vendors/tools-key-gen-cli");
 try {
   const cliGitRevisionPlugin = new GitRevisionPlugin({
     commithashCommand:
