@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.5](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.4...v1.7.5) (2023-02-27)
+
+
+### Bug Fixes
+
+* Debugging the failed release introduced typo in find command line for logging ([#24](https://github.com/lukso-network/tools-wagyu-key-gen/issues/24)) ([ef71968](https://github.com/lukso-network/tools-wagyu-key-gen/commit/ef71968fb3af26e9e1973d51d3a3f266903cf26d))
+
 ## [1.7.4](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.3...v1.7.4) (2023-02-27)
 
 
