@@ -21,13 +21,14 @@ DISTBINPATH=$SCRIPTPATH/../../build/bin
 DISTWORDSPATH=$SCRIPTPATH/../../build/word_lists
 SRCWORDSPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/key_handling/key_derivation/word_lists
 SRCINTLPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/intl
-DISTARCHPATH=$SCRIPTPATH/../../.build
-DISTARMPATH=$DISTARCHPATH/bin-arm64
-DISTX64PATH=$DISTARCHPATH/bin-x64
+DISTARCHROOTPATH=$SCRIPTPATH/../../.build
+DISTX64ARCHPATH=$DISTARCHROOTPATH/x64
+DISTARM64ARCHPATH=$DISTACHROOTPATH/arm64
 
-mkdir -p $DISTARMPATH
-mkdir -p $DISTX64PATH
-mkdir -p $DISTBINPATH
+rm -rf $DISTARCHROOTPATH
+rm -rf $DISTBINPATH
+mkdir -p $DISTX64ARCHPATH
+mkdir -p $DISTARM64ARCHPATH
 mkdir -p $DISTWORDSPATH
 mkdir -p $TARGETPACKAGESPATH
 
@@ -38,14 +39,17 @@ python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
 # Bundling Python eth2deposit_proxy
 PYTHONPATH=$PYTHONPATH pyinstaller \
     --onefile \
-    --distpath $DISTARCHPATH \
-    --target-arch universal2 \
+    --distpath $DISTX64ARCHPATH \
+    --target-arch x86_64 \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
     -p $PYTHONPATH \
     $SCRIPTPATH/eth2deposit_proxy.py
-lipo -extract arm64 $DISTARCHPATH/eth2deposit_proxy -output $DISTARMPATH/eth2deposit_proxy
-lipo -extract x86_64 $DISTARCHPATH/eth2deposit_proxy -output $DISTX64PATH/eth2deposit_proxy
-
-
+PYTHONPATH=$PYTHONPATH pyinstaller \
+    --onefile \
+    --distpath $DISTX64ARCHPATH \
+    --target-arch arm64 \
+    --add-data "$SRCINTLPATH:staking_deposit/intl" \
+    -p $PYTHONPATH \
+    $SCRIPTPATH/eth2deposit_proxy.py
 # Adding word list
 cp $SRCWORDSPATH/* $DISTWORDSPATH
