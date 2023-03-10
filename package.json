@@ -66,7 +66,7 @@
     "extraFiles": [
       "build/bin/*",
       {
-        "from": ".build/bin-${arch}/eth2deposit_proxy",
+        "from": ".build/${arch}/eth2deposit_proxy",
         "to": "build/bin/eth2deposit_proxy"
       },
       "build/word_lists/*",
@@ -80,7 +80,9 @@
       "gatekeeperAssess": false,
       "target": {
         "target": "default",
-        "arch": "universal"
+        "arch": [
+          "universal"
+        ]
       }
     },
     "dmg": {
