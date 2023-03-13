@@ -14,6 +14,12 @@ This GUI is a fork of [github.com/stake-house/wagyu-key-gen](https://github.com/
 
 Prior to running LUKSO Wagyu KeyGen a few dependencies need to be installed.
 
+Init the submodule
+```console
+git submodule init
+git submodule update
+```
+
 ### Ubuntu 20.04 and later
 
 Execute all those commands in your terminal to setup your dev environment.

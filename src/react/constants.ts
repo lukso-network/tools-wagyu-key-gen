@@ -6,7 +6,7 @@ export const errors = {
   MNEMONICS_DONT_MATCH:
     "The Secret Recovery Phrase you entered does not match what was given to you. Please try again.",
   NUMBER_OF_KEYS: "Please input a number between 1 and 1000.",
-  ADDRESS_FORMAT_ERROR: "Please enter a valid Ethereum address.",
+  ADDRESS_FORMAT_ERROR: "Please enter a valid LUKSO address.",
   PASSWORD_STRENGTH: "Password must be at least 8 characters.",
   PASSWORD_MATCH: "Passwords don't match.",
   STARTING_INDEX: "Please input starting index.",
@@ -27,7 +27,7 @@ export const tooltips = {
   STARTING_INDEX:
     "Each key is created sequentially, so we need to know how many you've created with this Secret Recovery Phrase in the past in order to create some new ones for you.",
   ETH1_WITHDRAW_ADDRESS:
-    "An optional LUKSO address for the withdrawal credentials.",
+    "An LUKSO address for the validator payout and withdraw of validator balances.",
 };
 
 export const stepLabels = {
