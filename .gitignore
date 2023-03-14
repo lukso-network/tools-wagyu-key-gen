@@ -14,3 +14,6 @@ src/scripts/__pycache__/
 eth2deposit_proxy.spec
 REQUIREMENT_PACKAGES_PATH/
 .build/
+
+# Debugging
+keys/
