@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.7](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.6...v1.7.7) (2023-03-28)
+
+
+### Bug Fixes
+
+* Update cli to version=v2.5.1 commit=22d8156 ([23530b4](https://github.com/lukso-network/tools-wagyu-key-gen/commit/23530b4b4d6cf4922326b26674f331f3e6487b41))
+
 ## [1.7.6](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.5...v1.7.6) (2023-03-28)
 
 
