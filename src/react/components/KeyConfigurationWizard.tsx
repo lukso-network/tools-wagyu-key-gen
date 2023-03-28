@@ -80,6 +80,7 @@ const KeyConfigurationWizard: FC<Props> = (props): ReactElement => {
         break;
       }
       case 1: {
+        setWithdrawalAddressFormatError(false);
         setPasswordVerifyError(false);
         props.setPassword("");
         setVerifyPassword("");
@@ -148,7 +149,7 @@ const KeyConfigurationWizard: FC<Props> = (props): ReactElement => {
       setStartingIndexError(false);
     }
 
-    if (props.withdrawalAddress != "" && props.showAdvanced) {
+    if (props.showAdvanced) { //props.withdrawalAddress != "" &&
       if (!window.web3Utils.isAddress(props.withdrawalAddress)) {
         setWithdrawalAddressFormatError(true);
         isError = true;

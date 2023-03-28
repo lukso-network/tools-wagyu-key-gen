@@ -91,14 +91,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: artifacts
+      - name: List
+        run: |
+          find artifacts -print
       - name: Release
         uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: "${{ env.GH_TOKEN }}"
         with:
           draft: true
           prerelease: true
           body_path: CHANGELOG.md
+          token: ${{ env.GH_TOKEN }}
           tag_name: ${{ needs.release-please.outputs.tag_name }}
           files: |
             artifacts/**/*

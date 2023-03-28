@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.7.6](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.5...v1.7.6) (2023-03-28)
+
+
+### Bug Fixes
+
+* Add testnet items and network labels. ([#28](https://github.com/lukso-network/tools-wagyu-key-gen/issues/28)) ([d86c3e5](https://github.com/lukso-network/tools-wagyu-key-gen/commit/d86c3e5c00dda3c135222fb952e3b2d3d9a7b190))
+* made eth1 key required ([1c23055](https://github.com/lukso-network/tools-wagyu-key-gen/commit/1c23055e025699f8dcf146a3588daf307de114fb))
+* Redo the way we package and run the python binary to allow a real universal2 build ([#26](https://github.com/lukso-network/tools-wagyu-key-gen/issues/26)) ([59abc48](https://github.com/lukso-network/tools-wagyu-key-gen/commit/59abc48e1b08b1e5a55c179c9448851f2bc08682))
+* Update cli to version=v2.5.0 commit=b451b54 ([b2cb2ea](https://github.com/lukso-network/tools-wagyu-key-gen/commit/b2cb2ea19d374b1a57adfa9786dadaa63fa8232e))
+
+## [1.7.5](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.4...v1.7.5) (2023-02-27)
+
+
+### Bug Fixes
+
+* Debugging the failed release introduced typo in find command line for logging ([#24](https://github.com/lukso-network/tools-wagyu-key-gen/issues/24)) ([ef71968](https://github.com/lukso-network/tools-wagyu-key-gen/commit/ef71968fb3af26e9e1973d51d3a3f266903cf26d))
+
+## [1.7.4](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.3...v1.7.4) (2023-02-27)
+
+
+### Bug Fixes
+
+* Reattempt release, because there is now a 404 during the assets upload ([#22](https://github.com/lukso-network/tools-wagyu-key-gen/issues/22)) ([c047995](https://github.com/lukso-network/tools-wagyu-key-gen/commit/c047995e0091cea0158e667eb3b0794508015da8))
+
+## [1.7.3](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.2...v1.7.3) (2023-02-27)
+
+
+### Bug Fixes
+
+* Change cli repo name ([#20](https://github.com/lukso-network/tools-wagyu-key-gen/issues/20)) ([65fd560](https://github.com/lukso-network/tools-wagyu-key-gen/commit/65fd560f11606cb333fe3d2343ac932993ff9dae))
+* Update cli to version=v2.4.7 commit=13b3c47 ([4563b77](https://github.com/lukso-network/tools-wagyu-key-gen/commit/4563b77cee86f1108ac16029f42869bf2ab7ed85))
+
 ## [1.7.2](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.1...v1.7.2) (2023-01-27)
 
 

@@ -1,4 +1,4 @@
-import { Button, Fade, FormControlLabel, Grid, Switch, TextField, Tooltip, Typography } from '@material-ui/core';
+import { Button, Fade, FormControlLabel, Grid, Switch, TextField, Tooltip, Typography, Link } from '@material-ui/core';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from "styled-components";
 import { errors, tooltips } from '../../constants';
@@ -37,6 +37,10 @@ const AddressTextField = styled(TextField)`
 const Eth1WithdrawGrid = styled(Grid)`
   margin-top: -30px;
 `
+
+const LinksTag = styled.a`
+  color: #a3aada;
+`;
 
 /**
  * This page gathers data about the keys to generate for the user
@@ -121,9 +125,16 @@ const KeyInputs = (props: GenerateKeysProps) => {
       </Grid>
       <Eth1WithdrawGrid item>
         <Typography variant="body1">
-        You can use a single LUKSO address as withdraw destination for all generated validator keys.
-        <br/>
-        If left empty, it will generate a seperate BLS withdraw credential for each validator key.
+        You can use a single LUKSO address as validator payout and withdraw address for all generated validator keys.
+        If you want to use a BLS key as withdraw key, please use the 
+        &nbsp;
+        <LinksTag
+          target="_blank"
+          href={`https://github.com/lukso-network/tools-key-gen-cli`}
+        >
+        LUKSO Key-Gen CLI
+        </LinksTag>
+        .
         </Typography>
         {/* <FormControlLabel
           control={<Switch checked={props.showAdvanced} onChange={handleToggleShowAdvanced} color="default" size="small" />}
@@ -135,8 +146,9 @@ const KeyInputs = (props: GenerateKeysProps) => {
               <Grid item>
                 <Tooltip title={tooltips.ETH1_WITHDRAW_ADDRESS}>
                   <AddressTextField
+                    required
                     id="eth1-withdraw-address"
-                    label="LUKSO Withdrawal Address (Optional)"
+                    label="Validator Payout Address"
                     variant="outlined"
                     value={props.withdrawalAddress}
                     onChange={updateEth1WithdrawAddress}
@@ -145,8 +157,7 @@ const KeyInputs = (props: GenerateKeysProps) => {
                   />
                 </Tooltip>
                 <Typography variant="body1">
-                  A LUKSO address is a ETH1 public key on the LUKSO blockchain (Can be generated with any tool like MetaMask), <b>make sure that you control
-                  the private key, otherwise you will not be able to use the funds withdrawn to this address!</b>
+                  A LUKSO address is an ETH1 public key on the LUKSO blockchain (Can be generated with any tool like MetaMask). <b>Make sure that you control the private key, otherwise you will NOT be able receive payouts, or withdraw your validator keys balance!</b>
                 </Typography>
               </Grid>
             </Grid>

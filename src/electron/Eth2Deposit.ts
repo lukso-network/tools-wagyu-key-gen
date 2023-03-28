@@ -33,7 +33,7 @@ import { doesFileExist } from "./BashUtils";
  */
 const execFileProm = promisify(execFile);
 
-const ETH2_DEPOSIT_DIR_NAME = "tools-staking-deposit-cli";
+const ETH2_DEPOSIT_DIR_NAME = "tools-key-gen-cli";
 
 /**
  * Paths needed to call the eth2deposit_proxy application using the Python 3 version installed on
@@ -70,13 +70,23 @@ const DIST_WORD_LIST_PATH = path.join(cwd(), "build", "word_lists");
 /**
  * Paths needed to call the eth2deposit_proxy application from a bundled application.
  */
-const BUNDLED_SFE_PATH = path.join(
-  process.resourcesPath,
-  "..",
-  "build",
-  "bin",
-  "eth2deposit_proxy" + (process.platform == "win32" ? ".exe" : "")
-);
+const BUNDLED_SFE_PATH =
+  process.platform === "darwin"
+    ? path.join(
+        process.resourcesPath,
+        "..",
+        "build",
+        "bin",
+        "eth2deposit_proxy/eth2deposit_proxy"
+      )
+    : path.join(
+        process.resourcesPath,
+        "..",
+        "build",
+        "bin",
+        "eth2deposit_proxy" + (process.platform === "win32" ? ".exe" : "")
+      );
+
 const BUNDLED_DIST_WORD_LIST_PATH = path.join(
   process.resourcesPath,
   "..",

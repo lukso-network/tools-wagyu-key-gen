@@ -1,7 +1,8 @@
 # LUKSO Wagyu KeyGen
-![Build](https://github.com/lukso-network/tools-wagyu-key-gen/actions/workflows/build.yaml/badge.svg?branch=master)
 
-LUKSO Wagyu KeyGen is a GUI application providing the functionality from the [LUKSO-deposit-cli](https://github.com/lukso-network/tools-staking-deposit-cli) in a user friendly way. It is a React app running in Electron.  See `src/electron/` for the simple electron app and `src/react/` for where the magic happens.
+![Build](https://github.com/lukso-network/tools-wagyu-key-gen/actions/workflows/build.yaml/badge.svg?branch=develop)
+
+LUKSO Wagyu KeyGen is a GUI application providing the functionality from the [LUKSO-deposit-cli](https://github.com/lukso-network/tools-key-gen-cli) in a user friendly way. It is a React app running in Electron. See `src/electron/` for the simple electron app and `src/react/` for where the magic happens.
 
 This GUI is a fork of [github.com/stake-house/wagyu-key-gen](https://github.com/stake-house/wagyu-key-gen)
 
@@ -10,9 +11,17 @@ This GUI is a fork of [github.com/stake-house/wagyu-key-gen](https://github.com/
 ### Wagyu Audit by HashCloak [Original Wagyu Key Gen Audit Report](https://github.com/stake-house/wagyu-key-gen/files/7693548/Wagyu.Key.Gen.Audit.Report.pdf)
 
 ## Environment Configuration & Dependencies
-Prior to running LUKSO Wagyu KeyGen a few dependencies need to be installed. 
+
+Prior to running LUKSO Wagyu KeyGen a few dependencies need to be installed.
+
+Init the submodule
+```console
+git submodule init
+git submodule update
+```
 
 ### Ubuntu 20.04 and later
+
 Execute all those commands in your terminal to setup your dev environment.
 
 ```console
@@ -36,10 +45,10 @@ yarn install
 yarn buildcli
 ```
 
-### Ubuntu 18.04
-Even if Ubuntu 18.04 is somewhat old, it is a great OS to build our releases on for the Linux target because it has an older GLIBC which makes it more compatible. More details [here](https://pyinstaller.readthedocs.io/en/stable/usage.html#making-gnu-linux-apps-forward-compatible).
+### Ubuntu 22.04
 
 Execute all those commands in your terminal to build a distribution for release.
+
 ```console
 sudo apt update && sudo apt -y upgrade
 
@@ -68,16 +77,20 @@ yarn buildcli
 yarn dist
 ```
 
-### Windows 10
+### Windows 10/11
+
 - Download and install Node.js and npm from https://nodejs.org/en/download/ (Use LTS version and 64-bit .msi Installer).
-  - At the screen named *Tools for Native Modules*, make sure to check the option named *Automatically install the necessary tools.*. It will install chocolatey, Python 3 and VS build tools. Follow the instructions until the end.
+  - At the screen named _Tools for Native Modules_, make sure to check the option named _Automatically install the necessary tools._. It will install chocolatey, Python 3 and VS build tools. Follow the instructions until the end.
 - Open a command prompt window as admin (Press `⊞ Win`+`R`, type `cmd`, hold `Ctrl` + `Shift` and press `↵ Enter`)
-  -  Execute this command to install git. Follow the instructions on screen.
+  - Execute this command to install git. Follow the instructions on screen.
+
 ```console
 choco install git.install
 ```
+
 - Open a normal command prompt window (Press `⊞ Win`+`R`, type `cmd` and press `↵ Enter`).
   - Execute those commands to upgrade pip, install pyinstaller, Cython, install yarn, clone the repository and install the required packages.
+
 ```console
 python -m pip install --upgrade --user pip
 python -m pip install --user pyinstaller
@@ -94,7 +107,8 @@ yarn buildcliwin
 ```
 
 ### macOS 10.15.1 and later
-Execute all those commands in your terminal to setup your dev environment.  You may be prompted to install "command line developer tools" at some point and please do it.
+
+Execute all those commands in your terminal to setup your dev environment. You may be prompted to install "command line developer tools" at some point and please do it.
 
 ```console
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -124,25 +138,30 @@ yarn buildcli
 ```
 
 ## Start Wagyu Key Gen
+
 Run the following commands in the repository directory:
 
- - `yarn build`
-   - `yarn build:watch` (will reload build on changes)
-   - _In order to get them to show in the app press `ctrl+r` or `cmd+r` once the app is started._
- - `yarn start`
+- `yarn build`
+  - `yarn build:watch` (will reload build on changes)
+  - _In order to get them to show in the app press `ctrl+r` or `cmd+r` once the app is started._
+- `yarn start`
 
 ## To run diagnostics
+
 To open dev tools when in Wagyu Key Gen use `Ctrl` + `Shift` + `I`
 
 ## Bundling
-We use [electron-builder](https://www.electron.build/) to create executable bundles for Wagyu Key Gen.  Run the following to create a bundle:
- - `yarn run build`
- - `yarn run buildcli` (or `yarn run buildcliwin` on Windows)
- - `yarn run dist`
+
+We use [electron-builder](https://www.electron.build/) to create executable bundles for Wagyu Key Gen. Run the following to create a bundle:
+
+- `yarn run build`
+- `yarn run buildcli` (or `yarn run buildcliwin` on Windows)
+- `yarn run dist`
 
 Your assets will be in the `dist/` folder.
 
 ## Design
+
 Current designs: https://www.figma.com/file/jcF78fVjndvM2hOPvifl0N/Wagyu-Key?node-id=1%3A4
 
 ## Funding
@@ -150,9 +169,12 @@ Current designs: https://www.figma.com/file/jcF78fVjndvM2hOPvifl0N/Wagyu-Key?nod
 If you would like to help us with funding this project, you can donate with our [Gitcoin grant](https://gitcoin.co/grants/2112/stakehouse-wagyu-tooling-suite-easy-to-use-tools-) or you can send your funds directly to `wagyutools.eth`.
 
 ## Support
+
 Reach out to the EthStaker community:
- - on [discord](https://discord.io/ethstaker)
- - on [reddit](https://www.reddit.com/r/ethstaker/)
+
+- on [discord](https://discord.io/ethstaker)
+- on [reddit](https://www.reddit.com/r/ethstaker/)
 
 ## License
+
 [GPL](LICENSE)

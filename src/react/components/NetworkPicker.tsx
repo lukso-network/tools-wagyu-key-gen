@@ -1,14 +1,22 @@
-import { BackgroundLight, } from '../colors';
-import { FormControl, FormControlLabel, Radio, RadioGroup, Button, Divider, Typography } from '@material-ui/core';
-import React, { Dispatch, SetStateAction } from 'react';
+import { BackgroundLight } from "../colors";
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Button,
+  Divider,
+  Typography,
+} from "@material-ui/core";
+import React, { Dispatch, SetStateAction } from "react";
 
-import { Network } from '../types';
-import styled from 'styled-components';
+import { Network, NetworkLabels } from "../types";
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 444px;
+  height: 500px;
   width: 350px;
   background: rgba(27, 38, 44, 0.95);
   border-radius: 20px;
@@ -36,47 +44,75 @@ const Submit = styled(Button)`
 `;
 
 type NetworkPickerProps = {
-  handleCloseNetworkModal: (event: object, reason: string) => void,
-  setNetwork: Dispatch<SetStateAction<Network>>,
-  network: Network,
-}
+  handleCloseNetworkModal: (event: object, reason: string) => void;
+  setNetwork: Dispatch<SetStateAction<Network>>;
+  network: Network;
+};
 
 /**
  * This is the network picker modal component where the user selects the desired network.
- * 
+ *
  * @param props.handleCloseNetworkModal function to handle closing the network modal
  * @param props.setNetwork update the selected network
  * @param props.network the selected network
  * @returns the network picker element to render
  */
 export const NetworkPicker = (props: NetworkPickerProps) => {
-
   const closePicker = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    props.handleCloseNetworkModal({}, 'submitClick');
-  }
+    props.handleCloseNetworkModal({}, "submitClick");
+  };
 
   const networkChanged = (selected: React.ChangeEvent<HTMLInputElement>) => {
     props.setNetwork(selected.target.value as Network);
-  }
+  };
 
   return (
     <Container>
       <Header>Network</Header>
-      <form onSubmit={closePicker} style={{textAlign: 'center'}}>
+      <form onSubmit={closePicker} style={{ textAlign: "center" }}>
         <div>
           <FormControl focused>
-            <RadioGroup aria-label="gender" name="gender1" value={props.network} onChange={networkChanged}>
-              <FormControlLabel value={Network.LUKSO} control={<Radio />} label={Network.LUKSO} />
+            <RadioGroup
+              aria-label="gender"
+              name="gender1"
+              value={props.network}
+              onChange={networkChanged}
+            >
+              <FormControlLabel
+                value={Network.LUKSO}
+                control={<Radio />}
+                label={NetworkLabels.LUKSO}
+              />
               <Divider />
               <SubHeader>Testnets</SubHeader>
-              <FormControlLabel value={Network.LUKSO_L16} control={<Radio />} label={Network.LUKSO_L16} />
-              <FormControlLabel value={Network.LUKSO_2022} control={<Radio />} label={Network.LUKSO_2022} />
+              <FormControlLabel
+                value={Network.LUKSO_TESTNET}
+                control={<Radio />}
+                label={NetworkLabels.LUKSO_TESTNET}
+              />
+              <FormControlLabel
+                value={Network.LUKSO_L16}
+                control={<Radio />}
+                label={NetworkLabels.LUKSO_L16}
+              />
+              <FormControlLabel
+                value={Network.LUKSO_2022}
+                control={<Radio />}
+                label={NetworkLabels.LUKSO_2022}
+              />
+              <FormControlLabel
+                value={Network.LUKSO_3030}
+                control={<Radio />}
+                label={NetworkLabels.LUKSO_3030}
+              />
             </RadioGroup>
           </FormControl>
         </div>
-        <Submit variant="contained" color="primary" type="submit" tabIndex={1}>OK</Submit>
+        <Submit variant="contained" color="primary" type="submit" tabIndex={1}>
+          OK
+        </Submit>
       </form>
     </Container>
-  )
-}
+  );
+};
