@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.6](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.5...v1.7.6) (2023-03-28)
+
+
+### Bug Fixes
+
+* Add testnet items and network labels. ([#28](https://github.com/lukso-network/tools-wagyu-key-gen/issues/28)) ([d86c3e5](https://github.com/lukso-network/tools-wagyu-key-gen/commit/d86c3e5c00dda3c135222fb952e3b2d3d9a7b190))
+* made eth1 key required ([1c23055](https://github.com/lukso-network/tools-wagyu-key-gen/commit/1c23055e025699f8dcf146a3588daf307de114fb))
+* Redo the way we package and run the python binary to allow a real universal2 build ([#26](https://github.com/lukso-network/tools-wagyu-key-gen/issues/26)) ([59abc48](https://github.com/lukso-network/tools-wagyu-key-gen/commit/59abc48e1b08b1e5a55c179c9448851f2bc08682))
+* Update cli to version=v2.5.0 commit=b451b54 ([b2cb2ea](https://github.com/lukso-network/tools-wagyu-key-gen/commit/b2cb2ea19d374b1a57adfa9786dadaa63fa8232e))
+
 ## [1.7.5](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.4...v1.7.5) (2023-02-27)
 
 
