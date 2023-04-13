@@ -91,21 +91,6 @@ export const NetworkPicker = (props: NetworkPickerProps) => {
                 control={<Radio />}
                 label={NetworkLabels.LUKSO_TESTNET}
               />
-              <FormControlLabel
-                value={Network.LUKSO_L16}
-                control={<Radio />}
-                label={NetworkLabels.LUKSO_L16}
-              />
-              <FormControlLabel
-                value={Network.LUKSO_2022}
-                control={<Radio />}
-                label={NetworkLabels.LUKSO_2022}
-              />
-              <FormControlLabel
-                value={Network.LUKSO_3030}
-                control={<Radio />}
-                label={NetworkLabels.LUKSO_3030}
-              />
             </RadioGroup>
           </FormControl>
         </div>
