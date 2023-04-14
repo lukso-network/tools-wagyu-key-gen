@@ -1,11 +1,11 @@
 // Eth2Deposit.ts
 /**
- * This Eth2Deposit module exposes the different functions exported by the eth2deposit_proxy
+ * This Eth2Deposit module exposes the different functions exported by the stakingdeposit_proxy
  * application to be used easily with our typescript code.
  *
- * The eth2deposit_proxy application can be called in 3 different ways:
+ * The stakingdeposit_proxy application can be called in 3 different ways:
  * 1. From a bundled application, when we do release with electron-builder. This bundled
- *    application will always include a single file application (SFE) version of eth2deposit_proxy.
+ *    application will always include a single file application (SFE) version of stakingdeposit_proxy.
  * 2. Using a single file application (SFE) bundled with pyinstaller in an environment where the
  *    running application is not bundled.
  * 3. Using the Python 3 version installed on the current machine and the version available
@@ -36,7 +36,7 @@ const execFileProm = promisify(execFile);
 const ETH2_DEPOSIT_DIR_NAME = "tools-key-gen-cli";
 
 /**
- * Paths needed to call the eth2deposit_proxy application using the Python 3 version installed on
+ * Paths needed to call the stakingdeposit_proxy application using the Python 3 version installed on
  * the current machine.
  */
 const ETH2_DEPOSIT_CLI_PATH = path.join(
@@ -54,10 +54,10 @@ const WORD_LIST_PATH = path.join(
   "word_lists"
 );
 const REQUIREMENT_PACKAGES_PATH = path.join("dist", "packages");
-const ETH2DEPOSIT_PROXY_PATH = path.join(SCRIPTS_PATH, "eth2deposit_proxy.py");
+const ETH2DEPOSIT_PROXY_PATH = path.join(SCRIPTS_PATH, "stakingdeposit_proxy.py");
 
 /**
- * Paths needed to call the eth2deposit_proxy application using a single file application (SFE)
+ * Paths needed to call the stakingdeposit_proxy application using a single file application (SFE)
  * bundled with pyinstaller.
  */
 const SFE_PATH = path.join(
@@ -68,7 +68,7 @@ const SFE_PATH = path.join(
 const DIST_WORD_LIST_PATH = path.join(cwd(), "build", "word_lists");
 
 /**
- * Paths needed to call the eth2deposit_proxy application from a bundled application.
+ * Paths needed to call the stakingdeposit_proxy application from a bundled application.
  */
 const BUNDLED_SFE_PATH =
   process.platform === "darwin"
@@ -97,12 +97,14 @@ const BUNDLED_DIST_WORD_LIST_PATH = path.join(
 const CREATE_MNEMONIC_SUBCOMMAND = "create_mnemonic";
 const GENERATE_KEYS_SUBCOMMAND = "generate_keys";
 const VALIDATE_MNEMONIC_SUBCOMMAND = "validate_mnemonic";
+const VALIDATE_BLS_CREDENTIALS_SUBCOMMAND = "validate_bls_credentials";
+const VALIDATE_BLS_CHANGE_SUBCOMMAND = "bls_change";
 
 const PYTHON_EXE = process.platform == "win32" ? "python" : "python3";
 const PATH_DELIM = process.platform == "win32" ? ";" : ":";
 
 /**
- * Install the required Python packages needed to call the eth2deposit_proxy application using the
+ * Install the required Python packages needed to call the stakingdeposit_proxy application using the
  * Python 3 version installed on the current machine.
  *
  * @returns Returns a Promise<boolean> that includes a true value if the required Python packages
@@ -148,7 +150,7 @@ const getPythonPath = async (): Promise<string> => {
 };
 
 /**
- * Create a new mnemonic by calling the create_mnemonic function from the eth2deposit_proxy
+ * Create a new mnemonic by calling the create_mnemonic function from the stakingdeposit_proxy
  * application.
  *
  * @param language The mnemonic language. Possible values are `chinese_simplified`,
@@ -204,7 +206,7 @@ const createMnemonic = async (language: string): Promise<string> => {
 };
 
 /**
- * Generate validator keys by calling the generate_keys function from the eth2deposit_proxy
+ * Generate validator keys by calling the generate_keys function from the stakingdeposit_proxy
  * application.
  *
  * @param mnemonic The mnemonic to be used as the seed for generating the keys.
@@ -346,4 +348,110 @@ const validateMnemonic = async (mnemonic: string): Promise<void> => {
   await execFileProm(executable, args, { env: env });
 };
 
-export { createMnemonic, generateKeys, validateMnemonic };
+/**
+ * Validate BLS credentials by calling the validate_bls_credentials function
+ * from the stakingdeposit_proxy application.
+ * 
+ * @param chain The network setting for the signing domain. Possible values are `mainnet`,
+ *              `goerli`, `zhejiang`.
+ * @param mnemonic The mnemonic from which the BLS credentials are derived.
+ * @param index The index of the first validator's keys.
+ * @param withdrawal_credentials A list of the old BLS withdrawal credentials of the given validator(s), comma separated.
+ * 
+ * @returns Returns a Promise<void> that will resolve when the validation is done.
+ */
+const validateBLSCredentials = async (
+  chain: string,
+  mnemonic: string,
+  index: number,
+  withdrawal_credentials: string
+): Promise<void> => {
+
+  let executable:string = "";
+  let args:string[] = [];
+  let env = process.env;
+
+  if (await doesFileExist(BUNDLED_SFE_PATH)) {
+    executable = BUNDLED_SFE_PATH;
+    args = [VALIDATE_BLS_CREDENTIALS_SUBCOMMAND, chain.toLowerCase(), mnemonic, index.toString(), withdrawal_credentials];
+  } else if (await doesFileExist(SFE_PATH)) {
+    executable = SFE_PATH;
+    args = [VALIDATE_BLS_CREDENTIALS_SUBCOMMAND, chain.toLowerCase(), mnemonic, index.toString(), withdrawal_credentials];
+  } else {
+    if(!await requireDepositPackages()) {
+      throw new Error("Failed to validate BLS credentials, don't have the required packages.");
+    }
+    env.PYTHONPATH = await getPythonPath();
+
+    executable = PYTHON_EXE;
+    args = [ETH2DEPOSIT_PROXY_PATH, VALIDATE_BLS_CREDENTIALS_SUBCOMMAND, chain.toLowerCase(), mnemonic, index.toString(), withdrawal_credentials];
+  }
+
+  await execFileProm(executable, args, {env: env});
+}
+
+/**
+ * Generate BTEC file by calling the bls_change function from the stakingdeposit_proxy
+ * application.
+ * 
+ * @param folder The folder path for the resulting BTEC file.
+ * @param chain The network setting for the signing domain. Possible values are `mainnet`,
+ *              `goerli`, `zhejiang`.
+ * @param mnemonic The mnemonic to be used as the seed for generating the BTEC.
+ * @param index The index of the first validator's keys.
+ * @param indices The validator index number(s) as identified on the beacon chain (comma seperated).
+ * @param withdrawal_credentials A list of the old BLS withdrawal credentials of the given validator(s), comma separated.
+ * @param execution_address The withdrawal address.
+ * 
+ * @returns Returns a Promise<void> that will resolve when the generation is done.
+ */
+const generateBLSChange = async (
+  folder: string,
+  chain: string,
+  mnemonic: string,
+  index: number,
+  indices: string,
+  withdrawal_credentials: string,
+  execution_address: string
+  
+): Promise<void> => {
+
+let executable:string = "";
+let args:string[] = [];
+let env = process.env;
+
+if (await doesFileExist(BUNDLED_SFE_PATH)) {
+  executable = BUNDLED_SFE_PATH;
+  args = [VALIDATE_BLS_CHANGE_SUBCOMMAND];
+  
+  args = args.concat([folder, chain.toLowerCase(), mnemonic, index.toString(), indices,
+    withdrawal_credentials, execution_address]);
+} else if (await doesFileExist(SFE_PATH)) {
+  executable = SFE_PATH;
+  args = [VALIDATE_BLS_CHANGE_SUBCOMMAND];
+  
+  args = args.concat([folder, chain.toLowerCase(), mnemonic, index.toString(), indices,
+    withdrawal_credentials, execution_address]);
+} else {
+  if(!await requireDepositPackages()) {
+    throw new Error("Failed to generate BTEC, don't have the required packages.");
+  }
+  env.PYTHONPATH = await getPythonPath();
+
+  executable = PYTHON_EXE;
+  args = [ETH2DEPOSIT_PROXY_PATH, VALIDATE_BLS_CHANGE_SUBCOMMAND];
+
+  args = args.concat([folder, chain.toLowerCase(), mnemonic, index.toString(), indices,
+    withdrawal_credentials, execution_address]);
+}
+
+await execFileProm(executable, args, {env: env});
+}
+
+export {
+  createMnemonic,
+  generateKeys,
+  validateMnemonic,
+  validateBLSCredentials,
+  generateBLSChange
+};

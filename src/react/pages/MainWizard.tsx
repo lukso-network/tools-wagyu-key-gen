@@ -8,6 +8,9 @@ import MnemonicImport from "../components/MnemonicImport";
 import KeyConfigurationWizard from "../components/KeyConfigurationWizard";
 import KeyGenerationWizard from "../components/KeyGenerationWizard";
 import Finish from '../components/Finish';
+import BTECConfigurationWizard from "../components/BTECConfigurationWizard";
+import BTECGenerationWizard from "../components/BTECGenerationWizard";
+import FinishBTEC from '../components/FinishBTEC';
 import { stepLabels } from '../constants';
 import { Network, StepSequenceKey } from '../types';
 import VersionFooter from '../components/VersionFooter';
@@ -25,6 +28,12 @@ const stepSequenceMap: Record<string, StepKey[]> = {
     StepKey.KeyConfiguration,
     StepKey.KeyGeneration,
     StepKey.Finish
+  ],
+  blstoexecutionchangegeneration: [
+    StepKey.MnemonicImport,
+    StepKey.BTECConfiguration,
+    StepKey.BTECGeneration,
+    StepKey.FinishBTEC
   ]
 }
 
@@ -70,12 +79,13 @@ const Wizard: FC<WizardProps> = (props): ReactElement => {
   const [mnemonic, setMnemonic] = useState("");
   const [mnemonicToVerify, setMnemonicToVerify] = useState("");
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [keyGenerationStartIndex, setKeyGenerationStartIndex] = useState(0);
+  const [startIndex, setStartIndex] = useState(0);
   const [numberOfKeys, setNumberOfKeys] = useState(1);
   const [withdrawalAddress, setWithdrawalAddress] = useState("");
   const [password, setPassword] = useState("");
   const [folderPath, setFolderPath] = useState("");
-  const [showAdvanced, setShowAdvanced] = useState(true);
+  const [btecIndices, setBtecIndices] = useState("");
+  const [btecCredentials, setBtecCredentials] = useState("");
 
   const stepSequence = stepSequenceMap[stepSequenceKey];
   const activeStepKey = stepSequence[activeStepIndex];
@@ -137,9 +147,9 @@ const Wizard: FC<WizardProps> = (props): ReactElement => {
         return (
           <KeyConfigurationWizard
             {...commonProps}
-            keyGenerationStartIndex={keyGenerationStartIndex}
+            keyGenerationStartIndex={startIndex}
             initialKeyGenerationStartIndex={0}
-            setKeyGenerationStartIndex={setKeyGenerationStartIndex}
+            setKeyGenerationStartIndex={setStartIndex}
             showKeyGenerationStartIndexInput={stepSequenceKey === StepSequenceKey.MnemonicImport}
             numberOfKeys={numberOfKeys}
             setNumberOfKeys={setNumberOfKeys}
@@ -147,32 +157,68 @@ const Wizard: FC<WizardProps> = (props): ReactElement => {
             setWithdrawalAddress={setWithdrawalAddress}
             password={password}
             setPassword={setPassword}
-            showAdvanced={showAdvanced}
-            setShowAdvanced={setShowAdvanced}
           />
         );
-        case StepKey.KeyGeneration:
-          return (
-            <KeyGenerationWizard
-              {...commonProps}
-              mnemonic={mnemonic}
-              network={props.network}
-              keyGenerationStartIndex={keyGenerationStartIndex}
-              numberOfKeys={numberOfKeys}
-              withdrawalAddress={withdrawalAddress}
-              password={password}
-              folderPath={folderPath}
-              setFolderPath={setFolderPath}
-            />
-          );
-        case StepKey.Finish:
-          return (
-            <Finish
-              {...commonProps}
-              folderPath={folderPath}
-              network={props.network}
-            />
-          )
+      case StepKey.KeyGeneration:
+        return (
+          <KeyGenerationWizard
+            {...commonProps}
+            mnemonic={mnemonic}
+            network={props.network}
+            keyGenerationStartIndex={startIndex}
+            numberOfKeys={numberOfKeys}
+            withdrawalAddress={withdrawalAddress}
+            password={password}
+            folderPath={folderPath}
+            setFolderPath={setFolderPath}
+          />
+        );
+      case StepKey.Finish:
+        return (
+          <Finish
+            {...commonProps}
+            folderPath={folderPath}
+            network={props.network}
+          />
+        );
+      case StepKey.BTECConfiguration:
+        return (
+          <BTECConfigurationWizard
+            {...commonProps}
+            network={props.network}
+            mnemonic={mnemonic}
+            startIndex={startIndex}
+            setStartIndex={setStartIndex}
+            btecIndices={btecIndices}
+            setBtecIndices={setBtecIndices}
+            btecCredentials={btecCredentials}
+            setBtecCredentials={setBtecCredentials}
+            withdrawalAddress={withdrawalAddress}
+            setWithdrawalAddress={setWithdrawalAddress}
+          />
+        );
+      case StepKey.BTECGeneration:
+        return (
+          <BTECGenerationWizard
+            {...commonProps}
+            mnemonic={mnemonic}
+            network={props.network}
+            startIndex={startIndex}
+            withdrawalAddress={withdrawalAddress}
+            btecIndices={btecIndices}
+            btecCredentials={btecCredentials}
+            folderPath={folderPath}
+            setFolderPath={setFolderPath}
+          />
+        );
+      case StepKey.FinishBTEC:
+        return (
+          <FinishBTEC
+            {...commonProps}
+            folderPath={folderPath}
+            network={props.network}
+          />
+        );
       default:
         return <div>No component for this step</div>
     }

@@ -18,8 +18,6 @@ type GenerateKeysProps = {
   numberOfKeysError: boolean,
   passwordStrengthError: boolean,
   startingIndexError: boolean,
-  showAdvanced: boolean,
-  setShowAdvanced: Dispatch<SetStateAction<boolean>>,
   onFinish: () => void
 }
 
@@ -136,10 +134,6 @@ const KeyInputs = (props: GenerateKeysProps) => {
         </LinksTag>
         .
         </Typography>
-        {/* <FormControlLabel
-          control={<Switch checked={props.showAdvanced} onChange={handleToggleShowAdvanced} color="default" size="small" />}
-          label="Use a single LUKSO address as withdraw destination for all generated validator keys. If Turned off, it will generate a seperate BLS withdraw credential for each validator key."
-        /> */}
       </Eth1WithdrawGrid>
       <Grid item>
             <Grid container item direction="row" justifyContent="center" alignItems="center" spacing={2} xs={12}>
