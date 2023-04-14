@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.8](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.7...v1.7.8) (2023-04-13)
+
+
+### Bug Fixes
+
+* Remove unused networks ([0cc518c](https://github.com/lukso-network/tools-wagyu-key-gen/commit/0cc518c21605793d28d6c1f1a96509a40abbcbdc))
+* Update cli to version=v2.5.2 commit=2324dd4 ([986a903](https://github.com/lukso-network/tools-wagyu-key-gen/commit/986a9038442fdf38fe70fba42c56d514535daf34))
+
 ## [1.7.7](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.6...v1.7.7) (2023-03-28)
 
 
