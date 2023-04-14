@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.9](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.8...v1.7.9) (2023-04-14)
+
+
+### Bug Fixes
+
+* key text ([2a9b853](https://github.com/lukso-network/tools-wagyu-key-gen/commit/2a9b853e8c8e2caf43cd4c343087d5b4af4f1ad0))
+* Repair readme ([a37a92c](https://github.com/lukso-network/tools-wagyu-key-gen/commit/a37a92c3640ea62ee2853d9c0dd6da7d1f6139ed))
+
 ## [1.7.8](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.7...v1.7.8) (2023-04-13)
 
 
