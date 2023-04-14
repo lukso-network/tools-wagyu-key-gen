@@ -157,7 +157,7 @@ const KeyInputs = (props: GenerateKeysProps) => {
                   />
                 </Tooltip>
                 <Typography variant="body1">
-                  A LUKSO address is an ETH1 public key on the LUKSO blockchain (Can be generated with any tool like MetaMask). <b>Make sure that you control the private key, otherwise you will NOT be able receive payouts, or withdraw your validator keys balance!</b>
+                  A LUKSO address can be generated with any tool like MetaMask or Ledger. <b>Make sure that you control the private key, otherwise you will NOT be able receive payouts!</b>
                 </Typography>
               </Grid>
             </Grid>
