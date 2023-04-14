@@ -1,12 +1,12 @@
 # LUKSO Wagyu KeyGen
 
-![Build](https://github.com/lukso-network/tools-wagyu-key-gen/actions/workflows/build.yaml/badge.svg?branch=develop)
+![Build](https://github.com/lukso-network/tools-wagyu-key-gen/actions/workflows/release.yml/badge.svg?branch=develop)
 
-LUKSO Wagyu KeyGen is a GUI application providing the functionality from the [LUKSO-deposit-cli](https://github.com/lukso-network/tools-key-gen-cli) in a user friendly way. It is a React app running in Electron. See `src/electron/` for the simple electron app and `src/react/` for where the magic happens.
+LUKSO Wagyu KeyGen is a GUI application providing the functionality from the LUKSO-deposit-cli in a user friendly way. It is a React app running in Electron. See src/electron/ for the simple electron app and src/react/ for where the magic happens.
 
-This GUI is a fork of [github.com/stake-house/wagyu-key-gen](https://github.com/stake-house/wagyu-key-gen)
+This GUI is a fork of the [Wagyu Key-Generation Tool](github.com/stake-house/wagyu-key-gen)
 
-### Download LUKSO Wagyu KeyGen at [github.com/lukso-network/tools-wagyu-key-gen/releases](https://github.com/lukso-network/tools-wagyu-key-gen/releases)
+### Download LUKSO Wagyu KeyGen on the [release page](github.com/lukso-network/tools-wagyu-key-gen/releases)
 
 ### Wagyu Audit by HashCloak [Original Wagyu Key Gen Audit Report](https://github.com/stake-house/wagyu-key-gen/files/7693548/Wagyu.Key.Gen.Audit.Report.pdf)
 
@@ -15,6 +15,7 @@ This GUI is a fork of [github.com/stake-house/wagyu-key-gen](https://github.com/
 Prior to running LUKSO Wagyu KeyGen a few dependencies need to be installed.
 
 Init the submodule
+
 ```console
 git submodule init
 git submodule update
