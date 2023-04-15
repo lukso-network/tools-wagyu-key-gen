@@ -77,7 +77,7 @@ jobs:
           echo "Install cython"
           python3 -m pip install Cython
           echo "Install requirements"
-          python3 -m pip install -r src/vendors/tools-key-gen-cli/requirements.txt
+          python3 -m pip install --use-pep517 -r src/vendors/tools-key-gen-cli/requirements.txt
           echo "Install pyinstaller"
           python3 -m pip install pyinstaller
           yarn install
