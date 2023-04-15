@@ -11,7 +11,7 @@
  * 3. Using the Python 3 version installed on the current machine and the version available
  *    in the current environment.
  *
- * When we want to call the eth2deposit_proxy application, it will detect which way can be called
+ * When we want to call the stakingdeposit_proxy application, it will detect which way can be called
  * in order and use the first one available.
  *
  * @module
@@ -54,7 +54,7 @@ const WORD_LIST_PATH = path.join(
   "word_lists"
 );
 const REQUIREMENT_PACKAGES_PATH = path.join("dist", "packages");
-const ETH2DEPOSIT_PROXY_PATH = path.join(SCRIPTS_PATH, "stakingdeposit_proxy.py");
+const STAKINGDEPOSIT_PROXY_PATH = path.join(SCRIPTS_PATH, "stakingdeposit_proxy.py");
 
 /**
  * Paths needed to call the stakingdeposit_proxy application using a single file application (SFE)
@@ -63,7 +63,7 @@ const ETH2DEPOSIT_PROXY_PATH = path.join(SCRIPTS_PATH, "stakingdeposit_proxy.py"
 const SFE_PATH = path.join(
   "build",
   "bin",
-  "eth2deposit_proxy" + (process.platform == "win32" ? ".exe" : "")
+  "stakingdeposit_proxy" + (process.platform == "win32" ? ".exe" : "")
 );
 const DIST_WORD_LIST_PATH = path.join(cwd(), "build", "word_lists");
 
@@ -77,14 +77,14 @@ const BUNDLED_SFE_PATH =
         "..",
         "build",
         "bin",
-        "eth2deposit_proxy/eth2deposit_proxy"
+        "stakingdeposit_proxy/stakingdeposit_proxy"
       )
     : path.join(
         process.resourcesPath,
         "..",
         "build",
         "bin",
-        "eth2deposit_proxy" + (process.platform === "win32" ? ".exe" : "")
+        "stakingdeposit_proxy" + (process.platform === "win32" ? ".exe" : "")
       );
 
 const BUNDLED_DIST_WORD_LIST_PATH = path.join(
@@ -190,7 +190,7 @@ const createMnemonic = async (language: string): Promise<string> => {
 
     executable = PYTHON_EXE;
     args = [
-      ETH2DEPOSIT_PROXY_PATH,
+      STAKINGDEPOSIT_PROXY_PATH,
       CREATE_MNEMONIC_SUBCOMMAND,
       WORD_LIST_PATH,
       "--language",
@@ -283,7 +283,7 @@ const generateKeys = async (
     env.PYTHONPATH = await getPythonPath();
 
     executable = PYTHON_EXE;
-    args = [ETH2DEPOSIT_PROXY_PATH, GENERATE_KEYS_SUBCOMMAND];
+    args = [STAKINGDEPOSIT_PROXY_PATH, GENERATE_KEYS_SUBCOMMAND];
     if (eth1_withdrawal_address != "") {
       args = args.concat([
         "--eth1_withdrawal_address",
@@ -307,7 +307,7 @@ const generateKeys = async (
 
 /**
  * Validate a mnemonic using the eth2-deposit-cli logic by calling the validate_mnemonic function
- * from the eth2deposit_proxy application.
+ * from the stakingdeposit_proxy application.
  *
  * @param mnemonic The mnemonic to be validated.
  *
@@ -338,7 +338,7 @@ const validateMnemonic = async (mnemonic: string): Promise<void> => {
 
     executable = PYTHON_EXE;
     args = [
-      ETH2DEPOSIT_PROXY_PATH,
+      STAKINGDEPOSIT_PROXY_PATH,
       VALIDATE_MNEMONIC_SUBCOMMAND,
       WORD_LIST_PATH,
       mnemonic,
@@ -384,7 +384,7 @@ const validateBLSCredentials = async (
     env.PYTHONPATH = await getPythonPath();
 
     executable = PYTHON_EXE;
-    args = [ETH2DEPOSIT_PROXY_PATH, VALIDATE_BLS_CREDENTIALS_SUBCOMMAND, chain.toLowerCase(), mnemonic, index.toString(), withdrawal_credentials];
+    args = [STAKINGDEPOSIT_PROXY_PATH, VALIDATE_BLS_CREDENTIALS_SUBCOMMAND, chain.toLowerCase(), mnemonic, index.toString(), withdrawal_credentials];
   }
 
   await execFileProm(executable, args, {env: env});
@@ -439,7 +439,7 @@ if (await doesFileExist(BUNDLED_SFE_PATH)) {
   env.PYTHONPATH = await getPythonPath();
 
   executable = PYTHON_EXE;
-  args = [ETH2DEPOSIT_PROXY_PATH, VALIDATE_BLS_CHANGE_SUBCOMMAND];
+  args = [STAKINGDEPOSIT_PROXY_PATH, VALIDATE_BLS_CHANGE_SUBCOMMAND];
 
   args = args.concat([folder, chain.toLowerCase(), mnemonic, index.toString(), indices,
     withdrawal_credentials, execution_address]);

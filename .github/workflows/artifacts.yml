@@ -45,12 +45,12 @@ jobs:
         if: ${{ matrix.os != 'macos' }}
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.10.11"
       - name: Set up Python (mac)
         if: ${{ matrix.os == 'macos' }}
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.11.1"
       - name: Set up Node
         uses: actions/setup-node@v3
         with:

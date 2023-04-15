@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Bash script to bundle the eth2deposit_proxy application and the associated required files on
+# Bash script to bundle the stakingdeposit_proxy application and the associated required files on
 # Linux and macOS.
 
 if [ -f ~/.bash_aliases ]; then
@@ -46,19 +46,19 @@ echo $VERSION
 python3 -m pip install $VERSION --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
 
-# Bundling Python eth2deposit_proxy
+# Bundling Python stakingdeposit_proxy
 PYTHONPATH=$PYTHONPATH pyinstaller \
     --distpath $DISTX64PATH \
     --target-arch x86_64 \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
     -p $PYTHONPATH \
-    $SCRIPTPATH/eth2deposit_proxy.py
+    $SCRIPTPATH/stakingdeposit_proxy.py
 PYTHONPATH=$PYTHONPATH pyinstaller \
     --distpath $DISTARMPATH \
     --target-arch arm64 \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
     -p $PYTHONPATH \
-    $SCRIPTPATH/eth2deposit_proxy.py
+    $SCRIPTPATH/stakingdeposit_proxy.py
 
 # Adding word list
 cp $SRCWORDSPATH/* $DISTWORDSPATH
