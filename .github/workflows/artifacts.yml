@@ -50,7 +50,7 @@ jobs:
         if: ${{ matrix.os == 'macos' }}
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11.1"
+          python-version: "3.11.3"
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
@@ -74,7 +74,7 @@ jobs:
           echo "Install cython"
           python3 -m pip install Cython
           echo "Install requirements"
-          python3 -m pip install --use-pep517 -r src/vendors/tools-key-gen-cli/requirements.txt
+          python3 -m pip install -r src/vendors/tools-key-gen-cli/requirements.txt
           echo "Install pyinstaller"
           python3 -m pip install pyinstaller
           yarn install
