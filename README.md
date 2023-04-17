@@ -14,7 +14,16 @@ This GUI is a fork of the [Wagyu Key-Generation Tool](github.com/stake-house/wag
 
 Prior to running LUKSO Wagyu KeyGen a few dependencies need to be installed.
 
-Init the submodule
+Init the submodule.
+
+> NOTE: after the submodule is initialized, please always use
+>
+> ```console
+> git pull --recurse-submodules
+> ```
+>
+> to pull in changes, otherwise the submodule will not be updated but worse yet will get
+> committed and built with the wrong version.
 
 ```console
 git submodule init
