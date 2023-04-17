@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.8.0](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.9...v1.8.0) (2023-04-17)
+
+
+### Features
+
+* Add comment about submodule usage. ([913e452](https://github.com/lukso-network/tools-wagyu-key-gen/commit/913e452eab69b5c909af8daa580348b1a99ae861))
+
+
+### Bug Fixes
+
+* fixed submodule version ([8e8ee7a](https://github.com/lukso-network/tools-wagyu-key-gen/commit/8e8ee7a95418dee41d95069dbdb9324b33b3098e))
+* Merge python build repairs from upstream merge (pip3 is no longer compatible with universal build) ([2e658a8](https://github.com/lukso-network/tools-wagyu-key-gen/commit/2e658a8aa484280ed98bc92164644f43fbb3c71e))
+
 ## [1.7.9](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.8...v1.7.9) (2023-04-14)
 
 
