@@ -4,9 +4,9 @@
 
 LUKSO Wagyu KeyGen is a GUI application providing the functionality from the LUKSO-deposit-cli in a user friendly way. It is a React app running in Electron. See src/electron/ for the simple electron app and src/react/ for where the magic happens.
 
-This GUI is a fork of the [Wagyu Key-Generation Tool](github.com/stake-house/wagyu-key-gen)
+This GUI is a fork of the [Wagyu Key-Generation Tool](https://github.com/stake-house/wagyu-key-gen)
 
-### Download LUKSO Wagyu KeyGen on the [release page](github.com/lukso-network/tools-wagyu-key-gen/releases)
+### Download LUKSO Wagyu KeyGen on the [release page](https://github.com/lukso-network/tools-wagyu-key-gen/releases)
 
 ### Wagyu Audit by HashCloak [Original Wagyu Key Gen Audit Report](https://github.com/stake-house/wagyu-key-gen/files/7693548/Wagyu.Key.Gen.Audit.Report.pdf)
 
