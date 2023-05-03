@@ -77,8 +77,10 @@ jobs:
           python3 -m pip install cython
           echo "Install pycryptodome"
           python3 -m pip install $VERSION --no-binary :all:
+          echo "Install cytoolz"
+          python3 -m pip install cytoolz
           echo "Install requirements"
-          python3 -m pip install -r src/vendors/tools-key-gen-cli/requirements.txt
+          python3 -m pip install -r src/vendors/tools-key-gen-cli/requirements-nocytoolz.txt
           echo "Install pyinstaller"
           python3 -m pip install pyinstaller
           yarn install
