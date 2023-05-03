@@ -70,9 +70,13 @@ jobs:
           corepack enable
           # Getting all the requirements
           echo "Check python archs"
+          VERSION=$(sed -n -e 's#\(pycryptodome==[^ ]*\).*#\1#gp' src/vendors/tools-key-gen-cli/requirements.txt)
+          echo $VERSION
           lipo -archs $(which python3)
           echo "Install cython"
-          python3 -m pip install Cython
+          python3 -m pip install cython
+          echo "Install pycryptodome"
+          python3 -m pip install $VERSION --no-binary :all:
           echo "Install requirements"
           python3 -m pip install -r src/vendors/tools-key-gen-cli/requirements.txt
           echo "Install pyinstaller"
