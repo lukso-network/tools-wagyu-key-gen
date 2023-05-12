@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.8.1](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.8.0...v1.8.1) (2023-05-09)
+
+
+### Bug Fixes
+
+* Match python install to new branch (somehow it's not working in recent change again) ([6c2c561](https://github.com/lukso-network/tools-wagyu-key-gen/commit/6c2c561d2dc946b1aa89b46fe908423c9b4ea52d))
+* Merge remote repo version from develop ([ed1f0c3](https://github.com/lukso-network/tools-wagyu-key-gen/commit/ed1f0c309311c9bbf69570a95b893826e6427f44))
+* Need to install cytoolz from source ([54b4e72](https://github.com/lukso-network/tools-wagyu-key-gen/commit/54b4e720b5fd40e6339a00389b14cbc9aefe0c94))
+* Temporary point to different upstream for tools-key-gen-cli ([4906f7d](https://github.com/lukso-network/tools-wagyu-key-gen/commit/4906f7d188b4271bb2939732394a1c2138fafc05))
+* Try again by forcing universal local build of cython ([da17739](https://github.com/lukso-network/tools-wagyu-key-gen/commit/da1773947b1749f9fae122fd58a1bb65ac674af7))
+* Try again with new nocytoolz requirement ([17a0bcc](https://github.com/lukso-network/tools-wagyu-key-gen/commit/17a0bcc682b9668a105bf3941a185d64765bed90))
+* Update cli to version=v2.5.3 commit=ae554a7 ([e61eb07](https://github.com/lukso-network/tools-wagyu-key-gen/commit/e61eb07fd3d55369445b925e6a1a192e2db5d43f))
+* Update to working temporary build of cli ([e7118f1](https://github.com/lukso-network/tools-wagyu-key-gen/commit/e7118f1e11ea4817c3d75be55cb6afa942b69795))
+
 ## [1.8.0](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.7.9...v1.8.0) (2023-04-17)
 
 
