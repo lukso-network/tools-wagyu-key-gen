@@ -43,10 +43,11 @@ export ARCHFLAGS='-arch arm64 -arch x86_64'
 
 VERSION=$(sed -n -e 's#\(pycryptodome==[^ ]*\).*#\1#gp' $ETH2REQUIREMENTSPATH)
 echo $VERSION
+python3 -m pip install pip -U
 python3 -m pip install cython --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install $VERSION --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install cytoolz==0.12.1 --no-binary :all: --target $TARGETPACKAGESMACPATH
-python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
+python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH --no-deps
 python3 -m pip install pyinstaller
 
 # Bundling Python eth2deposit_proxy
