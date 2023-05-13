@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.8.1...v1.8.2) (2023-05-13)
+
+
+### Bug Fixes
+
+* More python fixes required due to pip and setuptools (with pyinstaller) ([#43](https://github.com/lukso-network/tools-wagyu-key-gen/issues/43)) ([71a0acb](https://github.com/lukso-network/tools-wagyu-key-gen/commit/71a0acb5fcc8eecd126d4452c64670bf3393214a))
+
 ## [1.8.1](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.8.0...v1.8.1) (2023-05-09)
 
 
