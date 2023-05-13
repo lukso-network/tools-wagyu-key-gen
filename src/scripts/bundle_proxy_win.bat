@@ -25,7 +25,8 @@ mkdir %DISTWORDSPATH% > nul 2> nul
 mkdir %TARGETPACKAGESPATH% > nul 2> nul
 
 rem Getting all the requirements
-python -m pip install -r %ETH2REQUIREMENTSPATH% --target %TARGETPACKAGESPATH%
+python -m pip install pip pyinstaller -U --user
+python -m pip install -r %ETH2REQUIREMENTSPATH% --target %TARGETPACKAGESPATH% --no-deps -U
 
 rem Bundling Python eth2deposit_proxy
 pyinstaller --onefile --distpath %DISTBINPATH% --add-data "%SRCINTLPATH%;staking_deposit\intl" -p %PYTHONPATH% %BATDIR%eth2deposit_proxy.py
