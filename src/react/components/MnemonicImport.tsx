@@ -29,7 +29,7 @@ const MnemonicImport: FC<Props> = (props): ReactElement => {
   const [mnemonicErrorMsg, setMnemonicErrorMsg] = useState("");
 
   const updateInputMnemonic = (e: React.ChangeEvent<HTMLInputElement>) => {
-    props.setMnemonic(e.target.value);
+    props.setMnemonic(e.target.value.trim());
   }
 
   const disableImport = !props.mnemonic;
@@ -55,7 +55,7 @@ const MnemonicImport: FC<Props> = (props): ReactElement => {
         setMnemonicError(true);
         setMnemonicErrorMsg(errorMsg);
       })
-      
+
     }
   }
 

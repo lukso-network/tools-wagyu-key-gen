@@ -14,7 +14,7 @@ import {
 
 import Web3Utils from "web3-utils";
 
-import { createMnemonic, generateKeys, validateMnemonic } from "./Eth2Deposit";
+import { createMnemonic, generateKeys, validateMnemonic, validateBLSCredentials, generateBLSChange } from './Eth2Deposit';
 
 import {
   doesDirectoryExist,
@@ -42,10 +42,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
   invokeShowOpenDialog: invokeShowOpenDialog,
 });
 
-contextBridge.exposeInMainWorld("eth2Deposit", {
-  createMnemonic: createMnemonic,
-  generateKeys: generateKeys,
-  validateMnemonic: validateMnemonic,
+contextBridge.exposeInMainWorld('eth2Deposit', {
+  'createMnemonic': createMnemonic,
+  'generateKeys': generateKeys,
+  'validateMnemonic': validateMnemonic,
+  'validateBLSCredentials': validateBLSCredentials,
+  'generateBLSChange': generateBLSChange
 });
 
 contextBridge.exposeInMainWorld("bashUtils", {

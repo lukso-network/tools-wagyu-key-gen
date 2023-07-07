@@ -18,8 +18,6 @@ type GenerateKeysProps = {
   numberOfKeysError: boolean,
   passwordStrengthError: boolean,
   startingIndexError: boolean,
-  showAdvanced: boolean,
-  setShowAdvanced: Dispatch<SetStateAction<boolean>>,
   onFinish: () => void
 }
 

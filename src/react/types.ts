@@ -4,11 +4,20 @@ export enum StepKey {
   KeyConfiguration,
   KeyGeneration,
   Finish,
+  BTECConfiguration,
+  BTECGeneration,
+  FinishBTEC
 }
 
 export enum StepSequenceKey {
   MnemonicGeneration = "mnemonicgeneration",
   MnemonicImport = "mnemonicimport",
+  BLSToExecutionChangeGeneration = "blstoexecutionchangegeneration",
+}
+
+export enum ReuseMnemonicAction {
+  RegenerateKeys,
+  GenerateBLSToExecutionChange
 }
 
 // Networks will be lowercased and passed in as parameters to the deposit-cli
