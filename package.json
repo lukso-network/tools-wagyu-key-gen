@@ -66,8 +66,8 @@
     "extraFiles": [
       "build/bin/*",
       {
-        "from": ".build/${arch}/eth2deposit_proxy",
-        "to": "build/bin/eth2deposit_proxy"
+        "from": ".build/${arch}/stakingdeposit_proxy",
+        "to": "build/bin/stakingdeposit_proxy"
       },
       "build/word_lists/*",
       "static/icon.png",
