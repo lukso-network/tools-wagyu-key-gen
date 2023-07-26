@@ -45,7 +45,7 @@ VERSION=$(sed -n -e 's#\(pycryptodome==[^ ]*\).*#\1#gp' $ETH2REQUIREMENTSPATH)
 echo $VERSION
 
 python3 -m pip install pip -U
-python3 -m pip install cython --no-binary :all: --target $TARGETPACKAGESMACPATH
+python3 -m pip install cython==0.29.33 --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install $VERSION --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install cytoolz==0.12.1 --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r ./src/vendors/tools-key-gen-cli/build_configs/macos/requirements.txt --target $TARGETPACKAGESMACPATH
