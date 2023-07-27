@@ -47,13 +47,13 @@ echo $VERSION
 
 python3 -m pip install pip -U
 
-python3 -m pip install cython==0.29.33 --no-binary :all: --target $TARGETPACKAGESMACPATH
+python3 -m pip install -U cython==0.29.33 --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install $VERSION --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install cytoolz==0.12.1 --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r ./src/vendors/tools-key-gen-cli/build_configs/macos/requirements.txt --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r ./src/vendors/tools-key-gen-cli/build_configs/macos/requirements.pyinstaller.txt --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH --no-deps
-python3 -m pip install pyinstaller --target $TARGETPACKAGESPATH
+python3 -m pip install -U pyinstaller==5.9.0 --target $TARGETPACKAGESPATH
 
 # Bundling Python stakingdeposit_proxy
 pyinstaller \

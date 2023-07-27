@@ -59,8 +59,7 @@ jobs:
         if: ${{ matrix.os == 'linux' }}
         run: |
           corepack enable
-          pip3 install -r src/vendors/tools-key-gen-cli/requirements.txt
-          pip3 install pyinstaller
+          pip3 install -r src/vendors/tools-key-gen-cli/build_configs/linux/requirements.txt
           yarn install
           yarn build
           yarn buildcli
@@ -75,8 +74,7 @@ jobs:
         if: ${{ matrix.os == 'windows' }}
         run: |
           corepack enable
-          pip3 install -r src/vendors/tools-key-gen-cli/requirements.txt
-          pip3 install pyinstaller
+          pip3 install -r src/vendors/tools-key-gen-cli/build_configs/windows/requirements.txt
           yarn install
           yarn build
           yarn buildcliwin
