@@ -83,7 +83,7 @@ const KeyInputs = (props: GenerateKeysProps) => {
               type="number"
               value={props.numberOfKeys}
               onChange={updateNumberOfKeys}
-              InputProps={{ inputProps: { min: 1, max: 1000 } }}
+              InputProps={{ inputProps: { min: 1, max: 2000 } }}
               error={props.numberOfKeysError}
               helperText={ props.numberOfKeysError ? errors.NUMBER_OF_KEYS : ""}
             />
