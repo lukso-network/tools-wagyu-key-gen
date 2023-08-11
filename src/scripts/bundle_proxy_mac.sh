@@ -17,8 +17,9 @@ TARGETPACKAGESMACPATH=$SCRIPTPATH/../../dist/packages.mac
 ETH2DEPOSITCLIPATH=$SCRIPTPATH/../vendors/$EDCDIR
 ETH2REQUIREMENTSPATH=$ETH2DEPOSITCLIPATH/requirements.txt
 
-PYTHONPATH=$TARGETPACKAGESMACPATH:$TARGETPACKAGESPATH:$ETH2DEPOSITCLIPATH:$(python3 -c "import sys;print(':'.join(sys.path))")
+export PYTHONPATH=$TARGETPACKAGESMACPATH:$TARGETPACKAGESPATH:$ETH2DEPOSITCLIPATH:$(python3 -c "import sys;print(':'.join(sys.path))")
 echo $PYTHONPATH
+export PATH=$TARGETPACKAGESMACPATH/bin:$PATH
 DISTBINPATH=$SCRIPTPATH/../../build/bin
 DISTWORDSPATH=$SCRIPTPATH/../../build/word_lists
 SRCWORDSPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/key_handling/key_derivation/word_lists
@@ -45,22 +46,23 @@ VERSION=$(sed -n -e 's#\(pycryptodome==[^ ]*\).*#\1#gp' $ETH2REQUIREMENTSPATH)
 echo $VERSION
 
 python3 -m pip install pip -U
-python3 -m pip install cython --no-binary :all: --target $TARGETPACKAGESMACPATH
+
+python3 -m pip install -U cython==0.29.33 --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install $VERSION --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install cytoolz==0.12.1 --no-binary :all: --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r ./src/vendors/tools-key-gen-cli/build_configs/macos/requirements.txt --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r ./src/vendors/tools-key-gen-cli/build_configs/macos/requirements.pyinstaller.txt --target $TARGETPACKAGESMACPATH
 python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH --no-deps
-python3 -m pip install pyinstaller --target $TARGETPACKAGESPATH
+python3 -m pip install -U pyinstaller==5.9.0 --target $TARGETPACKAGESPATH
 
 # Bundling Python stakingdeposit_proxy
-PYTHONPATH=$PYTHONPATH pyinstaller \
+pyinstaller \
     --distpath $DISTX64PATH \
     --target-arch x86_64 \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
     -p $PYTHONPATH \
     $SCRIPTPATH/stakingdeposit_proxy.py
-PYTHONPATH=$PYTHONPATH pyinstaller \
+pyinstaller \
     --distpath $DISTARMPATH \
     --target-arch arm64 \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
