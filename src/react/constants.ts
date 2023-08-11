@@ -3,7 +3,7 @@ import { StepKey } from "./types";
 export const errors = {
 	MNEMONIC_FORMAT: "Invalid format. Your Secret Recovery Phrase should be a 24 word list.",
 	MNEMONICS_DONT_MATCH: "The Secret Recovery Phrase you entered does not match what was given to you. Please try again.",
-	NUMBER_OF_KEYS: "Please input a number between 1 and 1000.",
+	NUMBER_OF_KEYS: "Please input a number between 1 and 2000.",
 	ADDRESS_FORMAT_ERROR: "Please enter a valid Ethereum address.",
 	WITHDRAW_ADDRESS_REQUIRED: "Please enter an Ethereum address.",
 	PASSWORD_STRENGTH: "Password must be at least 8 characters.",
