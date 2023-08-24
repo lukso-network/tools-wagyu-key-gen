@@ -5,8 +5,9 @@ import { Container, Grid, Modal, Tooltip, Typography } from "@material-ui/core";
 import { Button } from '@material-ui/core';
 import { KeyIcon } from "../components/icons/KeyIcon";
 import { NetworkPicker } from "../components/NetworkPicker";
+import { ReuseMnemonicActionPicker } from "../components/ReuseMnemonicActionPicker";
 import { tooltips } from "../constants";
-import { Network, StepSequenceKey } from '../types'
+import { Network, StepSequenceKey, ReuseMnemonicAction } from '../types'
 import VersionFooter from "../components/VersionFooter";
 import logo from "../../../static/keyVisual.png";
 
@@ -47,7 +48,7 @@ const BackgroundImage = styled.img`
 `;
 
 const Links = styled.div`
-  margin-top: 35px;
+  margin-top: 20px;
 `;
 const LinksTag = styled.a`
   color: #a3aada;
@@ -58,8 +59,12 @@ const InfoLabel = styled.span`
 `;
 
 const OptionsGrid = styled(Grid)`
-  margin-top: 35px;
+  margin-top: 20px;
   align-items: center;
+`;
+
+const Dotted = styled.span`
+  text-decoration-line: underline;
 `;
 
 type HomeProps = {
@@ -78,6 +83,7 @@ type HomeProps = {
 const Home: FC<HomeProps> = (props): ReactElement => {
   const [showNetworkModal, setShowNetworkModal] = useState(false);
   const [networkModalWasOpened, setNetworkModalWasOpened] = useState(false);
+  const [showReuseMnemonicModal, setShowReuseMnemonicModal] = useState(false);
   const [createMnemonicSelected, setCreateMnemonicSelected] = useState(false);
   const [useExistingMnemonicSelected, setUseExistingMnemonicSelected] = useState(false);
 
@@ -89,7 +95,7 @@ const Home: FC<HomeProps> = (props): ReactElement => {
   }
 
   const handleCloseNetworkModal = (event: object, reason: string) => {
-    if (reason !== 'backdropClick') {
+    if (reason == 'submitClick') {
       setShowNetworkModal(false);
 
       if (createMnemonicSelected) {
@@ -98,6 +104,36 @@ const Home: FC<HomeProps> = (props): ReactElement => {
         handleUseExistingMnemonic();
       }
     }
+  }
+
+  const handleOpenReuseMnemonicModal = () => {
+    setShowReuseMnemonicModal(true);
+  }
+
+  const handleReuseMnemonicModalSubmitClick = (action: ReuseMnemonicAction) => {
+
+    if (action == ReuseMnemonicAction.RegenerateKeys) {
+
+      const location = {
+        pathname: `/wizard/${StepSequenceKey.MnemonicImport}`
+      }
+
+      history.push(location);
+
+    } else if (action == ReuseMnemonicAction.GenerateBLSToExecutionChange) {
+
+      const location = {
+        pathname: `/wizard/${StepSequenceKey.BLSToExecutionChangeGeneration}`
+      }
+
+      history.push(location);
+
+    }
+
+  }
+
+  const handleCloseReuseMnemonicModal = (event: object, reason: string) => {
+    setShowReuseMnemonicModal(false);
   }
 
   const handleCreateNewMnemonic = () => {
@@ -120,11 +156,9 @@ const Home: FC<HomeProps> = (props): ReactElement => {
     if (!networkModalWasOpened) {
       handleOpenNetworkModal();
     } else {
-      const location = {
-        pathname: `/wizard/${StepSequenceKey.MnemonicImport}`
-      }
 
-      history.push(location);
+      handleOpenReuseMnemonicModal();
+
     }
   }
 
@@ -146,12 +180,21 @@ const Home: FC<HomeProps> = (props): ReactElement => {
         </div>
       </Modal>
 
+      <Modal
+            open={showReuseMnemonicModal}
+            onClose={handleCloseReuseMnemonicModal}
+          >
+            {/* Added <div> here per the following link to fix error https://stackoverflow.com/a/63521049/5949270 */}
+            <div>
+              <ReuseMnemonicActionPicker handleCloseReuseMnemonicModal={handleCloseReuseMnemonicModal} handleReuseMnemonicModalSubmitClick={handleReuseMnemonicModalSubmitClick} ></ReuseMnemonicActionPicker>
+            </div>
+          </Modal>
       <LandingHeader variant="h1">LUKSO<br/>Wagyu KeyGen</LandingHeader>
       <img src={logo} height="200px" />
       {/* <KeyIcon /> */}
       <SubHeader>
         Your key generator for staking on LUKSO
-      </SubHeader>
+      <Tooltip title={tooltips.OFFLINE}><Dotted>offline</Dotted></Tooltip> for your own security.</SubHeader>
 
       <Links>
         

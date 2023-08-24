@@ -1,7 +1,7 @@
 {
   "name": "lukso-wagyukeygen",
   "productName": "LUKSO Wagyu KeyGen",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "GUI key generation tool wrapping the deposit cli.",
   "main": "./build/electron/index.js",
   "author": "Colfax Selby <colfax.selby@gmail.com>",
@@ -66,8 +66,8 @@
     "extraFiles": [
       "build/bin/*",
       {
-        "from": ".build/${arch}/eth2deposit_proxy",
-        "to": "build/bin/eth2deposit_proxy"
+        "from": ".build/${arch}/stakingdeposit_proxy",
+        "to": "build/bin/stakingdeposit_proxy"
       },
       "build/word_lists/*",
       "static/icon.png",

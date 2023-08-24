@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Bash script to bundle the eth2deposit_proxy application and the associated required files on
+# Bash script to bundle the stakingdeposit_proxy application and the associated required files on
 # Linux and macOS.
 
 if [ -f ~/.bash_aliases ]; then
@@ -19,6 +19,7 @@ ETH2REQUIREMENTSPATH=$ETH2DEPOSITCLIPATH/requirements.txt
 
 PYTHONPATH=$TARGETPACKAGESMACPATH:$TARGETPACKAGESPATH:$ETH2DEPOSITCLIPATH:$(python3 -c "import sys;print(':'.join(sys.path))")
 echo $PYTHONPATH
+export PATH=$TARGETPACKAGESMACPATH/bin:$PATH
 DISTBINPATH=$SCRIPTPATH/../../build/bin
 DISTWORDSPATH=$SCRIPTPATH/../../build/word_lists
 SRCWORDSPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/key_handling/key_derivation/word_lists
@@ -43,26 +44,30 @@ export ARCHFLAGS='-arch arm64 -arch x86_64'
 
 VERSION=$(sed -n -e 's#\(pycryptodome==[^ ]*\).*#\1#gp' $ETH2REQUIREMENTSPATH)
 echo $VERSION
-python3 -m pip install pip -U
-python3 -m pip install cython --no-binary :all: --target $TARGETPACKAGESMACPATH
-python3 -m pip install $VERSION --no-binary :all: --target $TARGETPACKAGESMACPATH
-python3 -m pip install cytoolz==0.12.1 --no-binary :all: --target $TARGETPACKAGESMACPATH
-python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH --no-deps
-python3 -m pip install pyinstaller
 
-# Bundling Python eth2deposit_proxy
-PYTHONPATH=$PYTHONPATH pyinstaller \
+python3 -m pip install pip -U
+
+python3 -m pip install -U cython==0.29.33 --no-binary :all:
+python3 -m pip install $VERSION --no-binary :all: --target $TARGETPACKAGESMACPATH
+python3 -m pip install cytoolz==0.12.2 --no-binary :all: --target $TARGETPACKAGESMACPATH
+python3 -m pip install -r ./src/vendors/tools-key-gen-cli/build_configs/macos/requirements.txt --target $TARGETPACKAGESMACPATH
+python3 -m pip install -U pyinstaller>=5.12
+
+# Bundling Python stakingdeposit_proxy
+PYTHONPATH="$PYTHONPATH" pyinstaller \
     --distpath $DISTX64PATH \
     --target-arch x86_64 \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
     -p $PYTHONPATH \
-    $SCRIPTPATH/eth2deposit_proxy.py
-PYTHONPATH=$PYTHONPATH pyinstaller \
+    $SCRIPTPATH/stakingdeposit_proxy.py
+find $DISTX64PATH -print
+PYTHONPATH="$PYTHONPATH" pyinstaller \
     --distpath $DISTARMPATH \
     --target-arch arm64 \
     --add-data "$SRCINTLPATH:staking_deposit/intl" \
     -p $PYTHONPATH \
-    $SCRIPTPATH/eth2deposit_proxy.py
+    $SCRIPTPATH/stakingdeposit_proxy.py
+find $DISTX64PATH -print
 
 # Adding word list
 cp $SRCWORDSPATH/* $DISTWORDSPATH

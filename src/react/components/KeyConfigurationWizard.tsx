@@ -23,8 +23,6 @@ type Props = {
   setWithdrawalAddress: Dispatch<SetStateAction<string>>,
   password: string,
   setPassword: Dispatch<SetStateAction<string>>,
-  showAdvanced: boolean,
-  setShowAdvanced: Dispatch<SetStateAction<boolean>>
 }
 
 /**
@@ -71,7 +69,6 @@ const KeyConfigurationWizard: FC<Props> = (props): ReactElement => {
         setWithdrawalAddressFormatError(false);
         setPasswordStrengthError(false);
         setStartingIndexError(false);
-        props.setShowAdvanced(false);
         props.setPassword("");
         props.setKeyGenerationStartIndex(props.initialKeyGenerationStartIndex);
         props.setNumberOfKeys(1);
@@ -128,7 +125,7 @@ const KeyConfigurationWizard: FC<Props> = (props): ReactElement => {
   const validateInputs = () => {
     let isError = false;
 
-    if (props.numberOfKeys < 1 || props.numberOfKeys > 1000) {
+    if (props.numberOfKeys < 1 || props.numberOfKeys > 2000) {
       setNumberOfKeysError(true);
       isError = true;
     } else {
@@ -149,7 +146,7 @@ const KeyConfigurationWizard: FC<Props> = (props): ReactElement => {
       setStartingIndexError(false);
     }
 
-    if (props.showAdvanced) { //props.withdrawalAddress != "" &&
+    if (props.withdrawalAddress != "") {
       if (!window.web3Utils.isAddress(props.withdrawalAddress)) {
         setWithdrawalAddressFormatError(true);
         isError = true;
@@ -192,8 +189,6 @@ const KeyConfigurationWizard: FC<Props> = (props): ReactElement => {
           setWithdrawalAddressFormatError={setWithdrawalAddressFormatError}
           passwordStrengthError={passwordStrengthError}
           startingIndexError={startingIndexError}
-          showAdvanced={props.showAdvanced}
-          setShowAdvanced={props.setShowAdvanced}
           onFinish={validateInputs}
         />
       );

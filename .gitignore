@@ -12,8 +12,10 @@ dist/
 build/
 src/scripts/__pycache__/
 stakingdeposit_proxy.spec
+eth2deposit_proxy.spec
 REQUIREMENT_PACKAGES_PATH/
 .build/
 
 # Debugging
 keys/
+.DS_Store
