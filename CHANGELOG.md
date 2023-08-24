@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.8.3](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.8.2...v1.8.3) (2023-08-23)
+
+
+### Bug Fixes
+
+* Affix cython to specific version ([8c0a0bf](https://github.com/lukso-network/tools-wagyu-key-gen/commit/8c0a0bf1e6a00decf2dd46d4bb40d33ae386805d))
+* Allow 2000 keys to be created. ([616a3c6](https://github.com/lukso-network/tools-wagyu-key-gen/commit/616a3c613833e9168e20e51a9532a703ab4afa11))
+* Attempt to revert to 3.11.3 (maybe they fixed allowing revert) ([fd3482f](https://github.com/lukso-network/tools-wagyu-key-gen/commit/fd3482f12071443d9a62912a1902e6e4f5590cbb))
+* Attempt with 3.11.4 which works locally on M2 ([5a370fb](https://github.com/lukso-network/tools-wagyu-key-gen/commit/5a370fbcffa4522c63796bc2da9fb227accd9636))
+* MacOS works, working on ubuntu and windows ([3ef2010](https://github.com/lukso-network/tools-wagyu-key-gen/commit/3ef20105251d5401b7c16691d13b2187b439eb05))
+* Migrate some of the python hacks from the cli ([d5bb14d](https://github.com/lukso-network/tools-wagyu-key-gen/commit/d5bb14d458f98d45e646370e42f95e1f2911d8d5))
+* Pull in updated cli ([54c4bc1](https://github.com/lukso-network/tools-wagyu-key-gen/commit/54c4bc1627827deeee5da33ea8e2601186cb2d51))
+* Remove unused and incomplete network definition from cli ([c9dd8ae](https://github.com/lukso-network/tools-wagyu-key-gen/commit/c9dd8aebc207373c9fe4a56346660988c3d80e58))
+* Revert and retest all builds one more time. ([802ae1a](https://github.com/lukso-network/tools-wagyu-key-gen/commit/802ae1a3f12842031deb6d3d5141fe9678996780))
+* Test running gui compile using cli build_configs. ([4404ebf](https://github.com/lukso-network/tools-wagyu-key-gen/commit/4404ebfddc694aeff19a589ccd92de2a6e13930f))
+* Update CLI ([aa74c37](https://github.com/lukso-network/tools-wagyu-key-gen/commit/aa74c372b1bd6558b0d94d18caa48aaa25f5b1ae))
+* Update cli to version=v2.5.4 commit=2b4dcb1 ([9f85adb](https://github.com/lukso-network/tools-wagyu-key-gen/commit/9f85adb008349bebd9ffa6c1bd50bdfbc62048b8))
+* Update cli to version=v2.5.5 commit=a2a7f37 ([f211e1d](https://github.com/lukso-network/tools-wagyu-key-gen/commit/f211e1d002c8f66e27976480f4181783a31223fb))
+* Update cli to version=v2.5.6 commit=7fda7d3 ([9252f63](https://github.com/lukso-network/tools-wagyu-key-gen/commit/9252f63c8eff5ad91c7e7c77db66cdd3218ba7fd))
+* Update to latest CLI with new fixes. ([56adbda](https://github.com/lukso-network/tools-wagyu-key-gen/commit/56adbda6d390786a08538c19a50126272fc85fb7))
+* Upgrade pyinstaller and adjust --target for universal build ([81f22a3](https://github.com/lukso-network/tools-wagyu-key-gen/commit/81f22a35cce3abac7b353dfeb0ba8f385a70893b))
+
 ## [1.8.2](https://github.com/lukso-network/tools-wagyu-key-gen/compare/v1.8.1...v1.8.2) (2023-05-13)
 
 
