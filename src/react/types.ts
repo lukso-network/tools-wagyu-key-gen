@@ -31,3 +31,16 @@ export enum NetworkLabels {
   LUKSO = "LUKSO Mainnet",
   LUKSO_TESTNET = "LUKSO Testnet"
 }
+
+export interface NetworkConfig {
+  multiplier: number;
+}
+
+export const NetworkConfig: Record<Network, NetworkConfig> = {
+  [Network.LUKSO]: {
+    multiplier: 1,
+  },
+  [Network.LUKSO_TESTNET]: {
+    multiplier: 1,
+  },
+};

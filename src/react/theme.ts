@@ -1,12 +1,12 @@
-import { createTheme } from "@material-ui/core";
-import { amber, blue } from "@material-ui/core/colors";
+import { createTheme } from "@mui/material";
+import { amber, blue } from "@mui/material/colors";
 import { Pink, Primary } from "./colors";
 
 
 
 const theme = createTheme({
   palette: {
-    type: "light",
+    mode: "light",
     primary: Primary,
     secondary: blue,
     background: {
@@ -16,7 +16,7 @@ const theme = createTheme({
   },
   typography: {
     h1: {
-      fontSize: "36px"
+      fontSize: "2.25rem"
     }
   }
 });

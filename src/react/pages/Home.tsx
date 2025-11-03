@@ -1,15 +1,21 @@
+import { Button, Container, Grid, Modal, Tooltip, Typography } from "@mui/material";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import React, { FC, ReactElement, useState, Dispatch, SetStateAction } from "react";
+import { paths, tooltips } from "../constants";
+import { GlobalContext } from "../GlobalContext";
+import { KeyIcon } from "../icons/KeyIcon";
+import NetworkPickerModal from "../modals/NetworkPickerModal";
+import ReuseMnemonicActionModal from "../modals/ReuseMnemonicActionModal";
+// <<<<<<< HEAD
 import styled from "styled-components";
-import { Container, Grid, Modal, Tooltip, Typography } from "@material-ui/core";
-import { Button } from '@material-ui/core';
-import { KeyIcon } from "../components/icons/KeyIcon";
+// import { Button } from '@material-ui/core';
+// import { KeyIcon } from "../components/icons/KeyIcon";
 import { NetworkPicker } from "../components/NetworkPicker";
-import { ReuseMnemonicActionPicker } from "../components/ReuseMnemonicActionPicker";
-import { tooltips } from "../constants";
+// import { tooltips } from "../constants";
 import { Network, StepSequenceKey, ReuseMnemonicAction } from '../types'
-import VersionFooter from "../components/VersionFooter";
+// import VersionFooter from "../components/VersionFooter";
 import logo from "../../../static/keyVisual.png";
+import VersionFooter from "../components/VersionFooter";
 
 
 const StyledMuiContainer = styled(Container)`
@@ -67,153 +73,123 @@ const Dotted = styled.span`
   text-decoration-line: underline;
 `;
 
-type HomeProps = {
-  network: Network,
-  setNetwork: Dispatch<SetStateAction<Network>>
-}
-
 /**
- * Home page and entry point of the app.  This page displays general information
- * and options for a user to create a new secret recovery phrase or use an 
- * existing one.
- * 
- * @param props passed in data for the component to use
- * @returns the react element to render
+ * Landed page of the application.
+ * The user will be able to select a network and choose the primary action
+ * they wish to make.
  */
-const Home: FC<HomeProps> = (props): ReactElement => {
+const Home = () => {
+  const { network } = useContext(GlobalContext);
+  const [wasNetworkModalOpened, setWasNetworkModalOpened] = useState(false);
   const [showNetworkModal, setShowNetworkModal] = useState(false);
-  const [networkModalWasOpened, setNetworkModalWasOpened] = useState(false);
   const [showReuseMnemonicModal, setShowReuseMnemonicModal] = useState(false);
   const [createMnemonicSelected, setCreateMnemonicSelected] = useState(false);
   const [useExistingMnemonicSelected, setUseExistingMnemonicSelected] = useState(false);
 
   let history = useHistory();
 
+  const tabIndex = useMemo(() => showNetworkModal ? -1 : 1, [showNetworkModal]);
+
   const handleOpenNetworkModal = () => {
     setShowNetworkModal(true);
-    setNetworkModalWasOpened(true);
-  }
+    setWasNetworkModalOpened(true);
+  };
 
-  const handleCloseNetworkModal = (event: object, reason: string) => {
-    if (reason == 'submitClick') {
-      setShowNetworkModal(false);
-
-      if (createMnemonicSelected) {
-        handleCreateNewMnemonic();
-      } else if (useExistingMnemonicSelected) {
-        handleUseExistingMnemonic();
-      }
+  const handleCloseNetworkModal = () => {
+    setShowNetworkModal(false);
+    if (createMnemonicSelected) {
+      handleCreateNewMnemonic();
+    } else if (useExistingMnemonicSelected) {
+      handleUseExistingMnemonic();
     }
-  }
-
-  const handleOpenReuseMnemonicModal = () => {
-    setShowReuseMnemonicModal(true);
-  }
-
-  const handleReuseMnemonicModalSubmitClick = (action: ReuseMnemonicAction) => {
-
-    if (action == ReuseMnemonicAction.RegenerateKeys) {
-
-      const location = {
-        pathname: `/wizard/${StepSequenceKey.MnemonicImport}`
-      }
-
-      history.push(location);
-
-    } else if (action == ReuseMnemonicAction.GenerateBLSToExecutionChange) {
-
-      const location = {
-        pathname: `/wizard/${StepSequenceKey.BLSToExecutionChangeGeneration}`
-      }
-
-      history.push(location);
-
-    }
-
-  }
-
-  const handleCloseReuseMnemonicModal = (event: object, reason: string) => {
-    setShowReuseMnemonicModal(false);
-  }
+  };
 
   const handleCreateNewMnemonic = () => {
     setCreateMnemonicSelected(true);
 
-    if (!networkModalWasOpened) {
+    if (!wasNetworkModalOpened) {
       handleOpenNetworkModal();
     } else {
-      const location = {
-        pathname: `/wizard/${StepSequenceKey.MnemonicGeneration}`
-      }
-
-      history.push(location);
+      history.push(paths.CREATE_MNEMONIC)
     }
-  }
+  };
 
   const handleUseExistingMnemonic = () => {
     setUseExistingMnemonicSelected(true);
 
-    if (!networkModalWasOpened) {
+    if (!wasNetworkModalOpened) {
       handleOpenNetworkModal();
     } else {
-
-      handleOpenReuseMnemonicModal();
-
+      setShowReuseMnemonicModal(true);
     }
-  }
+  };
 
-  const tabIndex = (priority: number) => showNetworkModal ? -1 : priority;
+  const handleCloseReuseActionModal = () => {
+    setShowReuseMnemonicModal(false);
+  };
+
+  const handleReuseMnemonicActionSubmit = (action: ReuseMnemonicAction) => {
+    setShowReuseMnemonicModal(false);
+    if (action === ReuseMnemonicAction.RegenerateKeys) {
+
+      history.push(paths.EXISTING_IMPORT);
+    } else if (action === ReuseMnemonicAction.GenerateBLSToExecutionChange) {
+
+      history.push(paths.BTEC_IMPORT);
+    }
+  };
 
   return (
     <StyledMuiContainer>
       <BackgroundImage src={logo} />
       <NetworkDiv>
-        Select Network: &nbsp; <Button variant="contained" color="primary" onClick={handleOpenNetworkModal} tabIndex={tabIndex(1)}>{props.network}</Button>
+        Select Network: &nbsp;
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleOpenNetworkModal}
+          tabIndex={tabIndex}
+        >
+          {network}
+        </Button>
       </NetworkDiv>
-      <Modal
-        open={showNetworkModal}
-        onClose={handleCloseNetworkModal}
-      >
-        {/* Added <div> here per the following link to fix error https://stackoverflow.com/a/63521049/5949270 */}
-        <div>
-          <NetworkPicker handleCloseNetworkModal={handleCloseNetworkModal} setNetwork={props.setNetwork} network={props.network}></NetworkPicker>
-        </div>
-      </Modal>
 
-      <Modal
-            open={showReuseMnemonicModal}
-            onClose={handleCloseReuseMnemonicModal}
-          >
-            {/* Added <div> here per the following link to fix error https://stackoverflow.com/a/63521049/5949270 */}
-            <div>
-              <ReuseMnemonicActionPicker handleCloseReuseMnemonicModal={handleCloseReuseMnemonicModal} handleReuseMnemonicModalSubmitClick={handleReuseMnemonicModalSubmitClick} ></ReuseMnemonicActionPicker>
-            </div>
-          </Modal>
-      <LandingHeader variant="h1">LUKSO<br/>Wagyu KeyGen</LandingHeader>
+      <LandingHeader variant="h1">LUKSO<br />Wagyu KeyGen</LandingHeader>
       <img src={logo} height="200px" />
       {/* <KeyIcon /> */}
       <SubHeader>
         Your key generator for staking on LUKSO
-      <Tooltip title={tooltips.OFFLINE}><Dotted>offline</Dotted></Tooltip> for your own security.</SubHeader>
+        <Tooltip title={tooltips.OFFLINE}><Dotted>offline</Dotted></Tooltip> for your own security.</SubHeader>
 
       <Links>
-        
-        <InfoLabel>Github:</InfoLabel> <LinksTag href="https://github.com/lukso-network/tools-wagyu-key-gen" target="_blank">github.com/lukso-network/tools-wagyu-key-gen</LinksTag> <br/>
+
+        <InfoLabel>Github:</InfoLabel> <LinksTag href="https://github.com/lukso-network/tools-wagyu-key-gen" target="_blank">github.com/lukso-network/tools-wagyu-key-gen</LinksTag> <br />
         <InfoLabel>Forked from:</InfoLabel> <LinksTag href="https://github.com/stake-house/wagyu-key-gen" target="_blank">github.com/stake-house/wagyu-key-gen</LinksTag>
         <br />
         <InfoLabel>Support:</InfoLabel> <LinksTag href="https://discord.gg/lukso" target="_blank">discord.gg/lukso</LinksTag>
-       
+
       </Links>
 
       <OptionsGrid container spacing={2} direction="column">
         <Grid item>
-          <Button variant="contained" color="primary" onClick={handleCreateNewMnemonic} tabIndex={tabIndex(1)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCreateNewMnemonic}
+            tabIndex={tabIndex}
+          >
             Create New Secret Recovery Phrase
           </Button>
         </Grid>
         <Grid item>
           <Tooltip title={tooltips.IMPORT_MNEMONIC}>
-            <Button style={{color: "gray"}} variant="contained" size="small" onClick={handleUseExistingMnemonic} tabIndex={tabIndex(1)}>
+            <Button
+              style={{ color: "gray" }}
+              variant="contained"
+              size="small"
+              onClick={handleUseExistingMnemonic}
+              tabIndex={tabIndex}
+            >
               Use Existing Secret Recovery Phrase
             </Button>
           </Tooltip>

@@ -1,47 +1,76 @@
 """The stakingdeposit_proxy application.
 
-This application is used as a proxy between our electron application and the staking-deposit-cli
-internals. It exposes some staking-deposit-cli functions as easy to use commands that can be called
+This application is used as a proxy between our electron application and the ethstaker-deposit-cli
+internals. It exposes some ethstaker-deposit-cli functions as easy to use commands that can be called
 on the CLI.
 """
 
 import os
 import argparse
 import json
+import concurrent.futures
 import sys
 import time
+from multiprocessing import freeze_support
 from typing import (
     Sequence,
+    Dict,
+    Any,
+    Optional,
 )
 
 from eth_typing import HexAddress
 
-from staking_deposit.key_handling.key_derivation.mnemonic import (
+from ethstaker_deposit.key_handling.key_derivation.mnemonic import (
     get_mnemonic,
     reconstruct_mnemonic
 )
 
 from eth_utils import is_hex_address, to_normalized_address
 
-from staking_deposit.credentials import (
+from ethstaker_deposit.credentials import (
     CredentialList,
     Credential
 )
 
-from staking_deposit.exceptions import ValidationError
-from staking_deposit.utils.validation import (
+from ethstaker_deposit.exceptions import ValidationError
+from ethstaker_deposit.utils.validation import (
     validate_deposit,
-    validate_bls_to_execution_change
+    validate_bls_to_execution_change,
+    validate_bls_withdrawal_credentials_matching,
 )
-from staking_deposit.utils.constants import (
-    MAX_DEPOSIT_AMOUNT,
+from ethstaker_deposit.utils.constants import (
+    ETH2GWEI,
 )
+from ethstaker_deposit.utils.deposit import export_deposit_data_json as export_deposit_data_json_util
 
-from staking_deposit.settings import (
+from ethstaker_deposit.settings import (
     get_chain_setting,
+    BaseChainSetting,
 )
 
-from staking_deposit.utils.crypto import SHA256
+from ethstaker_deposit.utils.file_handling import (
+    sensitive_opener,
+)
+
+from ethstaker_deposit.utils.crypto import SHA256
+
+def _validate_credentials_match(kwargs: Dict[str, Any]) -> Optional[ValidationError]:
+    credential: Credential = kwargs.pop('credential')
+    bls_withdrawal_credentials: bytes = kwargs.pop('bls_withdrawal_credentials')
+
+    try:
+        validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials, credential)
+    except ValidationError as e:
+        return e
+    return None
+
+def _bls_to_execution_change_builder(kwargs: Dict[str, Any]) -> Dict[str, bytes]:
+    credential: Credential = kwargs.pop('credential')
+    return credential.get_bls_to_execution_change_dict(**kwargs)
+
+def _bls_to_execution_change_validator(kwargs: Dict[str, Any]) -> bool:
+    return validate_bls_to_execution_change(**kwargs)
 
 def generate_bls_to_execution_change(
         folder: str,
@@ -50,32 +79,34 @@ def generate_bls_to_execution_change(
         validator_start_index: int,
         validator_indices: Sequence[int],
         bls_withdrawal_credentials_list: Sequence[bytes],
-        execution_address: HexAddress
+        withdrawal_address: HexAddress,
+        devnet_chain_setting: Optional[BaseChainSetting] = None,
         ) -> None:
     """Generate bls to execution change file.
 
     Keyword arguments:
     folder -- folder path for the resulting bls to execution change files
     chain -- chain setting for the signing domain, possible values are 'mainnet',
-                'goerli', 'zhejiang'
+                'goerli', 'holesky'
     mnemonic -- mnemonic to be used as the seed for generating the keys
     validator_start_index -- index position for the keys to start generating withdrawal credentials
     validator_indices -- a list of the chosen validator index number(s) as identified on the beacon chain
     bls_withdrawal_credentials_list -- a list of the old BLS withdrawal credentials of the given validator(s)
-    execution_address -- withdrawal address
+    withdrawal_address -- withdrawal address
+    devnet_chain_setting -- optional custom chain setting
     """
     if not os.path.exists(folder):
         os.mkdir(folder)
-    
-    eth1_withdrawal_address = execution_address
-    if not is_hex_address(eth1_withdrawal_address):
-        raise ValueError("The given Eth1 address is not in hexadecimal encoded form.")
 
-    eth1_withdrawal_address = to_normalized_address(eth1_withdrawal_address)
-    execution_address = eth1_withdrawal_address
-    
+    eth1_withdrawal_address = withdrawal_address
+    if not is_hex_address(withdrawal_address):
+        raise ValueError("The given withdrawal address is not in hexadecimal encoded form.")
+
+    eth1_withdrawal_address = to_normalized_address(withdrawal_address)
+    withdrawal_address = eth1_withdrawal_address
+
     # Get chain setting
-    chain_setting = get_chain_setting(chain)
+    chain_setting = devnet_chain_setting if devnet_chain_setting is not None else get_chain_setting(chain)
 
     if len(validator_indices) != len(bls_withdrawal_credentials_list):
         raise ValueError(
@@ -84,52 +115,88 @@ def generate_bls_to_execution_change(
         )
 
     num_validators = len(validator_indices)
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    amounts = [chain_setting.MIN_ACTIVATION_AMOUNT * ETH2GWEI] * num_validators
 
     mnemonic_password = ''
 
     num_keys = num_validators
     start_index = validator_start_index
-    hex_eth1_withdrawal_address = execution_address
+    hex_withdrawal_address = withdrawal_address
 
     if len(amounts) != num_keys:
         raise ValueError(
             f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
         )
+
+    compounding = False
+    use_pbkdf2 = False
+
     key_indices = range(start_index, start_index + num_keys)
-    credentials = CredentialList(
-        [Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
-            index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
-            hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
-        for index in key_indices])
+
+    credentials: list[Credential] = []
+    executor_kwargs = [{
+        'mnemonic': mnemonic,
+        'mnemonic_password': mnemonic_password,
+        'index': index,
+        'amount': amounts[index - start_index],
+        'chain_setting': chain_setting,
+        'hex_withdrawal_address': hex_withdrawal_address,
+        'compounding': compounding,
+        'use_pbkdf2': use_pbkdf2,
+    } for index in key_indices]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for credential in executor.map(_credential_builder, executor_kwargs):
+            credentials.append(credential)
+
+    credentials = CredentialList(credentials)
 
     # Check if the given old bls_withdrawal_credentials is as same as the mnemonic generated
-    for i, credential in enumerate(credentials.credentials):
-        bls_withdrawal_credentials = bls_withdrawal_credentials_list[i]
-        if bls_withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
-            raise ValidationError('err_not_matching')
+    executor_kwargs = [{
+        'credential': credential,
+        'bls_withdrawal_credentials': bls_withdrawal_credentials_list[i],
+    } for i, credential in enumerate(credentials.credentials)]
 
-    bls_to_execution_changes = [cred.get_bls_to_execution_change_dict(validator_indices[i])
-        for i, cred in enumerate(credentials.credentials)]
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for e in executor.map(_validate_credentials_match, executor_kwargs):
+            if e is not None:
+                raise ValidationError('err_not_matching')
+
+    bls_to_execution_changes = []
+
+    executor_kwargs = [{
+        'credential': credential,
+        'validator_index': validator_indices[i],
+    } for i, credential in enumerate(credentials.credentials)]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for bls_to_execution_change in executor.map(_bls_to_execution_change_builder, executor_kwargs):
+            bls_to_execution_changes.append(bls_to_execution_change)
 
     filefolder = os.path.join(folder, 'bls_to_execution_change-%i.json' % time.time())
-    with open(filefolder, 'w') as f:
+    with open(filefolder, 'w', encoding='utf-8', opener=sensitive_opener) as f:
         json.dump(bls_to_execution_changes, f)
-    if os.name == 'posix':
-        os.chmod(filefolder, int('440', 8))  # Read for owner & group
     btec_file = filefolder
 
-    with open(btec_file, 'r') as f:
+    btec_json = []
+    with open(btec_file, 'r', encoding='utf-8') as f:
         btec_json = json.load(f)
-        json_file_validation_result = all([
-            validate_bls_to_execution_change(
-                btec, credential,
-                input_validator_index=input_validator_index,
-                input_execution_address=execution_address,
-                chain_setting=chain_setting)
-            for btec, credential, input_validator_index in zip(btec_json, credentials.credentials, validator_indices)
-        ])
-    if not json_file_validation_result:
+
+    all_valid_bls_changes = True
+
+    executor_kwargs = [{
+        'btec_dict': btec,
+        'credential': credential,
+        'input_validator_index': input_validator_index,
+        'input_withdrawal_address': hex_withdrawal_address,
+        'chain_setting': chain_setting,
+    } for btec, credential, input_validator_index in zip(btec_json, credentials.credentials, validator_indices)]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for valid_bls_change in executor.map(_bls_to_execution_change_validator, executor_kwargs):
+            all_valid_bls_changes &= valid_bls_change
+
+    if not all_valid_bls_changes:
         raise ValidationError('err_verify_btec')
 
 def validate_bls_credentials(
@@ -137,50 +204,74 @@ def validate_bls_credentials(
         mnemonic: str,
         validator_start_index: int,
         bls_withdrawal_credentials_list: Sequence[bytes],
+        devnet_chain_setting: Optional[BaseChainSetting] = None,
         ) -> None:
     """Validate BLS credentials against what was generated from a mnemonic.
 
     Keyword arguments:
     chain -- chain setting for the signing domain, possible values are 'mainnet',
-                'goerli', 'zhejiang'
+                'goerli', 'holesky'
     mnemonic -- mnemonic to be used as the seed for generating the keys
     validator_start_index -- index position for the keys to start generating withdrawal credentials
     bls_withdrawal_credentials_list -- a list of the old BLS withdrawal credentials of the given validator(s)
+    devnet_chain_setting -- optional custom chain setting
     """
 
-    chain_setting = get_chain_setting(chain)
+    # Get chain setting
+    chain_setting = devnet_chain_setting if devnet_chain_setting is not None else get_chain_setting(chain)
 
     num_validators = len(bls_withdrawal_credentials_list)
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    amounts = [chain_setting.MIN_ACTIVATION_AMOUNT * ETH2GWEI] * num_validators
 
     mnemonic_password = ''
 
     num_keys = num_validators
     start_index = validator_start_index
 
+    compounding = False
+    use_pbkdf2 = False
+
     key_indices = range(start_index, start_index + num_keys)
-    credentials = CredentialList(
-        [Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
-            index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
-            hex_eth1_withdrawal_address=None)
-        for index in key_indices])
+
+    credentials: list[Credential] = []
+    executor_kwargs = [{
+        'mnemonic': mnemonic,
+        'mnemonic_password': mnemonic_password,
+        'index': index,
+        'amount': amounts[index - start_index],
+        'chain_setting': chain_setting,
+        'hex_withdrawal_address': None,
+        'compounding': compounding,
+        'use_pbkdf2': use_pbkdf2,
+    } for index in key_indices]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for credential in executor.map(_credential_builder, executor_kwargs):
+            credentials.append(credential)
+
+    credentials = CredentialList(credentials)
 
     # Check if the given old bls_withdrawal_credentials is as same as the mnemonic generated
-    for i, credential in enumerate(credentials.credentials):
-        bls_withdrawal_credentials = bls_withdrawal_credentials_list[i]
-        if bls_withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
-            raise ValidationError('err_not_matching')
+    executor_kwargs = [{
+        'credential': credential,
+        'bls_withdrawal_credentials': bls_withdrawal_credentials_list[i],
+    } for i, credential in enumerate(credentials.credentials)]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for e in executor.map(_validate_credentials_match, executor_kwargs):
+            if e is not None:
+                raise ValidationError('err_not_matching')
 
 
-def validate_mnemonic(mnemonic: str, word_lists_path: str) -> str:
-    """Validate a mnemonic using the staking-deposit-cli logic and returns the mnemonic.
+def validate_mnemonic(mnemonic: str, word_lists_path: str, language: Optional[str] = 'english') -> str:
+    """Validate a mnemonic using the ethstaker-deposit-cli logic and returns the mnemonic.
 
     Keyword arguments:
     mnemonic -- the mnemonic to validate
     word_lists_path -- path to the word lists directory
     """
 
-    mnemonic = reconstruct_mnemonic(mnemonic, word_lists_path)
+    mnemonic = reconstruct_mnemonic(mnemonic, word_lists_path, language)
     if mnemonic is not None:
         return mnemonic
     else:
@@ -197,6 +288,20 @@ def create_mnemonic(word_list, language='english'):
     """
     return get_mnemonic(language=language, words_path=word_list)
 
+def _credential_builder(kwargs: Dict[str, Any]) -> Credential:
+    return Credential(**kwargs)
+
+def _keystore_exporter(kwargs: Dict[str, Any]) -> str:
+    credential: Credential = kwargs.pop('credential')
+    return credential.save_signing_keystore(**kwargs)
+
+def _deposit_data_builder(credential: Credential) -> Dict[str, bytes]:
+    return credential.deposit_datum_dict
+
+def _keystore_verifier(kwargs: Dict[str, Any]) -> bool:
+    credential: Credential = kwargs.pop('credential')
+    return credential.verify_keystore(**kwargs)
+
 def generate_keys(args):
     """Generate validator keys.
 
@@ -205,15 +310,18 @@ def generate_keys(args):
             - wordlist: path to the word lists directory
             - mnemonic: mnemonic to be used as the seed for generating the keys
             - index: index of the first validator's keys you wish to generate
+            - amount: deposit amount for each validator
             - count: number of signing keys you want to generate
             - folder: folder path for the resulting keystore(s) and deposit(s) files
             - network: network setting for the signing domain, possible values are 'mainnet',
-                       'prater', 'kintsugi' or 'kiln'
+                       'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis' or 'chiado'
             - password: password that will protect the resulting keystore(s)
             - eth1_withdrawal_address: (Optional) eth1 address that will be used to create the
                                        withdrawal credentials
+            - compounding: (Optional) if the user wants compounding (0x02) credentials. Requires
+                                       withdrawal address to be defined
     """
-    
+
     eth1_withdrawal_address = None
     if args.eth1_withdrawal_address:
         eth1_withdrawal_address = args.eth1_withdrawal_address
@@ -224,7 +332,7 @@ def generate_keys(args):
 
     mnemonic = validate_mnemonic(args.mnemonic, args.wordlist)
     mnemonic_password = ''
-    amounts = [MAX_DEPOSIT_AMOUNT] * args.count
+    amounts = [args.amount] * args.count
     folder = args.folder
     chain_setting = get_chain_setting(args.network)
     if not os.path.exists(folder):
@@ -232,40 +340,85 @@ def generate_keys(args):
 
     start_index = args.index
     num_keys=args.count
-    hex_eth1_withdrawal_address=eth1_withdrawal_address
+    hex_withdrawal_address=eth1_withdrawal_address
     password=args.password
 
     if len(amounts) != num_keys:
         raise ValueError(
             f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
         )
+
+    timestamp = time.time()
+    use_pbkdf2 = False
+
     key_indices = range(start_index, start_index + num_keys)
-    credentials = CredentialList(
-        [Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
-            index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
-            hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
-        for index in key_indices])
 
-    keystore_filefolders = [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials.credentials]
+    credentials: list[Credential] = []
+    executor_kwargs = [{
+        'mnemonic': mnemonic,
+        'mnemonic_password': mnemonic_password,
+        'index': index,
+        'amount': amounts[index - start_index],
+        'chain_setting': chain_setting,
+        'hex_withdrawal_address': hex_withdrawal_address,
+        'compounding': args.compounding,
+        'use_pbkdf2': use_pbkdf2,
+    } for index in key_indices]
 
-    deposit_data = [cred.deposit_datum_dict for cred in credentials.credentials]
-    filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
-    with open(filefolder, 'w') as f:
-        json.dump(deposit_data, f, default=lambda x: x.hex())
-    if os.name == 'posix':
-        os.chmod(filefolder, int('440', 8))  # Read for owner & group
-    deposits_file = filefolder
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for credential in executor.map(_credential_builder, executor_kwargs):
+            credentials.append(credential)
+
+    credentials = CredentialList(credentials)
+
+    keystore_filefolders: list[str] = []
+    executor_kwargs = [{
+        'credential': credential,
+        'password': password,
+        'folder': folder,
+        'timestamp': timestamp,
+    } for credential in credentials.credentials]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for filefolder in executor.map(_keystore_exporter, executor_kwargs):
+            keystore_filefolders.append(filefolder)
+
+    deposit_data = []
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for datum_dict in executor.map(_deposit_data_builder, credentials.credentials):
+            deposit_data.append(datum_dict)
+
+    deposits_file = export_deposit_data_json_util(folder, timestamp, deposit_data)
 
     items = zip(credentials.credentials, keystore_filefolders)
 
-    if not all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
-        for credential, filefolder in items):
+    all_valid_keystores = True
+    executor_kwargs = [{
+        'credential': credential,
+        'keystore_filefolder': fileholder,
+        'password': password,
+    } for credential, fileholder in items]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for valid_keystore in executor.map(_keystore_verifier, executor_kwargs):
+            all_valid_keystores &= valid_keystore
+
+    if not all_valid_keystores:
         raise ValidationError("Failed to verify the keystores.")
 
-    with open(deposits_file, 'r') as f:
+    all_valid_deposits = True
+    deposit_json = []
+    with open(deposits_file, 'r', encoding='utf-8') as f:
         deposit_json = json.load(f)
-        if not all([validate_deposit(deposit, credential) for deposit, credential in zip(deposit_json, credentials.credentials)]):
-            raise ValidationError("Failed to verify the deposit data JSON files.")
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        chain_settings = [chain_setting] * len(deposit_json)
+        for valid_deposit in executor.map(validate_deposit, deposit_json, chain_settings, credentials.credentials):
+            all_valid_deposits &= valid_deposit
+
+    if not all_valid_deposits:
+        raise ValidationError("Failed to verify the deposit data JSON files.")
 
 def decode_bytes(value):
     if value.startswith('0x'):
@@ -319,10 +472,11 @@ def parse_validate_mnemonic(args):
 def main():
     """The application starting point.
     """
+    freeze_support()  # Needed when running under Windows in a frozen bundle
     main_parser = argparse.ArgumentParser()
 
     subparsers = main_parser.add_subparsers(title="subcommands")
-    
+
     create_parser = subparsers.add_parser("create_mnemonic")
     create_parser.add_argument("wordlist", help="Path to word list directory", type=str)
     create_parser.add_argument("--language", help="Language", type=str)
@@ -332,11 +486,13 @@ def main():
     generate_parser.add_argument("wordlist", help="Path to word list directory", type=str)
     generate_parser.add_argument("mnemonic", help="Mnemonic", type=str)
     generate_parser.add_argument("index", help="Validator start index", type=int)
+    generate_parser.add_argument("amount", help="Validator deposit amount", type=int)
     generate_parser.add_argument("count", help="Validator count", type=int)
     generate_parser.add_argument("folder", help="Where to put the deposit data and keystore files", type=str)
     generate_parser.add_argument("network", help="For which network to create these keys for", type=str)
     generate_parser.add_argument("password", help="Password for the keystore files", type=str)
     generate_parser.add_argument("--eth1_withdrawal_address", help="Optional eth1 withdrawal address", type=str)
+    generate_parser.add_argument("--compounding", action="store_true", help="Optional compounding argument")
     generate_parser.set_defaults(func=parse_generate_keys)
 
     validate_parser = subparsers.add_parser("validate_mnemonic")
@@ -349,8 +505,8 @@ def main():
     generate_parser.add_argument("chain", help="For which network to create the change", type=str)
     generate_parser.add_argument("mnemonic", help="Mnemonic", type=str)
     generate_parser.add_argument("index", help="Validator start index", type=int)
-    generate_parser.add_argument("indices", help="Validator index number(s) as identified on the beacon chain (comma seperated)", type=str)
-    generate_parser.add_argument("withdrawal_credentials", help="Old BLS withdrawal credentials of the given validator(s) (comma seperated)", type=str)
+    generate_parser.add_argument("indices", help="Validator index number(s) as identified on the beacon chain (comma separated)", type=str)
+    generate_parser.add_argument("withdrawal_credentials", help="Old BLS withdrawal credentials of the given validator(s) (comma separated)", type=str)
     generate_parser.add_argument("execution_address", help="withdrawal address", type=str)
     generate_parser.set_defaults(func=parse_bls_change)
 
@@ -358,7 +514,7 @@ def main():
     generate_parser.add_argument("chain", help="For which network to validate these BLS credentials", type=str)
     generate_parser.add_argument("mnemonic", help="Mnemonic", type=str)
     generate_parser.add_argument("index", help="Validator start index", type=int)
-    generate_parser.add_argument("withdrawal_credentials", help="Old BLS withdrawal credentials of the given validator(s) (comma seperated)", type=str)
+    generate_parser.add_argument("withdrawal_credentials", help="Old BLS withdrawal credentials of the given validator(s) (comma separated)", type=str)
     generate_parser.set_defaults(func=parse_validate_bls_credentials)
 
     args = main_parser.parse_args()

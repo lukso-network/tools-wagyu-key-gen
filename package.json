@@ -7,24 +7,21 @@
   "author": "Colfax Selby <colfax.selby@gmail.com>",
   "license": "GPL-3.0",
   "devDependencies": {
-    "@electron/notarize": "^1.2.3",
-    "@types/react": "^17.0.53",
-    "@types/react-dom": "^17.0.19",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/styled-components": "^5.1.26",
-    "@types/tmp": "^0.2.3",
-    "buffer-browserify": "^0.2.5",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.0.3",
-    "electron": "^23.1.1",
-    "electron-builder": "^23.6.0",
-    "electron-notarize": "^1.2.2",
-    "react-is": "^18.2.0",
-    "ts-loader": "^9.4.2",
-    "typescript": "^4.9.5",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.1.8",
+    "@types/styled-components": "^5.1.11",
+    "@types/tmp": "^0.2.2",
+    "autoprefixer": "^10.4.19",
+    "electron": "^28.2.2",
+    "electron-builder": "^24.9.1",
+    "postcss": "^8.4.38",
+    "postcss-loader": "^8.1.1",
+    "tailwindcss": "^3.4.1",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^4.9.1"
   },
   "scripts": {
     "build": "webpack --config webpack.react.config.js --config webpack.electron.config.js",
@@ -38,10 +35,14 @@
     "dist-nosign": "cross-env DISABLE_SIGNING=true yarn dist"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@material-ui/lab": "^4.0.0-alpha.61",
-    "css-loader": "^6.7.3",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/lab": "^5.0.0-alpha.165",
+    "@mui/material": "^5.15.10",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.16",
+    "@mui/styles": "^5.15.10",
+    "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "git-revision-webpack-plugin": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
@@ -49,8 +50,8 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.4",
     "shebang-loader": "^0.0.1",
-    "style-loader": "^3.3.1",
-    "styled-components": "^5.3.6",
+    "style-loader": "^3.0.0",
+    "styled-components": "^6.1.8",
     "typeface-roboto": "^1.1.13",
     "web3-utils": "^1.8.2"
   },
@@ -97,5 +98,5 @@
       "icon": "static/icon.ico"
     }
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@4.1.0"
 }
