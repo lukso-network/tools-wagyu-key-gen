@@ -26,8 +26,11 @@ const MnWordDisabledTextField = withStyles({
   root: {
     marginRight: 8,
     "& .MuiInputBase-root.Mui-disabled": {
-      color: Primary.main,
       "font-weight": 600,
+    },
+    "& .MuiInputBase-root.Mui-disabled .MuiInputBase-input": {
+      color: "#6F77B0",
+      "-webkit-text-fill-color": "#6F77B0",
     }
   }
 })(TextField);
@@ -37,7 +40,7 @@ const MnWordDisabledTextField = withStyles({
  * user has stored it properly.
  */
 const CreateMnemonic = () => {
-  const {mnemonic, setMnemonic} = useContext(KeyCreationContext);
+  const { mnemonic, setMnemonic } = useContext(KeyCreationContext);
   const history = useHistory();
 
   const [confirmMnemonic, setConfirmMnemonic] = useState(false);
@@ -107,7 +110,7 @@ const CreateMnemonic = () => {
    * Creates an array of inputs that will display each word of the mnemonic
    */
   const createMnemonicDisplay = () => {
-    return(
+    return (
       <Grid container item xs={10} spacing={2}>
         {
           mnemonic.split(' ').map((word, i) => {
@@ -117,7 +120,7 @@ const CreateMnemonic = () => {
                   disabled
                   id={"mnemonic-textfield-id-" + i}
                   key={"mnemonic-textfield-key-" + i}
-                  label={"Word " + (i+1)}
+                  label={"Word " + (i + 1)}
                   variant="filled"
                   value={word} />
               </Grid>
@@ -165,7 +168,7 @@ const CreateMnemonic = () => {
       timelineItems={[StepKey.MnemonicGeneration, StepKey.KeyConfiguration, StepKey.KeyGeneration, StepKey.Finish]}
       title="Create Secret Recovery Phrase"
     >
-      { confirmMnemonic ? (
+      {confirmMnemonic ? (
         <div className="tw-flex tw-flex-col tw-gap-4 tw-items-center">
           <div>Please retype your Secret Recovery Phrase here to make sure you have it saved correctly.</div>
           <VerifyMnemonic
@@ -217,7 +220,7 @@ const CreateMnemonic = () => {
           <Typography className="tw-text-left" variant="body1">
             We recommend running Wagyu Key Gen from an offline machine. One way to do this is to move the application to a USB stick, plug it in to an offline machine, and run it from there.
           </Typography>
-          { generateErrorMessage && (
+          {generateErrorMessage && (
             <Typography
               className="tw-text-left"
               color="error"
