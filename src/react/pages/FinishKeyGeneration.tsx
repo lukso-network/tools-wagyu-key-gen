@@ -1,10 +1,16 @@
 import { Button, Link, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { styled } from "styled-components";
+import { Success } from "../colors";
 
 import WizardWrapper from "../components/WizardWrapper";
 import { CreateMnemonicFlow, ExistingMnemonicFlow, paths } from "../constants";
 import { KeyCreationContext } from "../KeyCreationContext";
+
+const QuietText = styled(Typography)`
+  color: ${Success};
+`;
 
 /**
  * Final step of creating validator keys. Will show the folder of where
@@ -69,22 +75,22 @@ const FinishKeyGeneration = () => {
           <Typography variant="body1">
             There are two different files, here is a description of each:
           </Typography>
-          <Typography className="tw-text-cyan">
+          <QuietText>
             Keystore file(s) (ex. keystore-xxxxxxx.json)
-          </Typography>
+          </QuietText>
           <Typography variant="body2">
             This file controls your ability to sign transactions.  It will be required to set up your validator.  Do not share with anyone.  It can be recreated from your secret recovery phrase if necessary.
           </Typography>
-          <Typography className="tw-text-cyan">
+          <QuietText>
             Deposit data file(s) (ex. deposit_data-xxxxxx.json)
-          </Typography>
+          </QuietText>
           <Typography variant="body2">
             This file represents public information about your validator.  It will be required to execute your deposit through the Ethereum Launchpad.  It can be recreated from your secret recovery phrase if necessary.
           </Typography>
         </div>
 
         <div>
-          <Typography className="tw-text-cyan">Secret Recovery Phrase (24 words)</Typography>
+          <QuietText>Secret Recovery Phrase (24 words)</QuietText>
           <Typography variant="body2">
             This was the first thing you created.  It is also known as a "mnemonic" or "seed phrase".  You'll need this to withdraw your funds.  Keep multiple copies in different physical locations safe from theft, fire, water and other hazards. Keep it private.  There is no way to recover this.
           </Typography>

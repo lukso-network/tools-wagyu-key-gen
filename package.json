@@ -37,6 +37,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.2.8",
     "@mui/icons-material": "^5.15.10",
     "@mui/lab": "^5.0.0-alpha.165",
     "@mui/material": "^5.15.10",
@@ -52,7 +53,6 @@
     "shebang-loader": "^0.0.1",
     "style-loader": "^3.0.0",
     "styled-components": "^6.1.8",
-    "typeface-roboto": "^1.1.13",
     "web3-utils": "^1.8.2"
   },
   "build": {

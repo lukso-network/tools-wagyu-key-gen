@@ -1,7 +1,10 @@
 import { FileCopy } from "@mui/icons-material";
 import { Button, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
+import { withStyles } from "@mui/styles";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { styled } from "styled-components";
+import { Primary, Warning } from "../colors";
 
 import Loader from "../components/Loader";
 import VerifyMnemonic from "../components/VerifyMnemonic";
@@ -10,6 +13,24 @@ import { paths } from "../constants";
 import { cleanMnemonic } from '../helpers';
 import { KeyCreationContext } from "../KeyCreationContext";
 import { StepKey } from "../types";
+
+const LinksTag = styled.a`
+  color: #a3aada;
+`;
+
+const LoudText = styled.span`
+  color: ${Warning};
+`;
+
+const MnWordDisabledTextField = withStyles({
+  root: {
+    marginRight: 8,
+    "& .MuiInputBase-root.Mui-disabled": {
+      color: Primary.main,
+      "font-weight": 600,
+    }
+  }
+})(TextField);
 
 /**
  * Creates a new mnemonic for the user which will then be validated to make sure the
@@ -92,17 +113,12 @@ const CreateMnemonic = () => {
           mnemonic.split(' ').map((word, i) => {
             return (
               <Grid item xs={2} key={"mnemonic-grid-key-" + i}>
-                <TextField
+                <MnWordDisabledTextField
                   disabled
                   id={"mnemonic-textfield-id-" + i}
                   key={"mnemonic-textfield-key-" + i}
                   label={"Word " + (i+1)}
-                  sx={{
-                    "& .MuiInputBase-input.Mui-disabled": {
-                      WebkitTextFillColor: "#FFFFFF",
-                    },
-                  }}
-                  variant="outlined"
+                  variant="filled"
                   value={word} />
               </Grid>
             );
@@ -163,7 +179,7 @@ const CreateMnemonic = () => {
         <div className="tw-flex tw-flex-col tw-gap-4">
           <div className="tw-text-center">
             {verifyNext ?
-              <div className="tw-text-cyan">Make sure you back it up - without it you will not be able to retrieve your funds. You will be prompted for it next.</div> :
+              <LoudText>Make sure you back it up - without it you will not be able to retrieve your funds. You will be prompted for it next.</LoudText> :
               <div>Below is your Secret Recovery Phrase. Make sure you back it up - without it you will not be able to retrieve your funds.</div>
             }
           </div>
@@ -189,14 +205,14 @@ const CreateMnemonic = () => {
       ) : (
         <div className="tw-flex tw-flex-col tw-gap-4 tw-px-24 tw-mt-4">
           <Typography className="tw-text-left" variant="body1">
-            In this step, we'll generate a Secret Recovery Phrase (traditionally referred to as a "mnemonic") and a set of validator keys for you. For more information, visit: https://kb.beaconcha.in/ethereum-2-keys
+            In this step, we'll generate a Secret Recovery Phrase (traditionally referred to as a "mnemonic") and a set of validator keys for you. For more information, visit: <LinksTag href="https://kb.beaconcha.in/ethereum-2-keys">https://kb.beaconcha.in/ethereum-2-keys</LinksTag>
           </Typography>
           <Typography className="tw-text-left" variant="body1">
             It is{" "}
-            <span className="tw-font-bold">very</span>{" "}
+            <LoudText>very</LoudText>{" "}
             important to{" "}
-            <span className="tw-text-cyan">keep both your secret recovery phrase and your validator keys safe and secure</span>{" "}
-            as you will need them to retrieve your funds later. Anybody with access to these will also be able to steal your funds! For tips on storage, see: https://www.ledger.com/blog/how-to-protect-your-seed-phrase
+            <LoudText>keep both your secret recovery phrase and your validator keys safe and secure</LoudText>{" "}
+            as you will need them to retrieve your funds later. Anybody with access to these will also be able to steal your funds! For tips on storage, see: <LinksTag href="https://www.ledger.com/blog/how-to-protect-your-seed-phrase">https://www.ledger.com/blog/how-to-protect-your-seed-phrase</LinksTag>
           </Typography>
           <Typography className="tw-text-left" variant="body1">
             We recommend running Wagyu Key Gen from an offline machine. One way to do this is to move the application to a USB stick, plug it in to an offline machine, and run it from there.

@@ -385,6 +385,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/roboto@npm:^5.2.8":
+  version: 5.2.8
+  resolution: "@fontsource/roboto@npm:5.2.8"
+  checksum: 10/b3f04cee5f9554145b824c53865077a100ba540d0e5c9ad025472c13ecb27ed778381bb05edf0f23da3c7f871422f61a37488b0a8c658577241e5d75279def27
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1":
   version: 1.1.2
   resolution: "@gar/promisify@npm:1.1.2"
@@ -4170,6 +4177,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.3"
     "@emotion/styled": "npm:^11.11.0"
+    "@fontsource/roboto": "npm:^5.2.8"
     "@mui/icons-material": "npm:^5.15.10"
     "@mui/lab": "npm:^5.0.0-alpha.165"
     "@mui/material": "npm:^5.15.10"
@@ -4197,7 +4205,6 @@ __metadata:
     styled-components: "npm:^6.1.8"
     tailwindcss: "npm:^3.4.1"
     ts-loader: "npm:^9.2.3"
-    typeface-roboto: "npm:^1.1.13"
     typescript: "npm:^4.3.5"
     web3-utils: "npm:^1.8.2"
     webpack: "npm:^5.88.2"
@@ -6182,13 +6189,6 @@ __metadata:
   version: 0.13.1
   resolution: "type-fest@npm:0.13.1"
   checksum: 10/11e9476dc85bf97a71f6844fb67ba8e64a4c7e445724c0f3bd37eb2ddf4bc97c1dc9337bd880b28bce158de1c0cb275c2d03259815a5bf64986727197126ab56
-  languageName: node
-  linkType: hard
-
-"typeface-roboto@npm:^1.1.13":
-  version: 1.1.13
-  resolution: "typeface-roboto@npm:1.1.13"
-  checksum: 10/04371862bb979c51e4ef9ebf407491068f9c8a862e77a4ba3826a11f06d462f647560d10e5e8bcca1267e866153c9e3b8d8102d23f07192fb758f7ea1f7f4be5
   languageName: node
   linkType: hard
 

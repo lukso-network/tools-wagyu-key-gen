@@ -61,7 +61,7 @@ const OnlineWarningModal = ({ onClose, onHideWarning, open }: OnlineWarningModal
         <Typography className="tw-mt-6 tw-mb-2" variant="body1">
           You can visit https://tails.net/install/ for instructions on how to download, install, and run Tails on a USB device.
         </Typography>
-        <Typography variant="body1">
+        <Typography className="tw-mb-2" variant="body1">
           If you have any questions you can get help at https://dsc.gg/ethstaker
         </Typography>
       </div>
