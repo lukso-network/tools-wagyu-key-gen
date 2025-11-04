@@ -10,12 +10,10 @@ import ReuseMnemonicActionModal from "../modals/ReuseMnemonicActionModal";
 import styled from "styled-components";
 // import { Button } from '@material-ui/core';
 // import { KeyIcon } from "../components/icons/KeyIcon";
-import { NetworkPicker } from "../components/NetworkPicker";
 // import { tooltips } from "../constants";
 import { Network, StepSequenceKey, ReuseMnemonicAction } from '../types'
 // import VersionFooter from "../components/VersionFooter";
 import logo from "../../../static/keyVisual.png";
-import VersionFooter from "../components/VersionFooter";
 
 
 const StyledMuiContainer = styled(Container)`
@@ -93,6 +91,7 @@ const Home = () => {
   const handleOpenNetworkModal = () => {
     setShowNetworkModal(true);
     setWasNetworkModalOpened(true);
+    setShowReuseMnemonicModal(false); // Fixes a bug where sometimes network modal enables reuse modal
   };
 
   const handleCloseNetworkModal = () => {
@@ -159,7 +158,11 @@ const Home = () => {
       {/* <KeyIcon /> */}
       <SubHeader>
         Your key generator for staking on LUKSO
-        <Tooltip title={tooltips.OFFLINE}><Dotted>offline</Dotted></Tooltip> for your own security.</SubHeader>
+      </SubHeader>
+      <SubHeader>
+        You should run this tool {" "}
+        <Tooltip title={tooltips.OFFLINE}><Dotted>offline</Dotted></Tooltip> for your own security.
+      </SubHeader>
 
       <Links>
 
@@ -195,7 +198,15 @@ const Home = () => {
           </Tooltip>
         </Grid>
       </OptionsGrid>
-      <VersionFooter />
+      <NetworkPickerModal
+        onClose={handleCloseNetworkModal}
+        showModal={showNetworkModal}
+      />
+      <ReuseMnemonicActionModal
+        onClose={handleCloseReuseActionModal}
+        onSubmit={handleReuseMnemonicActionSubmit}
+        showModal={showReuseMnemonicModal}
+      />
     </StyledMuiContainer>
   );
 };

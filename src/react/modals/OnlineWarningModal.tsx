@@ -1,6 +1,38 @@
 import { Button, Typography } from "@mui/material";
+import { styled } from "styled-components";
+import { BackgroundLight } from "../colors";
 
 import WagyuModal from "./WagyuModal";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  width: 350px;
+  background: rgba(27, 38, 44, 0.95);
+  border-radius: 20px;
+  align-items: center;
+  background: ${BackgroundLight};
+  margin: auto;
+  margin-top: 150px;
+`;
+
+const Header = styled.div`
+  font-size: 36px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+`;
+
+const SubHeader = styled(Typography)`
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+`;
+
+const Submit = styled(Button)`
+  margin: 35px auto 0;
+  margin-top: 35px;
+`;
 
 interface OnlineWarningModalParams {
   onClose: () => void;

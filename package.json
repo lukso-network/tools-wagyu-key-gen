@@ -29,7 +29,7 @@
     "buildcli": "src/scripts/bundle_proxy_linux.sh",
     "buildcliwin": "src/scripts/bundle_proxy_win.bat",
     "buildclimac": "src/scripts/bundle_proxy_mac.sh",
-    "start": "electron ./build/electron/index.js",
+    "start": "ELECTRON_ENABLE_LOGGING=true electron --disable-gpu --no-sandbox ./build/electron/index.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "dist-nosign": "cross-env DISABLE_SIGNING=true yarn dist"

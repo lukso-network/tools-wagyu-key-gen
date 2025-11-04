@@ -8,10 +8,29 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
+import { styled } from "styled-components";
+import { BackgroundLight } from "../colors";
 
 import { GlobalContext } from "../GlobalContext";
 import { Network } from "../types";
 import WagyuModal from "./WagyuModal";
+
+const Header = styled.div`
+  font-size: 36px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+`;
+
+const SubHeader = styled(Typography)`
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+`;
+
+const Submit = styled(Button)`
+  margin: 35px auto 0;
+  margin-top: 35px;
+`;
 
 interface NetworkPickerModalParams {
   onClose: () => void;
@@ -21,7 +40,7 @@ interface NetworkPickerModalParams {
 /**
  * Modal to allow the user to pick the Ethereum Network
  */
-const NetworkPickerModal = ({onClose, showModal}: NetworkPickerModalParams) => {
+const NetworkPickerModal = ({ onClose, showModal }: NetworkPickerModalParams) => {
   const { network, setNetwork } = useContext(GlobalContext);
   const [formNetwork, setFormNetwork] = useState<Network>(Network.LUKSO);
 
@@ -49,28 +68,26 @@ const NetworkPickerModal = ({onClose, showModal}: NetworkPickerModalParams) => {
 
   return (
     <WagyuModal
-      className="tw-w-[350px] tw-h-[444px]"
       open={showModal}
     >
-      <div>
-        <div className="tw-text-4xl tw-my-7">Network</div>
-        <FormControl variant="standard" focused>
+      <div style={{ marginBottom: "3rem" }}>
+        <Header>Network</Header>
+        <FormControl variant="standard" focused style={{ textAlign: "center" }}>
           <RadioGroup aria-label="gender" name="gender1" value={formNetwork} onChange={onNetworkChange}>
-            <FormControlLabel value={Network.LUKSO} control={<Radio />} label={Network.LUKSO} />
+            <FormControlLabel value={Network.LUKSO} control={<Radio />} label={'LUKSO Mainnet'} />
             <Divider />
-            <Typography className="tw-text-xl tw-mt-5 tw-mb-4">Testnets</Typography>
-            <FormControlLabel value={Network.LUKSO_TESTNET} control={<Radio />} label={Network.LUKSO_TESTNET} />
+            <SubHeader>Testnets</SubHeader>
+            <FormControlLabel value={Network.LUKSO_TESTNET} control={<Radio />} label={'LUKSO Testnet'} />
           </RadioGroup>
 
-          <Button
-            className="tw-mt-9"
+          <Submit
             color="primary"
             onClick={onSubmit}
             variant="contained"
             tabIndex={1}
           >
             OK
-          </Button>
+          </Submit>
         </FormControl>
       </div>
     </WagyuModal>

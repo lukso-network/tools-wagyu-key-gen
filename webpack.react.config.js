@@ -71,7 +71,7 @@ module.exports = {
         test: /node_modules\/JSONStream\/index\.js$/,
         loader: 'shebang-loader'
       }, {
-        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        test: /\.(woff|woff2|eot|ttf|svg|png)$/,
         loader: 'file-loader',
         options: { name: '[name].[ext]', outputPath: 'fonts/', }
       }

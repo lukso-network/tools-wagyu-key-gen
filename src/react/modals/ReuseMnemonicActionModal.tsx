@@ -21,7 +21,7 @@ const ReuseMnemonicActionModal = ({ onClose, onSubmit, showModal}: ReuseMnemonic
     onClose={onClose}
   >
     <div className="tw-flex tw-flex-col tw-h-full tw-my-7">
-      <div className="tw-text-2xl">How would you like to use your existing secret recovery phrase?</div>
+      <div className="tw-text-2xl tw-mb-7">How would you like to use your existing secret recovery phrase?</div>
 
       <div className="tw-grow" />
 
