@@ -4,6 +4,17 @@ import { Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { stepLabels } from "../constants";
 import { GlobalContext } from "../GlobalContext";
 import { StepKey } from "../types";
+import { styled } from "styled-components";
+import logo from "../../../static/keyVisual.png";
+
+const BackgroundImage = styled.img`
+  z-index: -1;
+  position: absolute;
+  width: 640px;
+  top: -220px;
+  left: -300px;
+  opacity: 0.2;
+`;
 
 interface WizardWrapperParams {
   actionBarItems: ReactNode[];
@@ -33,6 +44,7 @@ const WizardWrapper = ({
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
+      <BackgroundImage src={logo} />
       <div className="tw-mt-2 tw-mb-8 tw-text-right">
         <Typography variant="caption" className="tw-text-gray tw-mr-6">
           Network: {network}

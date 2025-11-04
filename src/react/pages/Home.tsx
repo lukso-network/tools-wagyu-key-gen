@@ -192,6 +192,7 @@ const Home = () => {
               size="small"
               onClick={handleUseExistingMnemonic}
               tabIndex={tabIndex}
+              color="secondary"
             >
               Use Existing Secret Recovery Phrase
             </Button>
