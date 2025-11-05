@@ -1,15 +1,14 @@
 on:
   push:
     branches:
-      - develop
+      - main
       - patch/*
   pull_request:
     branches:
-      - develop
+      - main
       - patch/*
 
 env:
-  MERGE_TO: main
   PACKAGE_TYPE: node
   GH_TOKEN: "${{ secrets.DEVOPS_GITHUB_TOKEN }}"
 
@@ -30,7 +29,7 @@ jobs:
         id: release
         with:
           release-type: ${{ env.PACKAGE_TYPE }}
-          default-branch: develop
+          default-branch: main
       - id: version
         name: Detect final version info
         run: |
@@ -104,14 +103,6 @@ jobs:
           tag_name: ${{ needs.release-please.outputs.tag_name }}
           files: |
             artifacts/**/*
-      - name: Merge develop into ${{ env.MERGE_TO }}
-        uses: devmasx/merge-branch@master
-        if: ${{ endsWith(github.ref, '/develop') }}
-        with:
-          type: now
-          from_branch: develop
-          target_branch: "${{ env.MERGE_TO }}"
-          github_token: "${{ env.GH_TOKEN }}"
 
   notify:
     uses: ./.github/workflows/notify.yml
