@@ -21,4 +21,3 @@ REQUIREMENT_PACKAGES_PATH/
 # Debugging
 keys/
 .DS_Store
-src/vendors/*.pyc
