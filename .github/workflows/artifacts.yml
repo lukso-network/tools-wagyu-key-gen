@@ -92,19 +92,19 @@ jobs:
           APPLE_ID: "${{ secrets.APPLE_NOTARIZATION_USERNAME }}"
         run: yarn dist
       - name: Upload binary (appimage)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'linux' }}
         with:
           name: ${{ matrix.os }}-${{ inputs.tag_name }}
           path: dist/*.AppImage
       - name: Upload binary (dmg)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'macos' }}
         with:
           name: ${{ matrix.os }}-${{ inputs.tag_name }}
           path: dist/*.dmg
       - name: Upload binary (exe)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'windows' }}
         with:
           name: ${{ matrix.os }}-${{ inputs.tag_name }}
