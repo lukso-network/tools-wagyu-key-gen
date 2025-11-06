@@ -9,14 +9,15 @@ const { GitRevisionPlugin } = require("git-revision-webpack-plugin");
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
   commithashCommand: "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
+  versionCommand: "describe --always --tags",
 });
 let data = {
   VERSION: JSON.stringify(process.env.RELEASE || gitRevisionPlugin.version()),
   COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
   BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
   LASTCOMMITDATETIME: JSON.stringify(gitRevisionPlugin.lastcommitdatetime()),
-  CLIVERSION: 'v2.6.0',
-  CLICOMMITHASH: 'cc28c0f',
+  CLIVERSION: '"v2.6.0"',
+  CLICOMMITHASH: '"cc28c0f"',
 };
 
 // export the configuration as an object
