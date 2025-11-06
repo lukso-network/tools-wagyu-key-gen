@@ -37,7 +37,7 @@ const VersionFooter = () => {
             GUI: {VERSION}{" "}
             <LinksTag
               target="_blank"
-              href={`https://github.com/lukso-network/tools-wagyu-key-gen/tree/${CLICOMMITHASH}`}
+              href={`https://github.com/lukso-network/tools-wagyu-key-gen/tree/${COMMITHASH}`}
             >
               #{COMMITHASH}
             </LinksTag>
