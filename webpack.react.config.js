@@ -15,33 +15,9 @@ let data = {
   COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
   BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
   LASTCOMMITDATETIME: JSON.stringify(gitRevisionPlugin.lastcommitdatetime()),
+  CLIVERSION: 'v2.6.0',
+  CLICOMMITHASH: 'cc28c0f',
 };
-const old = process.cwd();
-process.chdir("./src/vendors/tools-key-gen-cli");
-try {
-  const cliGitRevisionPlugin = new GitRevisionPlugin({
-    commithashCommand:
-      "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
-    versionCommand: "describe --tags",
-  });
-  data = {
-    ...data,
-    CLIVERSION: JSON.stringify(cliGitRevisionPlugin.version()),
-    CLICOMMITHASH: JSON.stringify(cliGitRevisionPlugin.commithash()),
-  };
-} catch (err) {
-  const cliGitRevisionPlugin = new GitRevisionPlugin({
-    commithashCommand:
-      "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
-    versionCommand: "describe --always",
-  });
-  data = {
-    ...data,
-    CLIVERSION: JSON.stringify(cliGitRevisionPlugin.version()),
-    CLICOMMITHASH: JSON.stringify(cliGitRevisionPlugin.commithash()),
-  };
-}
-process.chdir(old);
 
 // export the configuration as an object
 module.exports = {
