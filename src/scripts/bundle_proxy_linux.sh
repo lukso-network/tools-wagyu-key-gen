@@ -26,8 +26,7 @@ mkdir -p $DISTWORDSPATH
 mkdir -p $TARGETPACKAGESPATH
 
 # Getting all the requirements
-python -m pip install pip pyinstaller -U --user
-python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH --no-deps
+python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
 
 # Bundling Python stakingdeposit_proxy
 PYTHONPATH=$PYTHONPATH pyinstaller \

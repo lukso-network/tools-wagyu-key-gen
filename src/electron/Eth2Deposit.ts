@@ -65,22 +65,13 @@ const DIST_WORD_LIST_PATH = path.join(cwd(), "build", "word_lists");
 /**
  * Paths needed to call the stakingdeposit_proxy application from a bundled application.
  */
-const BUNDLED_SFE_PATH =
-  process.platform === "darwin"
-    ? path.join(
-        process.resourcesPath,
-        "..",
-        "build",
-        "bin",
-        "stakingdeposit_proxy/stakingdeposit_proxy"
-      )
-    : path.join(
-        process.resourcesPath,
-        "..",
-        "build",
-        "bin",
-        "stakingdeposit_proxy" + (process.platform === "win32" ? ".exe" : "")
-      );
+const BUNDLED_SFE_PATH = path.join(
+  process.resourcesPath,
+  "..",
+  "build",
+  "bin",
+  "stakingdeposit_proxy" + (process.platform == "win32" ? ".exe" : "")
+);
 
 const BUNDLED_DIST_WORD_LIST_PATH = path.join(
   process.resourcesPath,
