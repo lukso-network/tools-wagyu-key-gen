@@ -64,7 +64,7 @@ const WizardWrapper = ({
       <Stepper
         activeStep={activeTimelineIndex}
         alternativeLabel
-        className="tw-bg-transparent tw-mb-14"
+        className="tw-bg-transparent tw-mb-14 tw-mt-8"
       >
         {timelineItems.map((step: StepKey, index: number) => (
           <Step key={index}>
