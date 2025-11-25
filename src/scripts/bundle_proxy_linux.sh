@@ -19,24 +19,19 @@ ETH2REQUIREMENTSPATH=$ETH2DEPOSITCLIPATH/requirements.txt
 PYTHONPATH=$TARGETPACKAGESPATH:$ETH2DEPOSITCLIPATH:$(python3 -c "import sys;print(':'.join(sys.path))")
 DISTBINPATH=$SCRIPTPATH/../../build/bin
 DISTWORDSPATH=$SCRIPTPATH/../../build/word_lists
-SRCWORDSPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/key_handling/key_derivation/word_lists
-SRCINTLPATH=$SCRIPTPATH/../vendors/$EDCDIR/staking_deposit/intl
+SRCWORDSPATH=$SCRIPTPATH/../vendors/$EDCDIR/ethstaker_deposit/key_handling/key_derivation/word_lists
 
 mkdir -p $DISTBINPATH
 mkdir -p $DISTWORDSPATH
 mkdir -p $TARGETPACKAGESPATH
 
 # Getting all the requirements
-python -m pip install pip pyinstaller -U --user
-python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH --no-deps
+python3 -m pip install -r $ETH2REQUIREMENTSPATH --target $TARGETPACKAGESPATH
 
 # Bundling Python stakingdeposit_proxy
 PYTHONPATH=$PYTHONPATH pyinstaller \
-    --onefile \
     --distpath $DISTBINPATH \
-    --add-data "$SRCINTLPATH:staking_deposit/intl" \
-    -p $PYTHONPATH \
-    $SCRIPTPATH/stakingdeposit_proxy.py
+    $SCRIPTPATH/stakingdeposit_proxy.spec
 
 # Adding word list
 cp $SRCWORDSPATH/* $DISTWORDSPATH

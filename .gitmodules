@@ -1,3 +1,0 @@
-[submodule "src/vendors/tools-key-gen-cli"]
-	path = src/vendors/tools-key-gen-cli
-	url = git@github.com:lukso-network/tools-key-gen-cli

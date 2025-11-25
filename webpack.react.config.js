@@ -9,39 +9,16 @@ const { GitRevisionPlugin } = require("git-revision-webpack-plugin");
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
   commithashCommand: "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
+  versionCommand: "describe --always --tags",
 });
 let data = {
   VERSION: JSON.stringify(process.env.RELEASE || gitRevisionPlugin.version()),
   COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
   BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
   LASTCOMMITDATETIME: JSON.stringify(gitRevisionPlugin.lastcommitdatetime()),
+  CLIVERSION: '"v2.6.0"',
+  CLICOMMITHASH: '"cc28c0f"',
 };
-const old = process.cwd();
-process.chdir("./src/vendors/tools-key-gen-cli");
-try {
-  const cliGitRevisionPlugin = new GitRevisionPlugin({
-    commithashCommand:
-      "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
-    versionCommand: "describe --tags",
-  });
-  data = {
-    ...data,
-    CLIVERSION: JSON.stringify(cliGitRevisionPlugin.version()),
-    CLICOMMITHASH: JSON.stringify(cliGitRevisionPlugin.commithash()),
-  };
-} catch (err) {
-  const cliGitRevisionPlugin = new GitRevisionPlugin({
-    commithashCommand:
-      "rev-list --max-count=1 --no-merges --abbrev-commit HEAD",
-    versionCommand: "describe --always",
-  });
-  data = {
-    ...data,
-    CLIVERSION: JSON.stringify(cliGitRevisionPlugin.version()),
-    CLICOMMITHASH: JSON.stringify(cliGitRevisionPlugin.commithash()),
-  };
-}
-process.chdir(old);
 
 // export the configuration as an object
 module.exports = {
@@ -61,31 +38,26 @@ module.exports = {
       // at the moment the only custom handling we have is for typescript files
       // .ts and .tsx files get passed to ts-loader
       {
+        test: /\.(scss|css)$/i,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      }, {
         test: /\.tsx?$/,
         loader: "ts-loader",
       },
       {
         test: /node_modules\/JSONStream\/index\.js$/,
-        loader: "shebang-loader",
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|svg)$/,
-        loader: "file-loader",
-      },
-      {
-        test: /\.(png|jpg|gif)$/i,
-        loader: "url-loader",
-      },
+        loader: 'shebang-loader'
+      }, {
+        test: /\.(woff|woff2|eot|ttf|svg|png)$/,
+        loader: 'file-loader',
+        options: { name: '[name].[ext]', outputPath: 'fonts/', }
+      }
     ],
   },
   resolve: {
     // specify certain file extensions to get automatically appended to imports
     // ie we can write `import 'index'` instead of `import 'index.ts'`
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: ['.ts', '.tsx', '.js', '.css'],
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -1,7 +1,8 @@
-import * as React from "react";
 import * as ReactDOM from "react-dom";
+import '@fontsource/roboto/400.css';
 
 import App from "./App";
+import './index.css';
 
 // We find our app DOM element as before
 const app = document.getElementById("app");

@@ -1,6 +1,5 @@
-import { Grid, Typography } from "@material-ui/core";
-import React from "react";
-import styled from "styled-components";
+import { Grid, Typography } from "@mui/material";
+import { styled } from "styled-components";
 
 declare var VERSION: string;
 declare var COMMITHASH: string;
@@ -38,7 +37,7 @@ const VersionFooter = () => {
             GUI: {VERSION}{" "}
             <LinksTag
               target="_blank"
-              href={`https://github.com/lukso-network/tools-wagyu-key-gen/tree/${CLICOMMITHASH}`}
+              href={`https://github.com/lukso-network/tools-wagyu-key-gen/tree/${COMMITHASH}`}
             >
               #{COMMITHASH}
             </LinksTag>
